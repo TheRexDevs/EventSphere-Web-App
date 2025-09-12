@@ -21,9 +21,7 @@ export default function RootLayout({
 	return (
 		<html lang={langs[0]}>
 			<body className={`${inter.className} antialiased`}>
-				<AuthProvider>
-					{children}
-				</AuthProvider>
+				<AuthProvider>{children}</AuthProvider>
 				<Toaster position="top-center" />
 			</body>
 		</html>

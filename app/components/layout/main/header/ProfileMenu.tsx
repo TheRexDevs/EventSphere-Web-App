@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from '@/app/components/ui/button';
+import { Button } from "@/app/components/ui/button";
 import { User, Shield, LogOut } from "lucide-react";
 
 interface ProfileMenuProps {
@@ -8,11 +8,7 @@ interface ProfileMenuProps {
 	onLogout: () => void;
 }
 
-const ProfileMenu = ({
-	isOpen,
-	onClose,
-	onLogout,
-}: ProfileMenuProps) => {
+const ProfileMenu = ({ isOpen, onClose, onLogout }: ProfileMenuProps) => {
 	if (!isOpen) return null;
 
 	const profileLinks = [
@@ -21,15 +17,17 @@ const ProfileMenu = ({
 			label: "Profile Settings",
 			icon: <User className="h-4 w-4 mr-2" />,
 		},
+
 		{
-			href: "/security",
-			label: "Security",
+			href: "/registered-events",
+			label: "Registered event",
 			icon: <Shield className="h-4 w-4 mr-2" />,
 		},
+
 		{
-			href: "/billing",
-			label: "Billing & Plans",
-			icon: <User className="h-4 w-4 mr-2" />,
+			href: "/certificate",
+			label: "Certificate",
+			icon: <Shield className="h-4 w-4 mr-2" />,
 		},
 	];
 
@@ -64,4 +62,4 @@ const ProfileMenu = ({
 	);
 };
 
-export default ProfileMenu
+export default ProfileMenu;

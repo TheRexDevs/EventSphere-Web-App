@@ -25,11 +25,9 @@ const NavLink = ({
 			href={href}
 			onClick={onClick}
 			className={cn(
-				"flex items-center gap-2 px-3 py-2 font-medium transition-colors",
+				"flex items-center px-3 py-2 font-medium transition-colors",
 				mobile ? "text-base" : "text-sm",
-				isActive
-					? "text-primary bg-primary/10"
-					: "text-gray-700 hover:text-primary"
+				isActive ? "text-black !font-bold" : "text-black"
 			)}
 		>
 			{icon}

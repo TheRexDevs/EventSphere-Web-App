@@ -1,30 +1,31 @@
+import Link from "next/link";
+
 export const MainFooter = () => {
 
     return (
-        <footer className="bg-white border-t border-gray-200">
-            {/* <div className="w-site mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-[1]">
+        <footer className="bg-[#667154] border-t border-gray-200">
+            <div className="w-site mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-[1]">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div>
-                        <h3 className="font-semibold text-gray-900 mb-4">
-                            FolioEngine
+                    <div >
+                        <h3 className="text-xl font-semibold text-[#F9F9F6] mb-2">
+                            EventSpehere
                         </h3>
-                        <p className="text-sm text-gray-600">
-                            The all-in-one platform for managing your e-commerce
-                            stores.
+                        <p className=" text-xl text-[#F9F9F6]">
+                           Your gateway to amazing campus experiences. connect, discover and Participate in events that matters to you.
                         </p>
                     </div>
 
-                    <div>
-                        <h4 className="font-medium text-gray-900 mb-3">
-                            Product
+                    <div className="ml-7 max-md:ml-0">
+                        <h4 className="font-medium text-xl text-[#F9F9F6]  mb-3">
+                           Quick Links 
                         </h4>
-                        <ul className="space-y-2 text-sm text-gray-600">
+                        <ul className="space-y-2 text-base text-[#F9F9F6]">
                             <li>
                                 <Link
                                     href="/features"
                                     className="hover:text-primary"
                                 >
-                                    Features
+                                   Home
                                 </Link>
                             </li>
                             <li>
@@ -32,7 +33,7 @@ export const MainFooter = () => {
                                     href="/pricing"
                                     className="hover:text-primary"
                                 >
-                                    Pricing
+                                   Browse Events
                                 </Link>
                             </li>
                             <li>
@@ -40,31 +41,41 @@ export const MainFooter = () => {
                                     href="/integrations"
                                     className="hover:text-primary"
                                 >
-                                    Integrations
+                                    Gallery
                                 </Link>
                             </li>
+                             <li>
+                                <Link
+                                    href="/integrations"
+                                    className="hover:text-primary"
+                                >
+                                   
+                                  About us
+                                </Link>
+                                 </li>
+                                 
                         </ul>
                     </div>
 
-                    <div>
-                        <h4 className="font-medium text-gray-900 mb-3">
-                            Support
+                    <div >
+                        <h4 className="font-medium text-xl text-[#F9F9F6] mb-3">
+                            Categories
                         </h4>
-                        <ul className="space-y-2 text-sm text-gray-600">
+                        <ul className="space-y-2 text-base text-[#F9F9F6]">
                             <li>
                                 <Link
                                     href="/support"
                                     className="hover:text-primary"
                                 >
-                                    Help Center
+                                    Academics Events
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     href="/contact"
                                     className="hover:text-primary"
-                                >
-                                    Contact Us
+                                >                             
+                            Sports Activities
                                 </Link>
                             </li>
                             <li>
@@ -72,51 +83,62 @@ export const MainFooter = () => {
                                     href="/status"
                                     className="hover:text-primary"
                                 >
-                                    System Status
+                                   Professional Development
+                                </Link>
+                            </li>
+                                <li>
+                                <Link
+                                    href="/status"
+                                    className="hover:text-primary"
+                                >
+                                  
+                                 Social Events
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
-                    <div>
-                        <h4 className="font-medium text-gray-900 mb-3">
-                            Company
+                    <div className="">
+                        <h4 className="font-medium text-xl text-[#F9F9F6] mb-3">
+                           Contact
                         </h4>
-                        <ul className="space-y-2 text-sm text-gray-600">
+                        <ul className="space-y-2 text-base text-[#F9F9F6]">
                             <li>
                                 <Link
                                     href="/about"
                                     className="hover:text-primary"
                                 >
-                                    About
+                                    Contact Us
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/privacy"
+                                    href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,"
                                     className="hover:text-primary"
+                                    
                                 >
-                                    Privacy
+                                    Support@eventsphere.edu
                                 </Link>
                             </li>
                             <li>
-                                <Link
-                                    href="/terms"
+                                 <Link
+                                    href="mailto:info@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,"
                                     className="hover:text-primary"
+                                    
                                 >
-                                    Terms
+                                    info@eventsphere.edu
                                 </Link>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </div> */}
+            </div>
 
             {/* Footer Bottom */}
             <div className="w-site relative z-[1]">
                 <div className="py-8 text-center">
-                    <p className="text-sm text-gray-600">
-                        © 2024 FolioEngine. All rights reserved.
+                    <p className="text-sm text-[#F9F9F6]">
+                        © 2024 Eventsphere. All rights reserved.
                     </p>
                 </div>
             </div>

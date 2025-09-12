@@ -1,63 +1,44 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
 import { Plus, TrendingUp, Package, ShoppingCart } from "lucide-react";
-
-
+import { Search } from "lucide-react";
+import { Input } from "../components/ui/input";
 const Overview = () => {
-	const router = useRouter();
-
-
-
-	const handleViewEvents = () => {
-		router.push("/events");
-	};
-
-
 	return (
-		<div className="w-site space-y-8">
-			{/* Welcome Section */}
-			<div className="text-center space-y-4">
-				<h1 className="text-3xl font-bold text-gray-900">
-					Welcome back!
-				</h1>
-				<p className="text-gray-600 max-w-2xl mx-auto">
-					Adjust pages as needed
-				</p>
-			</div>
+		<section>
+			<section
+				style={{
+					backgroundImage: `url('/landingpage.jpg')`,
+				}}
+				className="relative h-[480px] w-full bg-cover bg-center bg-no-repeat bottom-4 m-auto cursor-pointer max-md:h-[300px] max-md:w-full"
+			>
+				<div className="absolute inset-0 bg-black opacity-45 z-0"></div>
 
-			{/* Quick Actions */}
-			<Card>
-				<CardHeader>
-					<CardTitle>Quick Actions</CardTitle>
-				</CardHeader>
-				<CardContent className="flex flex-wrap gap-4">
-					<Button
-						onClick={() => {}}
-						className="flex items-center gap-2"
-					>
-						<Plus className="h-4 w-4" />
-						Create New Event
-					</Button>
-					<Button onClick={() => {}} variant="outline">
-						View All Events
-					</Button>
-				</CardContent>
-			</Card>
+				<div className="absolute inset-0 z-10 text-white py-20">
+					<div>
+						<h1 className="text-[49px] font-bold text-center">
+							Discover Amazing Campus Events
+						</h1>
+						<p className="text-center text-[19px]">
+							Join Thousands Of Students In Creating Unforgettable
+							Memories
+						</p>
+					</div>
 
-			{/* Event Overview */}
-			<Card>
-					<CardHeader>
-						<CardTitle>Your Events</CardTitle>
-					</CardHeader>
-					<CardContent>
-						
-					</CardContent>
-			</Card>
-			
-		</div>
+					<div className="!bg-white rounded-2xl relative">
+						<Input placeholder="Search Events, Categories"></Input>
+					</div>
+				</div>
+			</section>
+		</section>
 	);
 };
 

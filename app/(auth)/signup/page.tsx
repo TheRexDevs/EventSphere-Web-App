@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Signup = () => {
-	return <SignupPage/>;
+	return <SignupPage />;
 };
 
 export default Signup;

@@ -1,30 +1,37 @@
-
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 import FullScreenLoader from "@/app/components/ui/fullscreen-loader";
 
 export default function AuthLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    const { user, isLoading } = useAuth();
-    const router = useRouter();
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const { user, isLoading } = useAuth();
+	const router = useRouter();
+	const pathname = usePathname();
+	const authPages = ["/login", "/signup"];
 
-    useEffect(() => {
-        if (!isLoading && user) {
-            router.replace("/");
-        }
-    }, [user, isLoading, router]);
+	const [ready, setReady] = useState(false);
 
-    if (!isLoading && user) return <FullScreenLoader label="Redirecting..." />;
+	useEffect(() => {
+		const timeout = setTimeout(() => setReady(true), 0);
+		return () => clearTimeout(timeout);
+	}, []);
 
-    return (
-        <div id="auth">
-            {children}
-        </div>
-    );
+	// While loading, don’t show login/signup — just show loader
+	if (isLoading || !ready) {
+		return <FullScreenLoader label="Checking authentication..." />;
+	}
+
+	// Redirect logged-in users away from login/signup
+	if (user && authPages.includes(pathname)) {
+		router.replace("/");
+		return <FullScreenLoader label="Redirecting..." />;
+	}
+
+	return <div id="auth">{children}</div>;
 }

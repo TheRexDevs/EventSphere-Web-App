@@ -9,9 +9,8 @@ import {
 	validateToken,
 	refreshAccessToken,
 } from "@/lib/api/auth";
-import { tokenManager } from "@/lib/utils/api";
+import { tokenManager, ApiError } from "@/lib/utils/api";
 import { User, SignupRequest, AuthContextType } from "@/types/auth";
-import { ApiError } from "@/lib/utils/api";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -25,37 +24,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			try {
 				const token = tokenManager.get();
 				if (token) {
-					// First try to hydrate from localStorage for immediate UI
+					// Hydrate from localStorage for instant UI
 					try {
 						const storedUser = localStorage.getItem("auth_user");
 						if (storedUser) {
 							setUser(JSON.parse(storedUser));
-							setIsLoading(false); // Show UI immediately with cached user
+							setIsLoading(false);
 						}
 					} catch {}
 
-					// Then validate token in background and update if needed
+					// Validate token in background
 					try {
 						const userData = await validateToken(token);
 						if (userData) {
-							setUser(userData); // Update with fresh data
+							setUser(userData);
 						} else {
-							// Token invalid, try refresh
 							await refreshAccessToken();
 							const newToken = tokenManager.get();
 							if (newToken) {
-								const refreshedUserData = await validateToken(newToken);
+								const refreshedUserData = await validateToken(
+									newToken
+								);
 								if (refreshedUserData) {
 									setUser(refreshedUserData);
 								} else {
-									// Refresh failed, clear auth
 									tokenManager.remove();
 									setUser(null);
 								}
 							}
 						}
 					} catch {
-						// Validation/refresh failed, clear auth
 						tokenManager.remove();
 						setUser(null);
 					}
@@ -76,8 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		try {
 			setError(null);
 			setIsLoading(true);
-			const regId = await signupUser(userData);
-			return regId;
+			return await signupUser(userData);
 		} catch (err) {
 			const errorMessage =
 				err instanceof ApiError ? err.message : "Signup failed";
@@ -134,9 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	};
 
-	const clearError = (): void => {
-		setError(null);
-	};
+	const clearError = () => setError(null);
 
 	const updateUser = (partial: Partial<User>): void => {
 		setUser((prev) => {
@@ -170,7 +165,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export const useAuth = () => {
 	const context = useContext(AuthContext);
-	if (context === undefined) {
+	if (!context) {
 		throw new Error("useAuth must be used within an AuthProvider");
 	}
 	return context;

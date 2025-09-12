@@ -10,7 +10,7 @@ export default function MainLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ProtectedLayout>
+	
 			<div className="min-h-screen bg-background text-foreground">
 				<div className="max-w-[105rem] mx-auto flex flex-col">
 					<MainHeader />
@@ -18,6 +18,6 @@ export default function MainLayout({
 					<MainFooter />
 				</div>
 			</div>
-		</ProtectedLayout>
+	
 	);
 }

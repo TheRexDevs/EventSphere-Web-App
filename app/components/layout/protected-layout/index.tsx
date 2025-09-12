@@ -6,23 +6,32 @@ import { useAuth } from "@/app/contexts/AuthContext";
 import FullScreenLoader from "@/app/components/ui/fullscreen-loader";
 
 export default function ProtectedLayout({
-    children,
+	children,
 }: {
-    children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-    const { user, isLoading } = useAuth();
-    const router = useRouter();
-    const pathname = usePathname();
+	const { user, isLoading } = useAuth();
+	const router = useRouter();
+	const pathname = usePathname();
 
-    useEffect(() => {
-        if (!isLoading && !user) {
-            router.replace(`/login?redirect=true&from=${pathname}`);
-        }
-    }, [user, isLoading, router, pathname]);
+	useEffect(() => {
+		// Only redirect AFTER loading finishes
+		if (isLoading) return;
 
-    if (isLoading) return <FullScreenLoader label="Loading your workspace..." />;
+		if (!user) {
+			router.replace(
+				`/login?redirect=true&from=${encodeURIComponent(pathname)}`
+			);
+		}
+	}, [user, isLoading, router, pathname]);
 
-    if (!user) return <FullScreenLoader label="Redirecting to login..." />;
+	if (isLoading) {
+		return <FullScreenLoader label="Checking authentication..." />;
+	}
 
-    return <>{children}</>;
+	if (!user) {
+		return <FullScreenLoader label="Redirecting to login..." />;
+	}
+
+	return <>{children}</>;
 }

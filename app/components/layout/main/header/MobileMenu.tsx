@@ -12,8 +12,11 @@ interface MobileMenuProps {
 }
 
 export const mainNavLinks = [
-	{ href: "/", label: "Overview", icon: null },
-	{ href: "/folios", label: "Folios", icon: <Store className="h-4 w-4" /> },
+	{ href: "/", label: "Home", icon: null },
+	{ href: "/event", label: "Event", icon: null },
+	{ href: "/gallery", label: "Gallery", icon: null },
+	{ href: "/about", label: "About", icon: null },
+	{ href: "/contact", label: "Contact", icon: null },
 ];
 
 const MobileMenu = ({
@@ -22,7 +25,6 @@ const MobileMenu = ({
 	onLogout,
 	isActive,
 }: MobileMenuProps) => {
-
 	const profileLinks = [
 		{
 			href: "/account",
@@ -30,14 +32,15 @@ const MobileMenu = ({
 			icon: <User className="h-4 w-4" />,
 		},
 		{
-			href: "/security",
-			label: "Security",
-			icon: <Shield className="h-4 w-4" />,
+			href: "/registered-events",
+			label: "Registered event",
+			icon: <Shield className="h-4 w-4 mr-2" />,
 		},
+
 		{
-			href: "/billing",
-			label: "Billing & Plans",
-			icon: <User className="h-4 w-4" />,
+			href: "/certificate",
+			label: "Certificate",
+			icon: <Shield className="h-4 w-4 mr-2" />,
 		},
 	];
 
@@ -126,4 +129,4 @@ const MobileMenu = ({
 	);
 };
 
-export default MobileMenu
+export default MobileMenu;
