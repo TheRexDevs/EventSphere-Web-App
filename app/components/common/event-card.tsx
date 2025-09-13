@@ -16,7 +16,7 @@ export interface EventData {
 	category: string;
 	status: "ongoing" | "coming-soon" | "ended";
 	availability: "available" | "full" | "cancelled";
-	tags: string[];
+	tags?: string[];
 }
 
 interface EventCardProps {
@@ -48,6 +48,9 @@ export default function EventCard({
 		availability,
 		tags,
 	} = event;
+
+	// Provide fallback for status if it's undefined/null
+	const eventStatus = status || "coming-soon";
 
 	const getStatusColor = (status: string) => {
 		switch (status) {
@@ -82,13 +85,22 @@ export default function EventCard({
 		>
 			{/* Image Section */}
 			<div className="relative h-48 w-full">
-				<Image
-					src={image}
-					alt={title}
-					fill
-					className="object-cover"
-					sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-				/>
+				{image && image.trim() !== "" ? (
+					<Image
+						src={image}
+						alt={title}
+						fill
+						className="object-cover"
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+					/>
+				) : (
+					<div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
+						<div className="text-white text-center">
+							<div className="text-4xl mb-2">🎪</div>
+							<div className="text-sm font-medium">Event</div>
+						</div>
+					</div>
+				)}
 				{/* Dark overlay */}
 				<div className="absolute inset-0 bg-black/40" />
 
@@ -104,10 +116,10 @@ export default function EventCard({
           <div className="absolute top-3 right-3">
             <span
               className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(
-                status
+                eventStatus
               )}`}
             >
-              {status.replace("-", " ").toUpperCase()}
+              {eventStatus.replace("-", " ").toUpperCase()}
             </span>
           </div>
         )}
@@ -139,7 +151,7 @@ export default function EventCard({
 				{/* Tags */}
 				{detailed && (
 					<div className="flex flex-wrap gap-2">
-						{tags.slice(0, 3).map((tag, index) => (
+						{tags && tags.slice(0, 3).map((tag, index) => (
 							<span
 								key={index}
 								className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full"
@@ -147,7 +159,7 @@ export default function EventCard({
 								{tag}
 							</span>
 						))}
-						{tags.length > 3 && (
+						{tags && tags.length > 3 && (
 							<span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
 								+{tags.length - 3} more
 							</span>

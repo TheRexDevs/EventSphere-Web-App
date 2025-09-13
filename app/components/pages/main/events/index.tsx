@@ -12,7 +12,6 @@ import {
 import HeroSection from "@/app/components/common/hero";
 import EventCard, { EventData } from "@/app/components/common/event-card";
 
-
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 
@@ -26,6 +25,10 @@ import ConfirmDialog from "@/app/components/ui/confirm-dialog";
 import { Plus } from "lucide-react";
 
 import { Skeleton } from "@/app/components/ui/skeleton";
+import { getEvents, getEventCategories } from "@/lib/api/events";
+import { Event, EventCategory } from "@/types/events";
+import { ApiError } from "@/lib/utils/api";
+import { showToast } from "@/lib/utils/toast";
 
 function EventCardSkeleton() {
 	return (
@@ -63,57 +66,50 @@ function EventCardSkeleton() {
 	);
 }
 
-// Mock data for demonstration
-const mockEvents: EventData[] = [
-	{
-		id: "1",
-		title: "Digital Art Masterclass",
-		description: "Learn advanced digital art techniques from industry professionals.",
-		date: "March 15, 2025",
-		time: "2:00pm",
-		location: "Art Studio",
-		image: "/3dimg/Event Discovery.png",
-		category: "Art Workshop",
-		status: "ongoing",
-		availability: "available",
-		tags: ["Art", "Workshop", "Creative"],
-	},
-	{
-		id: "2",
-		title: "Annual Career Fair 2025",
-		description: "Connect with top employers and explore career opportunities",
-		date: "March 15, 2025",
-		time: "10:00AM",
-		location: "Main Campus",
-		image: "/3dimg/Event Discovery (1).png",
-		category: "Career Fair",
-		status: "coming-soon",
-		availability: "available",
-		tags: ["Career", "Professional", "Network"],
-	},
-	{
-		id: "3",
-		title: "Shakespeare in the Park",
-		description: "A modern adaptation of Hamlet performed outdoors.",
-		date: "March 22, 2025",
-		time: "7:00pm",
-		location: "Main Park",
-		image: "/3dimg/real time updates.png",
-		category: "Theater",
-		status: "coming-soon",
-		availability: "available",
-		tags: ["Theater", "Culture", "Entertainment"],
-	},
-];
+// Helper function to convert Event to EventData format for EventCard
+function convertEventToEventData(event: Event): EventData {
+	const date = new Date(event.date);
+	const formattedDate = date.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
 
-const filterOptions = {
-	categories: ["All categories", "Art Workshop", "Career Fair", "Theater", "Music", "Sports"],
+	const availability: "available" | "full" | "cancelled" =
+		event.available_slots > 0 ? "available" : "full";
+
+	return {
+		id: event.id,
+		title: event.title,
+		description: event.description,
+		date: formattedDate,
+		time: event.time,
+		location: event.venue,
+		image: event.image_url || "", // Ensure we always have a string, even if empty
+		category: event.category,
+		status: event.status,
+		availability,
+		tags: event.tags || [], // Ensure tags is always an array
+	};
+}
+
+// Dynamic filter options
+const getFilterOptions = (categories: EventCategory[]) => ({
+	categories: ["All categories", ...categories.map(cat => cat.name)],
 	dates: ["All Dates", "Today", "This Week", "This Month", "Next Month"],
 	status: ["All Events", "Ongoing", "Coming Soon", "Ended"],
 	departments: ["All Departments", "Arts", "Business", "Technology", "Science"],
-};
+});
 
 const EventsPage = () => {
+	const [events, setEvents] = useState<Event[]>([]);
+	const [categories, setCategories] = useState<EventCategory[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+
 	const [filters, setFilters] = useState({
 		category: "All categories",
 		date: "All Dates",
@@ -121,16 +117,103 @@ const EventsPage = () => {
 		department: "All Departments",
 	});
 
+	const router = useRouter();
+	const { user } = useAuth();
+
 	const handleFilterChange = (filterType: string, value: string) => {
 		setFilters((prev) => ({
 			...prev,
 			[filterType]: value,
 		}));
+		// Reset pagination when filters change
+		setCurrentPage(1);
+		setHasMore(true);
 	};
 
 	const handleViewDetails = (eventId: string) => {
-		console.log("View details for event:", eventId);
-		// TODO: Implement navigation to event details page
+		router.push(`/events/${eventId}`);
+	};
+
+	// Load events based on current filters and pagination
+	const loadEvents = async (page: number = 1, append: boolean = false) => {
+		try {
+			if (page === 1) {
+				setIsLoading(true);
+			} else {
+				setIsLoadingMore(true);
+			}
+
+			const params: any = {
+				page,
+				per_page: 20,
+			};
+
+			// Apply filters
+			if (filters.category !== "All categories") {
+				// Find category ID by name
+				const category = categories.find(cat => cat.name === filters.category);
+				if (category) {
+					params.category_id = category.id;
+				}
+			}
+
+			if (filters.status !== "All Events") {
+				const statusMap: { [key: string]: string } = {
+					"Ongoing": "ongoing",
+					"Coming Soon": "coming-soon",
+					"Ended": "ended"
+				};
+				params.status = statusMap[filters.status];
+			}
+
+			const response = await getEvents(params);
+
+			if (append) {
+				setEvents(prev => [...prev, ...response.events]);
+			} else {
+				setEvents(response.events);
+			}
+
+			setTotalPages(response.total_pages);
+			setHasMore(page < response.total_pages);
+			setCurrentPage(page);
+
+		} catch (error) {
+			console.error("Failed to load events:", error);
+			if (error instanceof ApiError) {
+				showToast.error(error.message);
+			} else {
+				showToast.error("Failed to load events");
+			}
+		} finally {
+			setIsLoading(false);
+			setIsLoadingMore(false);
+		}
+	};
+
+	// Load categories on mount
+	useEffect(() => {
+		const loadCategories = async () => {
+			try {
+				const cats = await getEventCategories();
+				setCategories(cats);
+			} catch (error) {
+				console.error("Failed to load categories:", error);
+			}
+		};
+
+		loadCategories();
+	}, []);
+
+	// Load events when filters change
+	useEffect(() => {
+		loadEvents(1, false);
+	}, [filters, categories]); // categories dependency ensures we wait for categories to load
+
+	const handleLoadMore = () => {
+		if (hasMore && !isLoadingMore) {
+			loadEvents(currentPage + 1, true);
+		}
 	};
 
 	return (
@@ -162,7 +245,7 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select category" />
 								</SelectTrigger>
 								<SelectContent>
-									{filterOptions.categories.map((option) => (
+									{getFilterOptions(categories).categories.map((option) => (
 										<SelectItem key={option} value={option}>
 											{option}
 										</SelectItem>
@@ -186,7 +269,7 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select date" />
 								</SelectTrigger>
 								<SelectContent>
-									{filterOptions.dates.map((option) => (
+									{getFilterOptions(categories).dates.map((option) => (
 										<SelectItem key={option} value={option}>
 											{option}
 										</SelectItem>
@@ -210,7 +293,7 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select status" />
 								</SelectTrigger>
 								<SelectContent>
-									{filterOptions.status.map((option) => (
+									{getFilterOptions(categories).status.map((option) => (
 										<SelectItem key={option} value={option}>
 											{option}
 										</SelectItem>
@@ -234,7 +317,7 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select department" />
 								</SelectTrigger>
 								<SelectContent>
-									{filterOptions.departments.map((option) => (
+									{getFilterOptions(categories).departments.map((option) => (
 										<SelectItem key={option} value={option}>
 											{option}
 										</SelectItem>
@@ -250,27 +333,62 @@ const EventsPage = () => {
 				{/* Events Grid */}
 				<section className="py-12">
 					<div className="w-site mx-auto px-4">
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-							{mockEvents.map((event) => (
-								<EventCard
-									key={event.id}
-									event={event}
-									onViewDetails={handleViewDetails}
-								/>
-							))}
-						</div>
-
-						{/* No Events State */}
-						{mockEvents.length === 0 && (
-							<div className="text-center py-16">
-								<h3 className="text-xl font-semibold text-gray-900 mb-2">
-									No events found
-								</h3>
-								<p className="text-gray-600">
-									Try adjusting your filters or check back
-									later for new events.
-								</p>
+						{/* Loading State */}
+						{isLoading ? (
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+								{Array.from({ length: 6 }).map((_, index) => (
+									<EventCardSkeleton key={index} />
+								))}
 							</div>
+						) : (
+							<>
+								{/* Events Grid */}
+								{events.length > 0 ? (
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+										{events.map((event) => (
+											<EventCard
+												key={event.id}
+												event={convertEventToEventData(event)}
+												onViewDetails={handleViewDetails}
+											/>
+										))}
+									</div>
+								) : (
+									/* No Events State */
+									<div className="text-center py-16">
+										<h3 className="text-xl font-semibold text-gray-900 mb-2">
+											No events found
+										</h3>
+										<p className="text-gray-600">
+											Try adjusting your filters or check back
+											later for new events.
+										</p>
+									</div>
+								)}
+
+								{/* Load More Button */}
+								{hasMore && events.length > 0 && (
+									<div className="flex justify-center mt-8">
+										<Button
+											onClick={handleLoadMore}
+											disabled={isLoadingMore}
+											variant="outline"
+											size="lg"
+										>
+											{isLoadingMore ? "Loading..." : "Load More Events"}
+										</Button>
+									</div>
+								)}
+
+								{/* Loading more skeleton */}
+								{isLoadingMore && (
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+										{Array.from({ length: 3 }).map((_, index) => (
+											<EventCardSkeleton key={`loading-${index}`} />
+										))}
+									</div>
+								)}
+							</>
 						)}
 					</div>
 				</section>
