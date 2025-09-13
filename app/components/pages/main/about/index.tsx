@@ -44,13 +44,18 @@ const AboutPage = () => {
 
 					<div className="grid grid-cols-3 gap-11 mt-7">
 						<div>
-							<Image
-								src={"/3d-img/event-discovery.png"}
-								alt="Event Discovery"
-								height={0}
-								width={0}
-								className="w-[80%]"
-							/>
+                            <div className="fit-img w-[80%]">
+                                <Image
+                                    src={"/3d-img/event-discovery.png"}
+                                    alt="Event Discovery"
+                                    objectFit="cover"
+                                    priority
+                                    height={0}
+                                    width={0}
+                                    sizes="100vw"
+                                    className="w-full object-cover"
+                                />
+                            </div>
 							<p className="mt-2">
 								Find events that match your interests with our
 								advanced filtering and search capability
@@ -58,13 +63,18 @@ const AboutPage = () => {
 						</div>
 
 						<div>
-							<Image
-								src={"/3d-img/easy-reg.png"}
-								alt="Easy Registration"
-								height={0}
-								width={0}
-								className="w-[80%]"
-							/>
+                            <div className="fit-img w-[80%]">
+                                <Image
+                                    src={"/3d-img/easy-reg.png"}
+                                    alt="Easy Registration"
+                                    objectFit="cover"
+                                    priority
+                                    height={0}
+                                    width={0}
+                                    sizes="100vw"
+                                    className="w-full object-cover"
+                                />
+                            </div>
 							<p className="mt-2">
 								Simple streamlined registration process that
 								gets you signed up in seconds
@@ -72,13 +82,18 @@ const AboutPage = () => {
 						</div>
 
 						<div>
-							<Image
-								src={"/3d-img/real-time.png"}
-								alt="Real time Update"
-								height={0}
-								width={0}
-								className="w-[80%]"
-							/>
+                            <div className="fit-img w-[80%]">
+                                <Image
+                                    src={"/3d-img/real-time.png"}
+                                    alt="Real time Update"
+                                    objectFit="cover"
+                                    priority
+                                    height={0}
+                                    width={0}
+                                    sizes="100vw"
+                                    className="w-full object-cover"
+                                />
+                            </div>
 							<p className="mt-2">
 								Stay informed with instant notifications about
 								event changes and new opportunities
@@ -86,13 +101,18 @@ const AboutPage = () => {
 						</div>
 
 						<div>
-							<Image
-								src={"/3d-img/event-disco.png"}
-								alt="Community Building"
-								height={0}
-								width={0}
-								className="w-[80%]"
-							/>
+                            <div className="fit-img w-[80%]">
+                                <Image
+                                    src={"/3d-img/event-disco.png"}
+                                    alt="Community Building"
+                                    objectFit="cover"
+                                    priority
+                                    height={0}
+                                    width={0}
+                                    sizes="100vw"
+                                    className="w-full object-cover"
+                                />
+                            </div>
 							<p className="mt-2">
 								Connect with likeminded students and build your
 								project
