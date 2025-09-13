@@ -40,7 +40,7 @@ const MobileMenu = ({
 		{
 			href: "/certificate",
 			label: "Certificate",
-			icon: <Shield className="h-4 w-4 mr-2" />,
+			icon: null,
 		},
 	];
 

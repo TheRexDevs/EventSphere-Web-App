@@ -1,4 +1,4 @@
-import Carousel3D from "@/app/components/pages/3d/Carousel3D";
+import Carousel3D from "@/app/components/pages/main/3d/Carousel3D";
 import React from "react";
 import Image from "next/image";
 import Easyreg from "@/public/3dimg/Easy Registration.png";
@@ -12,10 +12,10 @@ const page = () => {
 		<section className="w-full">
 			<div className="flex items-center justify-center">
 				<div className="pt-[60px]">
-					<h1 className="text-center font-bold text-[40px]">
+					<h1 className="text-center font-bold text-[40px] max-md:text-[35px]">
 						About EventSphere
 					</h1>
-					<p className="text-center text-[#545454] text-[18px]">
+					<p className="text-center text-[#545454] text-[18px] max-md:text-[16px]">
 						Your gateway to campus life and memorable experiences
 					</p>
 				</div>
@@ -45,7 +45,7 @@ const page = () => {
 						What we offer
 					</h1>
 
-					<div className="grid grid-cols-3 gap-11 mt-7">
+					<div className="grid grid-cols-3 max-md:grid-cols-1 gap-11 mt-7">
 						<div>
 							<Image
 								src={Eventdisc}
@@ -119,7 +119,7 @@ const page = () => {
 				</div>
 
 				{/* Animated Counters */}
-				<div className="py-20">
+				<div className="py-20 max-md:py-10">
 					<div className="text-center">
 						<h1 className="py-10 font-semibold text-[30px]">
 							Eventsphere by the Numbers
@@ -129,22 +129,28 @@ const page = () => {
 					<div className="w-[90%] grid grid-cols-2 md:grid-cols-4 gap-8 m-auto">
 						<div>
 							<Counter end={50000} suffix="+" />
-							<p className="text-[#545454]">Active students</p>
+							<p className="text-[#545454] text-center">
+								Active students
+							</p>
 						</div>
 
 						<div>
 							<Counter end={1200} suffix="+" />
-							<p className="text-[#545454]">Events Hosted</p>
+							<p className="text-[#545454] text-center">
+								Events Hosted
+							</p>
 						</div>
 
 						<div>
 							<Counter end={95} suffix="%" />
-							<p className="text-[#545454]">User Satisfaction</p>
+							<p className="text-[#545454] text-center">
+								User Satisfaction
+							</p>
 						</div>
 
 						<div>
 							<Counter end={24} suffix="/7" />
-							<p className="text-[#545454]">
+							<p className="text-[#545454] text-center">
 								Platform availability
 							</p>
 						</div>

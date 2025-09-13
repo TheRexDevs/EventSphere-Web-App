@@ -34,7 +34,7 @@ const Overview = () => {
 					</div>
 
 					<div className="!bg-white rounded-2xl relative">
-						<Input placeholder="Search Events, Categories"></Input>
+						<Input placeholder="Search Events, Categories" />
 					</div>
 				</div>
 			</section>

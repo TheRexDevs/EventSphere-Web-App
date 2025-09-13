@@ -55,10 +55,10 @@ const ContactPage = () => {
 
 				<div className="absolute inset-0 z-10 text-white flex justify-center items-center">
 					<div>
-						<h1 className="text-[49px] font-bold text-center">
+						<h1 className="text-[49px] font-bold max-md:text-[45px] text-center">
 							Get In Touch
 						</h1>
-						<p className="text-center text-[18px]">
+						<p className="text-center text-[18px]  max-md:text-[16px]">
 							We would love to hear from you, send us a message
 						</p>
 					</div>
@@ -185,14 +185,14 @@ const ContactPage = () => {
 								alt="Phone"
 								height={0}
 								width={0}
-								className="w-[31%] m-auto"
+								className="w-[31%] max-md:w-[25%]  m-auto"
 							/>
 							<div className="mt-5 items-center">
-								<h1 className="text-center text-[22px] font-bold">
+								<h1 className="text-center text-[22px] max-md:text-[20px] font-bold">
 									Phone Number
 								</h1>
 								<Link href="tel:+2340000000000">
-									<p className="text-center">
+									<p className="text-center max-md:text-[14px]">
 										+234 000 000 0000
 									</p>
 								</Link>
@@ -206,14 +206,14 @@ const ContactPage = () => {
 								alt="Email"
 								height={0}
 								width={0}
-								className="w-[31%] m-auto"
+								className="w-[31%] max-md:w-[25%] m-auto"
 							/>
 							<div className="mt-5 items-center">
-								<h1 className="text-center text-[22px] font-bold">
+								<h1 className="text-center text-[22px] max-md:text-[20px] font-bold">
 									Email Address
 								</h1>
 								<Link href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,">
-									<p className="text-center">
+									<p className="text-center max-md:text-[14px]">
 										Support@eventsphere.edu <br />
 										info@eventsphere.edu
 									</p>
@@ -228,17 +228,17 @@ const ContactPage = () => {
 								alt="WhatsApp"
 								height={0}
 								width={0}
-								className="w-[31%] m-auto"
+								className="w-[31%] max-md:w-[25%] m-auto"
 							/>
 							<div className="mt-5 items-center">
-								<h1 className="text-center text-[22px] font-bold">
+								<h1 className="text-center text-[22px] max-md:text-[20px] font-bold">
 									WhatsApp
 								</h1>
 								<Link
 									href="https://wa.me/2340000000000"
 									target="_blank"
 								>
-									<p className="text-center">
+									<p className="text-center max-md:text-[14px]">
 										+234 000 000 0000
 									</p>
 								</Link>
@@ -252,13 +252,13 @@ const ContactPage = () => {
 								alt="Address"
 								height={0}
 								width={0}
-								className="w-[31%] m-auto"
+								className="w-[31%] max-md:w-[25%] m-auto"
 							/>
 							<div className="mt-5 items-center">
-								<h1 className="text-center text-[22px] font-bold">
+								<h1 className="text-center text-[22px] max-md:text-[20px] font-bold">
 									Address
 								</h1>
-								<p className=" ml-5">
+								<p className=" ml-5 max-md:ml-2 max-md:text-center  max-md:text-[14px]">
 									Eventsphere Office <br />
 									Students Service Building, Room 201 <br />
 									University Campus, Lagos, Nigeria
@@ -283,7 +283,7 @@ const ContactPage = () => {
 					<div className="absolute inset-0 bg-black opacity-30 z-0 "></div>
 
 					<div className="absolute inset-0 z-10 text-white flex justify-center items-center">
-						<p className="w-[40%]  text-[45px] text-center">
+						<p className="w-[40%]  text-[45px] text-center  max-md:w-[80%]   max-lg:w-[80%]  max-md:text-[25px]">
 							We Are Always Ready To give you the Perfect Event
 						</p>
 					</div>

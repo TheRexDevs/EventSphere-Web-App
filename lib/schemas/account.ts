@@ -12,9 +12,4 @@ export const accountSchema = z.object({
 	language: z.string().optional(),
 });
 
-
-
-
-
-
 export type AccountFormData = z.infer<typeof accountSchema>;
