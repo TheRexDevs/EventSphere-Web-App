@@ -2,6 +2,7 @@
 import React, { useState, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { Button } from "@/app/components/ui/button";
 import {
@@ -21,7 +22,7 @@ const HeaderContent = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     const handleLogout = useCallback(() => {
         logout().finally(() => {
@@ -38,60 +39,90 @@ const HeaderContent = () => {
 	return (
 		<header className="w-full bg-card border-b border-gray-200">
 			<div className="w-site mx-auto">
-				<div className="flex items-center justify-between py-4 space-x-8">
-					<div className="flex items-center grow space-x-8">
-						{/* Logo */}
-						<Link
-							href="/"
-							className="text-2xl font-bold text-gray-900"
-						>
-							FolioEngine
-						</Link>
+				<div className="flex items-center justify-between py-4">
+					{/* Logo */}
+					<Link href="/" className="flex-shrink-0">
+						<div className="fit-img h-12 w-auto">
+							<Image
+								src="/logo.png"
+								alt="Event Sphere"
+								objectFit="cover"
+								priority
+								width={0}
+								height={0}
+								sizes="100vw"
+								className="w-full h-full object-cover"
+							/>
+						</div>
+					</Link>
 
-						{/* Desktop Navigation */}
-						<nav className="hidden md:block grow">
-							<NavigationMenu className="max-w-[100%] justify-end">
-								<NavigationMenuList className="space-x-6">
-									{mainNavLinks.map((link) => (
-										<NavLink
-											key={link.href}
-											href={link.href}
-											label={link.label}
-											icon={link.icon}
-											isActive={isActive(link.href)}
-										/>
-									))}
-								</NavigationMenuList>
-							</NavigationMenu>
-						</nav>
-					</div>
+					{/* Desktop Navigation - Centered */}
+					<nav className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+						<NavigationMenu>
+							<NavigationMenuList className="space-x-6">
+								{mainNavLinks.map((link) => (
+									<NavLink
+										key={link.href}
+										href={link.href}
+										label={link.label}
+										icon={link.icon}
+										isActive={isActive(link.href)}
+									/>
+								))}
+							</NavigationMenuList>
+						</NavigationMenu>
+					</nav>
 
-					{/* Profile Icon (Desktop) */}
-					<div className="hidden md:flex items-center relative !mr-0">
+					{/* Right Side - Conditional */}
+					<div className="flex items-center space-x-3">
+						{user ? (
+							/* Profile Icon (Desktop) - When logged in */
+							<div className="hidden md:flex items-center relative">
+								<Button
+									className="!p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
+									onClick={() =>
+										setProfileMenuOpen((v) => !v)
+									}
+									aria-label="Open profile menu"
+								>
+									<User className="!h-6 !w-6 text-gray-700" />
+								</Button>
+								{/* Profile Dropdown */}
+								<ProfileMenu
+									isOpen={profileMenuOpen}
+									onClose={() => setProfileMenuOpen(false)}
+									onLogout={handleLogout}
+								/>
+							</div>
+						) : (
+							/* Login/Signup Buttons - When not logged in */
+							<div className="hidden md:flex items-center space-x-3">
+								<Button
+									variant="outline"
+									className="rounded-full px-6 py-2"
+									onClick={() => router.push("/login")}
+								>
+									Sign In
+								</Button>
+								<Button
+									className="rounded-full px-6 py-2"
+									onClick={() => router.push("/signup")}
+								>
+									Sign Up
+								</Button>
+							</div>
+						)}
+
+						{/* Hamburger (Mobile) */}
 						<Button
-							className="!p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
-							onClick={() => setProfileMenuOpen((v) => !v)}
-							aria-label="Open profile menu"
+							variant={"ghost"}
+							className="md:hidden !p-2 rounded hover:bg-gray-100 text-base"
+							onClick={() => setMobileOpen(true)}
+							aria-label="Open menu"
 						>
-							<User className="!h-6 !w-6 text-gray-700" />
+							<Menu className="!h-8 !w-8" />
 						</Button>
-						{/* Profile Dropdown */}
-						<ProfileMenu
-							isOpen={profileMenuOpen}
-							onClose={() => setProfileMenuOpen(false)}
-							onLogout={handleLogout}
-						/>
 					</div>
-
-					{/* Hamburger (Mobile) */}
-					<Button
-						variant={"ghost"}
-						className="md:hidden !p-2 rounded hover:bg-gray-100 text-base"
-						onClick={() => setMobileOpen(true)}
-						aria-label="Open menu"
-					>
-						<Menu className="!h-8 !w-8" />
-					</Button>
 				</div>
 			</div>
 

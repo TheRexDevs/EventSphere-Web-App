@@ -12,8 +12,11 @@ interface MobileMenuProps {
 }
 
 export const mainNavLinks = [
-	{ href: "/", label: "Overview", icon: null },
-	{ href: "/folios", label: "Folios", icon: <Store className="h-4 w-4" /> },
+	{ href: "/", label: "Home", icon: null },
+	{ href: "/events", label: "Events", icon: null },
+	{ href: "/gallery", label: "Gallery", icon: null },
+	{ href: "/about", label: "About", icon: null },
+	{ href: "/contact", label: "Contact", icon: null },
 ];
 
 const MobileMenu = ({

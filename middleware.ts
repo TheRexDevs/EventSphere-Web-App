@@ -1,17 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Treat all routes as protected by default, with a small public allowlist
+// Public routes that don't require authentication
 const PUBLIC_PATTERNS: RegExp[] = [
 	/^\/(login|signup|verify-email)\/?$/,
 	/^\/(about|contact|events|gallery)?\/?$/,
 	/^\/$/,
-	/^\/api\/auth(\/.*)?$/,
-	/^\/_next\/.*/,
-	/^\/_static\/.*/,
-	/^\/_vercel\/.*/,
-	/^\/favicon\.ico$/,
-	/^\/sitemap\.xml$/,
 ];
 
 function isPublicPath(pathname: string): boolean {
@@ -40,7 +34,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
-		// Match all paths except Next internals and static files
-		"/((?!api/auth|_next|_static|_vercel|favicon.ico|sitemap.xml).*)",
+		// Skip middleware for static files and Next.js internals
+		"/((?!_next/|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico)).*)",
 	],
 };
