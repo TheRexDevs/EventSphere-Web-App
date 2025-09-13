@@ -61,7 +61,7 @@ export default function Counter({
 	const formatted = new Intl.NumberFormat().format(count);
 
 	return (
-		<div ref={ref} className="text-[32px] font-bold text-primary">
+		<div ref={ref} className="text-[32px] font-bold text-primary text-center">
 			{formatted}
 			{suffix}
 		</div>

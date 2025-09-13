@@ -9,10 +9,10 @@ const AboutPage = () => {
 		<div className="w-site mx-auto space-y-6">
 			<section className="flex items-center justify-center">
 				<div className="pt-[60px]">
-					<h1 className="text-center font-bold text-[40px]">
+					<h1 className="text-center font-bold text-3xl lg:text-[40px]">
 						About EventSphere
 					</h1>
-					<p className="text-center text-[#545454] text-[18px]">
+					<p className="text-center text-[#545454] text-base lg:text-[18px]">
 						Your gateway to campus life and memorable experiences
 					</p>
 				</div>
@@ -42,20 +42,20 @@ const AboutPage = () => {
 						What we offer
 					</h1>
 
-					<div className="grid grid-cols-3 gap-11 mt-7">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-11 mt-7">
 						<div>
-                            <div className="fit-img w-[80%]">
-                                <Image
-                                    src={"/3d-img/event-discovery.png"}
-                                    alt="Event Discovery"
-                                    objectFit="cover"
-                                    priority
-                                    height={0}
-                                    width={0}
-                                    sizes="100vw"
-                                    className="w-full object-cover"
-                                />
-                            </div>
+							<div className="fit-img w-[80%]">
+								<Image
+									src={"/3d-img/event-discovery.png"}
+									alt="Event Discovery"
+									objectFit="cover"
+									priority
+									height={0}
+									width={0}
+									sizes="100vw"
+									className="w-full object-cover"
+								/>
+							</div>
 							<p className="mt-2">
 								Find events that match your interests with our
 								advanced filtering and search capability
@@ -63,18 +63,18 @@ const AboutPage = () => {
 						</div>
 
 						<div>
-                            <div className="fit-img w-[80%]">
-                                <Image
-                                    src={"/3d-img/easy-reg.png"}
-                                    alt="Easy Registration"
-                                    objectFit="cover"
-                                    priority
-                                    height={0}
-                                    width={0}
-                                    sizes="100vw"
-                                    className="w-full object-cover"
-                                />
-                            </div>
+							<div className="fit-img w-[80%]">
+								<Image
+									src={"/3d-img/easy-reg.png"}
+									alt="Easy Registration"
+									objectFit="cover"
+									priority
+									height={0}
+									width={0}
+									sizes="100vw"
+									className="w-full object-cover"
+								/>
+							</div>
 							<p className="mt-2">
 								Simple streamlined registration process that
 								gets you signed up in seconds
@@ -82,18 +82,18 @@ const AboutPage = () => {
 						</div>
 
 						<div>
-                            <div className="fit-img w-[80%]">
-                                <Image
-                                    src={"/3d-img/real-time.png"}
-                                    alt="Real time Update"
-                                    objectFit="cover"
-                                    priority
-                                    height={0}
-                                    width={0}
-                                    sizes="100vw"
-                                    className="w-full object-cover"
-                                />
-                            </div>
+							<div className="fit-img w-[80%]">
+								<Image
+									src={"/3d-img/real-time.png"}
+									alt="Real time Update"
+									objectFit="cover"
+									priority
+									height={0}
+									width={0}
+									sizes="100vw"
+									className="w-full object-cover"
+								/>
+							</div>
 							<p className="mt-2">
 								Stay informed with instant notifications about
 								event changes and new opportunities
@@ -101,18 +101,18 @@ const AboutPage = () => {
 						</div>
 
 						<div>
-                            <div className="fit-img w-[80%]">
-                                <Image
-                                    src={"/3d-img/event-disco.png"}
-                                    alt="Community Building"
-                                    objectFit="cover"
-                                    priority
-                                    height={0}
-                                    width={0}
-                                    sizes="100vw"
-                                    className="w-full object-cover"
-                                />
-                            </div>
+							<div className="fit-img w-[80%]">
+								<Image
+									src={"/3d-img/event-disco.png"}
+									alt="Community Building"
+									objectFit="cover"
+									priority
+									height={0}
+									width={0}
+									sizes="100vw"
+									className="w-full object-cover"
+								/>
+							</div>
 							<p className="mt-2">
 								Connect with likeminded students and build your
 								project
@@ -139,29 +139,29 @@ const AboutPage = () => {
 				<div className="py-20">
 					<div className="text-center">
 						<h1 className="py-10 font-semibold text-[30px]">
-							Eventsphere by the Numbers
+							EventSphere by the Numbers
 						</h1>
 					</div>
 
 					<div className="w-[90%] grid grid-cols-2 md:grid-cols-4 gap-8 m-auto">
-						<div>
+						<div className="text-center">
 							<Counter end={50000} suffix="+" />
-							<p className="text-[#545454]">Active students</p>
+							<p className="text-[#545454] text-center">Active students</p>
 						</div>
 
-						<div>
+						<div className="text-center">
 							<Counter end={1200} suffix="+" />
-							<p className="text-[#545454]">Events Hosted</p>
+							<p className="text-[#545454] text-center">Events Hosted</p>
 						</div>
 
-						<div>
+						<div className="text-center">
 							<Counter end={95} suffix="%" />
-							<p className="text-[#545454]">User Satisfaction</p>
+							<p className="text-[#545454] text-center">User Satisfaction</p>
 						</div>
 
-						<div>
+						<div className="text-center">
 							<Counter end={24} suffix="/7" />
-							<p className="text-[#545454]">
+							<p className="text-[#545454] text-center">
 								Platform availability
 							</p>
 						</div>
