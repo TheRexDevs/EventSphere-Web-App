@@ -4,7 +4,7 @@ export const MainBody = ({
 	children: React.ReactNode;
 }>) => {
 	return (
-		<main className="wrapper min-h-[90svh] flex-1 py-8 pt-26">
+		<main className="wrapper min-h-[90svh] flex-1 pb-8">
 			{children}
 		</main>
 	);
