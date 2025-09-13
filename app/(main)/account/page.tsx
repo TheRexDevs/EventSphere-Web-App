@@ -1,9 +1,7 @@
+import AccountPage from "@/app/components/pages/main/account";
 import { Metadata } from "next";
 
-import AccountPage from "@/app/components/pages/main/account";
-
 export async function generateMetadata(): Promise<Metadata> {
-
 	return {
 		title: "Account Settings",
 		description: "",

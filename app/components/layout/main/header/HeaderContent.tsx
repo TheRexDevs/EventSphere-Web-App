@@ -15,8 +15,6 @@ import ProfileMenu from "./ProfileMenu";
 import MobileMenu, { mainNavLinks } from "./MobileMenu";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { showToast } from "@/lib/utils/toast";
-import Logo from "@/public/Logo.png";
-import Image from "next/image";
 
 const HeaderContent = () => {
 	const router = useRouter();
@@ -79,7 +77,12 @@ const HeaderContent = () => {
 					<div className="flex items-center space-x-3">
 						{user ? (
 							/* Profile Icon (Desktop) - When logged in */
-							<div className="hidden md:flex items-center relative">
+							<div className="hidden md:flex items-center space-x-2 relative">
+								{/* The welcome message goes here 👇 */}
+								<span className="font-semibold text-sm">
+									Welcome, {user.firstname}!
+								</span>
+								{/* The welcome message goes here 👆 */}
 								<Button
 									className="!p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
 									onClick={() =>

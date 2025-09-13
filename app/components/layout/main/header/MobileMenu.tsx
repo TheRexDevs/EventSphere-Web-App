@@ -3,6 +3,7 @@ import { Store, User, Shield, LogOut, X } from "lucide-react";
 
 import { Button } from "@/app/components/ui/button";
 import NavLink from "./NavLink";
+import ProtectedLayout from "../../protected-layout";
 
 interface MobileMenuProps {
 	isOpen: boolean;
@@ -70,7 +71,7 @@ const MobileMenu = ({
 						className="text-2xl font-bold text-gray-900"
 						onClick={onClose}
 					>
-						FolioEngine
+						Event Sphere
 					</Link>
 					<Button
 						variant="ghost"
@@ -99,30 +100,32 @@ const MobileMenu = ({
 					</ul>
 
 					{/* Profile Section */}
-					<ul className="flex flex-col mt-8 border-t pt-4 space-y-2">
-						{profileLinks.map((link) => (
-							<NavLink
-								key={link.href}
-								href={link.href}
-								label={link.label}
-								icon={link.icon}
-								isActive={isActive(link.href)}
-								onClick={onClose}
-								mobile
-							/>
-						))}
-						<Button
-							variant="ghost"
-							className="flex !justify-start items-center gap-2 w-full !px-3 !py-2 text-base font-medium text-gray-700 hover:text-primary transition-colors mt-2"
-							onClick={() => {
-								onClose();
-								onLogout();
-							}}
-						>
-							<LogOut className="!h-4 !w-4" />
-							Logout
-						</Button>
-					</ul>
+					<ProtectedLayout>
+						<ul className="flex flex-col mt-8 border-t pt-4 space-y-2">
+							{profileLinks.map((link) => (
+								<NavLink
+									key={link.href}
+									href={link.href}
+									label={link.label}
+									icon={link.icon}
+									isActive={isActive(link.href)}
+									onClick={onClose}
+									mobile
+								/>
+							))}
+							<Button
+								variant="ghost"
+								className="flex !justify-start items-center gap-2 w-full !px-3 !py-2 text-base font-medium text-gray-700 hover:text-primary transition-colors mt-2"
+								onClick={() => {
+									onClose();
+									onLogout();
+								}}
+							>
+								<LogOut className="!h-4 !w-4" />
+								Logout
+							</Button>
+						</ul>
+					</ProtectedLayout>
 				</nav>
 			</div>
 		</div>

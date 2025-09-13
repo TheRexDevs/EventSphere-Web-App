@@ -17,7 +17,7 @@ type HeroProps = {
 	overlay?: boolean;
 	height?: string;
 	alignment?: "left" | "center" | "right";
-    children?: ReactNode;
+	children?: ReactNode;
 };
 
 /**
@@ -31,10 +31,9 @@ export default function HeroSection({
 	overlay = true,
 	height = "100svh",
 	alignment = "center",
-    children
+	children,
 }: HeroProps) {
-
-    const alignmentStyles =
+	const alignmentStyles =
 		alignment === "center"
 			? "items-center text-center max-w-[1060px]"
 			: alignment === "right"
@@ -108,7 +107,7 @@ export default function HeroSection({
 						)}
 					</div>
 
-                    {children}
+					{children}
 				</div>
 			</div>
 			{/* Overlay */}

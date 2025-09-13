@@ -12,16 +12,26 @@ import {
 	ArrowLeft,
 	User,
 	Loader2,
-	AlertCircle
+	AlertCircle,
 } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@/app/components/ui/card";
 // Badge component inline
 import { Separator } from "@/app/components/ui/separator";
 import { Alert, AlertDescription } from "@/app/components/ui/alert";
 
 import { useAuth } from "@/app/contexts/AuthContext";
-import { getEvent, registerForEvent, cancelEventRegistration, getEventRegistrationDetails } from "@/lib/api/events";
+import {
+	getEvent,
+	registerForEvent,
+	cancelEventRegistration,
+	getEventRegistrationDetails,
+} from "@/lib/api/events";
 import { Event, EventRegistration } from "@/types/events";
 import { ApiError } from "@/lib/utils/api";
 import { showToast } from "@/lib/utils/toast";
@@ -32,7 +42,9 @@ interface EventDetailsPageProps {
 
 const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 	const [event, setEvent] = useState<Event | null>(null);
-	const [registration, setRegistration] = useState<EventRegistration | null>(null);
+	const [registration, setRegistration] = useState<EventRegistration | null>(
+		null
+	);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isRegistering, setIsRegistering] = useState(false);
 	const [isCancelling, setIsCancelling] = useState(false);
@@ -49,7 +61,9 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 			// If user is authenticated, check registration status
 			if (user) {
 				try {
-					const regDetails = await getEventRegistrationDetails(eventId);
+					const regDetails = await getEventRegistrationDetails(
+						eventId
+					);
 					setRegistration(regDetails);
 				} catch (error) {
 					// User not registered, that's fine
@@ -138,7 +152,8 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 				<Alert>
 					<AlertCircle className="h-4 w-4" />
 					<AlertDescription>
-						Event not found. It may have been removed or you may have an invalid link.
+						Event not found. It may have been removed or you may
+						have an invalid link.
 					</AlertDescription>
 				</Alert>
 			</div>
@@ -146,11 +161,11 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 	}
 
 	const eventDate = new Date(event.date);
-	const formattedDate = eventDate.toLocaleDateString('en-US', {
-		weekday: 'long',
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
+	const formattedDate = eventDate.toLocaleDateString("en-US", {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
 	});
 
 	// Provide fallbacks for potentially null/undefined fields
@@ -161,7 +176,9 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 	const tags = event.tags || [];
 	const galleryImages = event.gallery_images || [];
 
-	const isRegistered = registration?.status === "confirmed" || registration?.status === "waitlist";
+	const isRegistered =
+		registration?.status === "confirmed" ||
+		registration?.status === "waitlist";
 	const canRegister = availableSlots > 0 && !isRegistered;
 	const canCancel = isRegistered && registration?.status === "confirmed";
 
@@ -194,7 +211,9 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 						<div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
 							<div className="text-white text-center">
 								<div className="text-6xl mb-2">🎪</div>
-								<div className="text-xl font-bold">{event.title}</div>
+								<div className="text-xl font-bold">
+									{event.title}
+								</div>
 							</div>
 						</div>
 					)}
@@ -203,12 +222,16 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 						<div className="w-site mx-auto px-4 text-white">
 							<div className="max-w-4xl">
 								<div className="flex items-center gap-2 mb-4">
-									<span className={`px-2 py-1 rounded-full text-xs font-medium ${
-										eventStatus === "ongoing"
-											? "bg-green-100 text-green-800"
-											: "bg-blue-100 text-blue-800"
-									}`}>
-										{eventStatus.replace("-", " ").toUpperCase()}
+									<span
+										className={`px-2 py-1 rounded-full text-xs font-medium ${
+											eventStatus === "ongoing"
+												? "bg-green-100 text-green-800"
+												: "bg-blue-100 text-blue-800"
+										}`}
+									>
+										{eventStatus
+											.replace("-", " ")
+											.toUpperCase()}
 									</span>
 									<span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
 										{event.category}
@@ -245,16 +268,19 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<div className="flex items-center gap-4">
 								{isRegistered ? (
 									<div className="flex items-center gap-2">
-										<div className={`w-3 h-3 rounded-full ${
-											registration?.status === "confirmed"
-												? "bg-green-500"
-												: "bg-yellow-500"
-										}`} />
+										<div
+											className={`w-3 h-3 rounded-full ${
+												registration?.status ===
+												"confirmed"
+													? "bg-green-500"
+													: "bg-yellow-500"
+											}`}
+										/>
 										<span className="font-medium">
-											{registration?.status === "confirmed"
+											{registration?.status ===
+											"confirmed"
 												? "You're registered for this event"
-												: "You're on the waitlist"
-											}
+												: "You're on the waitlist"}
 										</span>
 									</div>
 								) : (
@@ -276,7 +302,9 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 										) : (
 											<User className="h-4 w-4" />
 										)}
-										{isRegistering ? "Registering..." : "Register Now"}
+										{isRegistering
+											? "Registering..."
+											: "Register Now"}
 									</Button>
 								)}
 
@@ -347,19 +375,28 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<CardContent>
 								<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
 									{galleryImages.map((image, index) => (
-										<div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+										<div
+											key={index}
+											className="relative aspect-square rounded-lg overflow-hidden"
+										>
 											{image && image.trim() !== "" ? (
 												<Image
 													src={image}
-													alt={`Event image ${index + 1}`}
+													alt={`Event image ${
+														index + 1
+													}`}
 													fill
 													className="object-cover hover:scale-105 transition-transform"
 												/>
 											) : (
 												<div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center">
 													<div className="text-gray-600 text-center">
-														<div className="text-2xl mb-1">📷</div>
-														<div className="text-xs">No image</div>
+														<div className="text-2xl mb-1">
+															📷
+														</div>
+														<div className="text-xs">
+															No image
+														</div>
 													</div>
 												</div>
 											)}
@@ -382,8 +419,12 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<div className="flex items-center gap-3">
 								<Calendar className="h-5 w-5 text-gray-500 flex-shrink-0" />
 								<div>
-									<p className="font-medium">{formattedDate}</p>
-									<p className="text-sm text-gray-600">Date</p>
+									<p className="font-medium">
+										{formattedDate}
+									</p>
+									<p className="text-sm text-gray-600">
+										Date
+									</p>
 								</div>
 							</div>
 
@@ -393,7 +434,9 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 								<Clock className="h-5 w-5 text-gray-500 flex-shrink-0" />
 								<div>
 									<p className="font-medium">{event.time}</p>
-									<p className="text-sm text-gray-600">Time</p>
+									<p className="text-sm text-gray-600">
+										Time
+									</p>
 								</div>
 							</div>
 
@@ -403,7 +446,9 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 								<MapPin className="h-5 w-5 text-gray-500 flex-shrink-0" />
 								<div>
 									<p className="font-medium">{event.venue}</p>
-									<p className="text-sm text-gray-600">Venue</p>
+									<p className="text-sm text-gray-600">
+										Venue
+									</p>
 								</div>
 							</div>
 
@@ -418,8 +463,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									<p className="text-sm text-gray-600">
 										{availableSlots > 0
 											? `${availableSlots} spots available`
-											: "Event is full"
-										}
+											: "Event is full"}
 									</p>
 								</div>
 							</div>
@@ -429,8 +473,12 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<div className="flex items-center gap-3">
 								<User className="h-5 w-5 text-gray-500 flex-shrink-0" />
 								<div>
-									<p className="font-medium">{organizerName}</p>
-									<p className="text-sm text-gray-600">Organizer</p>
+									<p className="font-medium">
+										{organizerName}
+									</p>
+									<p className="text-sm text-gray-600">
+										Organizer
+									</p>
 								</div>
 							</div>
 						</CardContent>
@@ -442,9 +490,12 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<CardContent className="pt-6">
 								<div className="text-center space-y-4">
 									<p className="text-gray-600">
-										Sign in to register for this event and access more features.
+										Sign in to register for this event and
+										access more features.
 									</p>
-									<Button onClick={() => router.push("/login")}>
+									<Button
+										onClick={() => router.push("/login")}
+									>
 										Sign In to Register
 									</Button>
 								</div>

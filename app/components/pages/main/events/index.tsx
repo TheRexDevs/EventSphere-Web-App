@@ -69,10 +69,10 @@ function EventCardSkeleton() {
 // Helper function to convert Event to EventData format for EventCard
 function convertEventToEventData(event: Event): EventData {
 	const date = new Date(event.date);
-	const formattedDate = date.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
+	const formattedDate = date.toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
 	});
 
 	const availability: "available" | "full" | "cancelled" =
@@ -95,10 +95,9 @@ function convertEventToEventData(event: Event): EventData {
 
 // Dynamic filter options
 const getFilterOptions = (categories: EventCategory[]) => ({
-	categories: ["All categories", ...categories.map(cat => cat.name)],
+	categories: ["All categories", ...categories.map((cat) => cat.name)],
 	dates: ["All Dates", "Today", "This Week", "This Month", "Next Month"],
 	status: ["All Events", "Ongoing", "Coming Soon", "Ended"],
-	departments: ["All Departments", "Arts", "Business", "Technology", "Science"],
 });
 
 const EventsPage = () => {
@@ -114,7 +113,6 @@ const EventsPage = () => {
 		category: "All categories",
 		date: "All Dates",
 		status: "All Events",
-		department: "All Departments",
 	});
 
 	const router = useRouter();
@@ -134,7 +132,6 @@ const EventsPage = () => {
 		router.push(`/events/${eventId}`);
 	};
 
-	// Load events based on current filters and pagination
 	const loadEvents = async (page: number = 1, append: boolean = false) => {
 		try {
 			if (page === 1) {
@@ -148,28 +145,90 @@ const EventsPage = () => {
 				per_page: 20,
 			};
 
-			// Apply filters
+			// Category filter
 			if (filters.category !== "All categories") {
-				// Find category ID by name
-				const category = categories.find(cat => cat.name === filters.category);
+				const category = categories.find(
+					(cat) => cat.name === filters.category
+				);
 				if (category) {
 					params.category_id = category.id;
 				}
 			}
 
+			// Status filter
 			if (filters.status !== "All Events") {
 				const statusMap: { [key: string]: string } = {
-					"Ongoing": "ongoing",
+					Ongoing: "ongoing",
 					"Coming Soon": "coming-soon",
-					"Ended": "ended"
+					Ended: "ended",
 				};
 				params.status = statusMap[filters.status];
 			}
 
+			// Date filter (Refactored to handle dates correctly)
+			if (filters.date !== "All Dates") {
+				const today = new Date();
+				let startDate: Date | null = null;
+				let endDate: Date | null = null;
+
+				if (filters.date === "Today") {
+					startDate = new Date(
+						today.getFullYear(),
+						today.getMonth(),
+						today.getDate()
+					);
+					endDate = new Date(
+						today.getFullYear(),
+						today.getMonth(),
+						today.getDate()
+					);
+					endDate.setHours(23, 59, 59, 999);
+				} else if (filters.date === "This Week") {
+					const first = today.getDate() - today.getDay();
+					startDate = new Date(today.setDate(first));
+					endDate = new Date(today.setDate(first + 6));
+					startDate.setHours(0, 0, 0, 0);
+					endDate.setHours(23, 59, 59, 999);
+				} else if (filters.date === "This Month") {
+					startDate = new Date(
+						today.getFullYear(),
+						today.getMonth(),
+						1
+					);
+					endDate = new Date(
+						today.getFullYear(),
+						today.getMonth() + 1,
+						0
+					);
+					endDate.setHours(23, 59, 59, 999);
+				} else if (filters.date === "Next Month") {
+					const nextMonth = new Date(
+						today.getFullYear(),
+						today.getMonth() + 1,
+						1
+					);
+					startDate = nextMonth;
+					endDate = new Date(
+						nextMonth.getFullYear(),
+						nextMonth.getMonth() + 1,
+						0
+					);
+					endDate.setHours(23, 59, 59, 999);
+				}
+
+				if (startDate && endDate) {
+					params.start_date = startDate.toISOString().split("T")[0];
+					params.end_date = endDate.toISOString().split("T")[0];
+				}
+			}
+
+			// Log the parameters being sent to the API for debugging
+			console.log("Fetching events with params:", params);
+
 			const response = await getEvents(params);
 
 			if (append) {
-				setEvents(prev => [...prev, ...response.events]);
+				setEvents((prev) => [...prev, ...response.events]);
 			} else {
 				setEvents(response.events);
 			}
@@ -177,7 +236,6 @@ const EventsPage = () => {
 			setTotalPages(response.total_pages);
 			setHasMore(page < response.total_pages);
 			setCurrentPage(page);
-
 		} catch (error) {
 			console.error("Failed to load events:", error);
 			if (error instanceof ApiError) {
@@ -222,7 +280,7 @@ const EventsPage = () => {
 			<HeroSection
 				title="All Events"
 				subtitle="Discover and join events that match your interest"
-				backgroundImageUrl="/3dimg/landingpage.jpg"
+				backgroundImageUrl="/event-hero.jpg"
 				height="330px"
 			/>
 
@@ -245,7 +303,9 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select category" />
 								</SelectTrigger>
 								<SelectContent>
-									{getFilterOptions(categories).categories.map((option) => (
+									{getFilterOptions(
+										categories
+									).categories.map((option) => (
 										<SelectItem key={option} value={option}>
 											{option}
 										</SelectItem>
@@ -269,11 +329,16 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select date" />
 								</SelectTrigger>
 								<SelectContent>
-									{getFilterOptions(categories).dates.map((option) => (
-										<SelectItem key={option} value={option}>
-											{option}
-										</SelectItem>
-									))}
+									{getFilterOptions(categories).dates.map(
+										(option) => (
+											<SelectItem
+												key={option}
+												value={option}
+											>
+												{option}
+											</SelectItem>
+										)
+									)}
 								</SelectContent>
 							</Select>
 						</div>
@@ -293,35 +358,16 @@ const EventsPage = () => {
 									<SelectValue placeholder="Select status" />
 								</SelectTrigger>
 								<SelectContent>
-									{getFilterOptions(categories).status.map((option) => (
-										<SelectItem key={option} value={option}>
-											{option}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-
-						{/* Department Filter */}
-						<div className="flex gap-4 items-center">
-							<label className="text-sm font-medium text-gray-700">
-								Department
-							</label>
-							<Select
-								value={filters.department}
-								onValueChange={(value) =>
-									handleFilterChange("department", value)
-								}
-							>
-								<SelectTrigger className="w-[180px]">
-									<SelectValue placeholder="Select department" />
-								</SelectTrigger>
-								<SelectContent>
-									{getFilterOptions(categories).departments.map((option) => (
-										<SelectItem key={option} value={option}>
-											{option}
-										</SelectItem>
-									))}
+									{getFilterOptions(categories).status.map(
+										(option) => (
+											<SelectItem
+												key={option}
+												value={option}
+											>
+												{option}
+											</SelectItem>
+										)
+									)}
 								</SelectContent>
 							</Select>
 						</div>
@@ -348,8 +394,12 @@ const EventsPage = () => {
 										{events.map((event) => (
 											<EventCard
 												key={event.id}
-												event={convertEventToEventData(event)}
-												onViewDetails={handleViewDetails}
+												event={convertEventToEventData(
+													event
+												)}
+												onViewDetails={
+													handleViewDetails
+												}
 											/>
 										))}
 									</div>
@@ -360,8 +410,8 @@ const EventsPage = () => {
 											No events found
 										</h3>
 										<p className="text-gray-600">
-											Try adjusting your filters or check back
-											later for new events.
+											Try adjusting your filters or check
+											back later for new events.
 										</p>
 									</div>
 								)}
@@ -375,7 +425,9 @@ const EventsPage = () => {
 											variant="outline"
 											size="lg"
 										>
-											{isLoadingMore ? "Loading..." : "Load More Events"}
+											{isLoadingMore
+												? "Loading..."
+												: "Load More Events"}
 										</Button>
 									</div>
 								)}
@@ -383,9 +435,13 @@ const EventsPage = () => {
 								{/* Loading more skeleton */}
 								{isLoadingMore && (
 									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-										{Array.from({ length: 3 }).map((_, index) => (
-											<EventCardSkeleton key={`loading-${index}`} />
-										))}
+										{Array.from({ length: 3 }).map(
+											(_, index) => (
+												<EventCardSkeleton
+													key={`loading-${index}`}
+												/>
+											)
+										)}
 									</div>
 								)}
 							</>
@@ -395,6 +451,6 @@ const EventsPage = () => {
 			</div>
 		</>
 	);
-}
+};
 
 export default EventsPage;

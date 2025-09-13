@@ -1,11 +1,7 @@
 import HomePage from "../components/pages/main/home";
 
-
 const Overview = () => {
-
-	return (
-		<HomePage/>
-	);
+	return <HomePage />;
 };
 
 export default Overview;

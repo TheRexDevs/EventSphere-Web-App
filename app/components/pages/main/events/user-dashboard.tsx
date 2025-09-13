@@ -17,10 +17,15 @@ import {
 	Loader2,
 	CheckCircle,
 	XCircle,
-	ChevronRight
+	ChevronRight,
 } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@/app/components/ui/card";
 // Using simple state-based tab switching
 import { Separator } from "@/app/components/ui/separator";
 import { Alert, AlertDescription } from "@/app/components/ui/alert";
@@ -60,20 +65,21 @@ const UserDashboard = () => {
 		loadRegistrations();
 	}, []);
 
-	const upcomingEvents = registrations.filter(reg =>
-		reg.event.status === "coming-soon" && reg.status === "confirmed"
+	const upcomingEvents = registrations.filter(
+		(reg) =>
+			reg.event.status === "coming-soon" && reg.status === "confirmed"
 	);
 
-	const pastEvents = registrations.filter(reg =>
-		reg.event.status === "ended" && reg.status === "confirmed"
+	const pastEvents = registrations.filter(
+		(reg) => reg.event.status === "ended" && reg.status === "confirmed"
 	);
 
-	const waitlistedEvents = registrations.filter(reg =>
-		reg.status === "waitlist"
+	const waitlistedEvents = registrations.filter(
+		(reg) => reg.status === "waitlist"
 	);
 
-	const cancelledEvents = registrations.filter(reg =>
-		reg.status === "cancelled"
+	const cancelledEvents = registrations.filter(
+		(reg) => reg.status === "cancelled"
 	);
 
 	const handleViewEvent = (eventId: string) => {
@@ -135,9 +141,15 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Registered Events</p>
+								<p className="text-sm font-medium text-gray-600">
+									Registered Events
+								</p>
 								<p className="text-2xl font-bold text-gray-900">
-									{registrations.filter(r => r.status === "confirmed").length}
+									{
+										registrations.filter(
+											(r) => r.status === "confirmed"
+										).length
+									}
 								</p>
 							</div>
 							<Calendar className="h-8 w-8 text-blue-600" />
@@ -149,8 +161,12 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Upcoming Events</p>
-								<p className="text-2xl font-bold text-gray-900">{upcomingEvents.length}</p>
+								<p className="text-sm font-medium text-gray-600">
+									Upcoming Events
+								</p>
+								<p className="text-2xl font-bold text-gray-900">
+									{upcomingEvents.length}
+								</p>
 							</div>
 							<Clock className="h-8 w-8 text-green-600" />
 						</div>
@@ -161,8 +177,12 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Past Events</p>
-								<p className="text-2xl font-bold text-gray-900">{pastEvents.length}</p>
+								<p className="text-sm font-medium text-gray-600">
+									Past Events
+								</p>
+								<p className="text-2xl font-bold text-gray-900">
+									{pastEvents.length}
+								</p>
 							</div>
 							<Trophy className="h-8 w-8 text-yellow-600" />
 						</div>
@@ -173,8 +193,12 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Waitlisted</p>
-								<p className="text-2xl font-bold text-gray-900">{waitlistedEvents.length}</p>
+								<p className="text-sm font-medium text-gray-600">
+									Waitlisted
+								</p>
+								<p className="text-2xl font-bold text-gray-900">
+									{waitlistedEvents.length}
+								</p>
 							</div>
 							<Users className="h-8 w-8 text-orange-600" />
 						</div>
@@ -190,7 +214,7 @@ const UserDashboard = () => {
 						{ id: "overview", label: "Overview" },
 						{ id: "upcoming", label: "Upcoming" },
 						{ id: "past", label: "Past Events" },
-						{ id: "waitlist", label: "Waitlist" }
+						{ id: "waitlist", label: "Waitlist" },
 					].map((tab) => (
 						<button
 							key={tab.id}
@@ -209,207 +233,265 @@ const UserDashboard = () => {
 				{/* Overview Tab */}
 				{activeTab === "overview" && (
 					<div className="space-y-6">
-					{/* Quick Actions */}
-					<Card>
-						<CardHeader>
-							<CardTitle>Quick Actions</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-								<Button
-									onClick={handleGoToEvents}
-									className="flex items-center gap-2 h-auto p-4"
-									variant="outline"
-								>
-									<Calendar className="h-5 w-5" />
-									<div className="text-left">
-										<p className="font-medium">Browse Events</p>
-										<p className="text-sm text-gray-600">Find new events to attend</p>
-									</div>
-								</Button>
+						{/* Quick Actions */}
+						<Card>
+							<CardHeader>
+								<CardTitle>Quick Actions</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+									<Button
+										onClick={handleGoToEvents}
+										className="flex items-center gap-2 h-auto p-4"
+										variant="outline"
+									>
+										<Calendar className="h-5 w-5" />
+										<div className="text-left">
+											<p className="font-medium">
+												Browse Events
+											</p>
+											<p className="text-sm text-gray-600">
+												Find new events to attend
+											</p>
+										</div>
+									</Button>
 
-								<Button
-									onClick={handleGoToProfile}
-									className="flex items-center gap-2 h-auto p-4"
-									variant="outline"
-								>
-									<User className="h-5 w-5" />
-									<div className="text-left">
-										<p className="font-medium">Update Profile</p>
-										<p className="text-sm text-gray-600">Manage your information</p>
-									</div>
-								</Button>
+									<Button
+										onClick={handleGoToProfile}
+										className="flex items-center gap-2 h-auto p-4"
+										variant="outline"
+									>
+										<User className="h-5 w-5" />
+										<div className="text-left">
+											<p className="font-medium">
+												Update Profile
+											</p>
+											<p className="text-sm text-gray-600">
+												Manage your information
+											</p>
+										</div>
+									</Button>
 
-								<Button
-									onClick={handleGoToGallery}
-									className="flex items-center gap-2 h-auto p-4"
-									variant="outline"
-								>
-									<ImageIcon className="h-5 w-5" />
-									<div className="text-left">
-										<p className="font-medium">View Gallery</p>
-										<p className="text-sm text-gray-600">Browse event memories</p>
-									</div>
-								</Button>
-							</div>
-						</CardContent>
-					</Card>
-
-					{/* Recent Activity */}
-					<Card>
-						<CardHeader>
-							<CardTitle>Recent Activity</CardTitle>
-						</CardHeader>
-						<CardContent>
-							{isLoading ? (
-								<div className="flex items-center justify-center py-8">
-									<Loader2 className="h-6 w-6 animate-spin text-gray-600" />
-								</div>
-							) : registrations.length === 0 ? (
-								<div className="text-center py-8">
-									<p className="text-gray-600">No activity yet. Start by registering for events!</p>
-									<Button onClick={handleGoToEvents} className="mt-4">
-										Browse Events
+									<Button
+										onClick={handleGoToGallery}
+										className="flex items-center gap-2 h-auto p-4"
+										variant="outline"
+									>
+										<ImageIcon className="h-5 w-5" />
+										<div className="text-left">
+											<p className="font-medium">
+												View Gallery
+											</p>
+											<p className="text-sm text-gray-600">
+												Browse event memories
+											</p>
+										</div>
 									</Button>
 								</div>
-							) : (
-								<div className="space-y-4">
-									{registrations.slice(0, 5).map((registration) => (
-										<div
-											key={registration.id}
-											className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+							</CardContent>
+						</Card>
+
+						{/* Recent Activity */}
+						<Card>
+							<CardHeader>
+								<CardTitle>Recent Activity</CardTitle>
+							</CardHeader>
+							<CardContent>
+								{isLoading ? (
+									<div className="flex items-center justify-center py-8">
+										<Loader2 className="h-6 w-6 animate-spin text-gray-600" />
+									</div>
+								) : registrations.length === 0 ? (
+									<div className="text-center py-8">
+										<p className="text-gray-600">
+											No activity yet. Start by
+											registering for events!
+										</p>
+										<Button
+											onClick={handleGoToEvents}
+											className="mt-4"
 										>
-											<div className="flex items-center gap-4">
-												<div className={`w-3 h-3 rounded-full ${
-													registration.status === "confirmed"
-														? "bg-green-500"
-														: registration.status === "waitlist"
-														? "bg-yellow-500"
-														: "bg-red-500"
-												}`} />
-												<div>
-													<p className="font-medium">{registration.event.title}</p>
-													<p className="text-sm text-gray-600">
-														{new Date(registration.event.date).toLocaleDateString()} • {registration.event.venue}
-													</p>
-												</div>
-											</div>
-											<div className="flex items-center gap-2">
-												<span className={`px-2 py-1 rounded-full text-xs font-medium ${
-													registration.status === "confirmed"
-														? "bg-green-100 text-green-800"
-														: registration.status === "waitlist"
-														? "bg-yellow-100 text-yellow-800"
-														: "bg-red-100 text-red-800"
-												}`}>
-													{registration.status}
-												</span>
-												<Button
-													variant="ghost"
-													size="sm"
-													onClick={() => handleViewEvent(registration.event.id)}
+											Browse Events
+										</Button>
+									</div>
+								) : (
+									<div className="space-y-4">
+										{registrations
+											.slice(0, 5)
+											.map((registration) => (
+												<div
+													key={registration.id}
+													className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
 												>
-													<ChevronRight className="h-4 w-4" />
-												</Button>
-											</div>
-										</div>
-									))}
-								</div>
-							)}
-						</CardContent>
-					</Card>
+													<div className="flex items-center gap-4">
+														<div
+															className={`w-3 h-3 rounded-full ${
+																registration.status ===
+																"confirmed"
+																	? "bg-green-500"
+																	: registration.status ===
+																	  "waitlist"
+																	? "bg-yellow-500"
+																	: "bg-red-500"
+															}`}
+														/>
+														<div>
+															<p className="font-medium">
+																{
+																	registration
+																		.event
+																		.title
+																}
+															</p>
+															<p className="text-sm text-gray-600">
+																{new Date(
+																	registration.event.date
+																).toLocaleDateString()}{" "}
+																•{" "}
+																{
+																	registration
+																		.event
+																		.venue
+																}
+															</p>
+														</div>
+													</div>
+													<div className="flex items-center gap-2">
+														<span
+															className={`px-2 py-1 rounded-full text-xs font-medium ${
+																registration.status ===
+																"confirmed"
+																	? "bg-green-100 text-green-800"
+																	: registration.status ===
+																	  "waitlist"
+																	? "bg-yellow-100 text-yellow-800"
+																	: "bg-red-100 text-red-800"
+															}`}
+														>
+															{
+																registration.status
+															}
+														</span>
+														<Button
+															variant="ghost"
+															size="sm"
+															onClick={() =>
+																handleViewEvent(
+																	registration
+																		.event
+																		.id
+																)
+															}
+														>
+															<ChevronRight className="h-4 w-4" />
+														</Button>
+													</div>
+												</div>
+											))}
+									</div>
+								)}
+							</CardContent>
+						</Card>
 					</div>
 				)}
 
 				{/* Upcoming Events Tab */}
 				{activeTab === "upcoming" && (
 					<div className="space-y-6">
-					{isLoading ? (
-						<div className="flex items-center justify-center py-12">
-							<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
-						</div>
-					) : upcomingEvents.length === 0 ? (
-						<Card>
-							<CardContent className="pt-6">
-								<div className="text-center py-8">
-									<Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600 mb-4">No upcoming events registered</p>
-									<Button onClick={handleGoToEvents}>Browse Available Events</Button>
-								</div>
-							</CardContent>
-						</Card>
-					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-							{upcomingEvents.map((registration) => (
-								<EventCard
-									key={registration.id}
-									registration={registration}
-									onViewEvent={handleViewEvent}
-								/>
-							))}
-						</div>
-					)}
+						{isLoading ? (
+							<div className="flex items-center justify-center py-12">
+								<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+							</div>
+						) : upcomingEvents.length === 0 ? (
+							<Card>
+								<CardContent className="pt-6">
+									<div className="text-center py-8">
+										<Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+										<p className="text-gray-600 mb-4">
+											No upcoming events registered
+										</p>
+										<Button onClick={handleGoToEvents}>
+											Browse Available Events
+										</Button>
+									</div>
+								</CardContent>
+							</Card>
+						) : (
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{upcomingEvents.map((registration) => (
+									<EventCard
+										key={registration.id}
+										registration={registration}
+										onViewEvent={handleViewEvent}
+									/>
+								))}
+							</div>
+						)}
 					</div>
 				)}
 
 				{/* Past Events Tab */}
 				{activeTab === "past" && (
 					<div className="space-y-6">
-					{isLoading ? (
-						<div className="flex items-center justify-center py-12">
-							<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
-						</div>
-					) : pastEvents.length === 0 ? (
-						<Card>
-							<CardContent className="pt-6">
-								<div className="text-center py-8">
-									<Trophy className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600">No past events yet</p>
-								</div>
-							</CardContent>
-						</Card>
-					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-							{pastEvents.map((registration) => (
-								<EventCard
-									key={registration.id}
-									registration={registration}
-									onViewEvent={handleViewEvent}
-									showCertificate={true}
-								/>
-							))}
-						</div>
-					)}
+						{isLoading ? (
+							<div className="flex items-center justify-center py-12">
+								<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+							</div>
+						) : pastEvents.length === 0 ? (
+							<Card>
+								<CardContent className="pt-6">
+									<div className="text-center py-8">
+										<Trophy className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+										<p className="text-gray-600">
+											No past events yet
+										</p>
+									</div>
+								</CardContent>
+							</Card>
+						) : (
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{pastEvents.map((registration) => (
+									<EventCard
+										key={registration.id}
+										registration={registration}
+										onViewEvent={handleViewEvent}
+										showCertificate={true}
+									/>
+								))}
+							</div>
+						)}
 					</div>
 				)}
 
 				{/* Waitlist Tab */}
 				{activeTab === "waitlist" && (
 					<div className="space-y-6">
-					{isLoading ? (
-						<div className="flex items-center justify-center py-12">
-							<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
-						</div>
-					) : waitlistedEvents.length === 0 ? (
-						<Card>
-							<CardContent className="pt-6">
-								<div className="text-center py-8">
-									<Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600">You're not on any waitlists</p>
-								</div>
-							</CardContent>
-						</Card>
-					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-							{waitlistedEvents.map((registration) => (
-								<EventCard
-									key={registration.id}
-									registration={registration}
-									onViewEvent={handleViewEvent}
-								/>
-							))}
-						</div>
-					)}
+						{isLoading ? (
+							<div className="flex items-center justify-center py-12">
+								<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+							</div>
+						) : waitlistedEvents.length === 0 ? (
+							<Card>
+								<CardContent className="pt-6">
+									<div className="text-center py-8">
+										<Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+										<p className="text-gray-600">
+											You're not on any waitlists
+										</p>
+									</div>
+								</CardContent>
+							</Card>
+						) : (
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{waitlistedEvents.map((registration) => (
+									<EventCard
+										key={registration.id}
+										registration={registration}
+										onViewEvent={handleViewEvent}
+									/>
+								))}
+							</div>
+						)}
 					</div>
 				)}
 			</div>
@@ -424,14 +506,18 @@ interface EventCardProps {
 	showCertificate?: boolean;
 }
 
-const EventCard = ({ registration, onViewEvent, showCertificate = false }: EventCardProps) => {
+const EventCard = ({
+	registration,
+	onViewEvent,
+	showCertificate = false,
+}: EventCardProps) => {
 	const { event } = registration;
 	const eventDate = new Date(event.date);
-	const formattedDate = eventDate.toLocaleDateString('en-US', {
-		weekday: 'long',
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
+	const formattedDate = eventDate.toLocaleDateString("en-US", {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
 	});
 
 	return (
@@ -442,15 +528,19 @@ const EventCard = ({ registration, onViewEvent, showCertificate = false }: Event
 						<h3 className="font-semibold text-lg text-gray-900 mb-1">
 							{event.title}
 						</h3>
-						<p className="text-sm text-gray-600 mb-2">{event.category}</p>
+						<p className="text-sm text-gray-600 mb-2">
+							{event.category}
+						</p>
 					</div>
-					<span className={`px-2 py-1 rounded-full text-xs font-medium ${
-						registration.status === "confirmed"
-							? "bg-green-100 text-green-800"
-							: registration.status === "waitlist"
-							? "bg-yellow-100 text-yellow-800"
-							: "bg-red-100 text-red-800"
-					}`}>
+					<span
+						className={`px-2 py-1 rounded-full text-xs font-medium ${
+							registration.status === "confirmed"
+								? "bg-green-100 text-green-800"
+								: registration.status === "waitlist"
+								? "bg-yellow-100 text-yellow-800"
+								: "bg-red-100 text-red-800"
+						}`}
+					>
 						{registration.status}
 					</span>
 				</div>
