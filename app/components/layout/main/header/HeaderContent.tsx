@@ -57,7 +57,7 @@ const HeaderContent = () => {
 					</Link>
 
 					{/* Desktop Navigation - Centered */}
-					<nav className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+					<nav className="hidden lg:block absolute left-1/2 transform -translate-x-1/2">
 						<NavigationMenu>
 							<NavigationMenuList className="space-x-6">
 								{mainNavLinks.map((link) => (
@@ -116,7 +116,7 @@ const HeaderContent = () => {
 						{/* Hamburger (Mobile) */}
 						<Button
 							variant={"ghost"}
-							className="md:hidden !p-2 rounded hover:bg-gray-100 text-base"
+							className="lg:hidden !p-2 rounded hover:bg-gray-100 text-base"
 							onClick={() => setMobileOpen(true)}
 							aria-label="Open menu"
 						>
