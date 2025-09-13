@@ -4,6 +4,8 @@ import type { NextRequest } from "next/server";
 // Treat all routes as protected by default, with a small public allowlist
 const PUBLIC_PATTERNS: RegExp[] = [
 	/^\/(login|signup|verify-email)\/?$/,
+	/^\/(about|contact|events|gallery)?\/?$/,
+	/^\/$/,
 	/^\/api\/auth(\/.*)?$/,
 	/^\/_next\/.*/,
 	/^\/_static\/.*/,
