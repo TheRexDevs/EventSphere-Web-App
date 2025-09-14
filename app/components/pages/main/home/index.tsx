@@ -18,7 +18,6 @@ const HomePage = () => {
 	const [featured, setFeatured] = useState<Event[]>([]);
 	const [loadingFeatured, setLoadingFeatured] = useState(true);
 
-
 	useEffect(() => {
 		const load = async () => {
 			try {
