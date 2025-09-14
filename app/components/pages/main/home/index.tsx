@@ -42,12 +42,13 @@ const IndexPage = () => {
 
 					{/* Show Search if logged in */}
 					{user ? (
-						<form className="mt-10 flex w-full max-w-md items-center rounded-full bg-white p-1 shadow-md">
+						<form className="mt-10 flex w-full max-w-2xl items-center rounded-full bg-white p-1 shadow-md mx-auto overflow-hidden">
 							<Input
 								placeholder="Search Events, Categories....."
 								className="!text-black !bg-white !flex-1 !border-none !outline-none !ring-0 !shadow-none
-                            !focus:outline-none !focus-visible:outline-none !focus:ring-0 !focus:border-0
-                            !focus:ring-transparent !focus:ring-offset-0 !focus-visible:border-none !focus-visible:ring-0"
+      !focus:outline-none !focus-visible:outline-none !focus:ring-0 !focus:border-0
+      !focus:ring-transparent !focus:ring-offset-0 !focus-visible:border-none !focus-visible:ring-0 
+      !rounded-full !px-4 !py-2"
 							/>
 							<button
 								type="submit"
