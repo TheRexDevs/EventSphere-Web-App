@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/app/components/ui/button";
 import {
 	Select,
@@ -13,18 +13,16 @@ import HeroSection from "@/app/components/common/hero";
 import EventCard, { EventData } from "@/app/components/common/event-card";
 
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/contexts/AuthContext";
 
 import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
+    Card,
+    CardContent,
+    CardHeader
 } from "@/app/components/ui/card";
-import ConfirmDialog from "@/app/components/ui/confirm-dialog";
-import { Plus } from "lucide-react";
+// Removed unused imports: ConfirmDialog, CardTitle, Plus
 
 import { Skeleton } from "@/app/components/ui/skeleton";
+import type { ListEventsRequest } from "@/types/events";
 import { getEvents, getEventCategories } from "@/lib/api/events";
 import { Event, EventCategory } from "@/types/events";
 import { ApiError } from "@/lib/utils/api";
@@ -75,21 +73,50 @@ function convertEventToEventData(event: Event): EventData {
 		day: 'numeric'
 	});
 
+	// Convert time from "09:00:00" to "9:00 AM" format
+	const formatTime = (timeStr: string) => {
+		const [hours, minutes] = timeStr.split(':');
+		const hour = parseInt(hours);
+		const ampm = hour >= 12 ? 'PM' : 'AM';
+		const displayHour = hour % 12 || 12;
+		return `${displayHour}:${minutes} ${ampm}`;
+	};
+
+	// Map API status to EventData status
+	const mapStatus = (apiStatus: string): "ongoing" | "coming-soon" | "ended" => {
+		switch (apiStatus) {
+			case "approved":
+				return "coming-soon";
+			case "pending":
+				return "coming-soon";
+			case "rejected":
+				return "ended";
+			default:
+				return "coming-soon";
+		}
+	};
+
 	const availability: "available" | "full" | "cancelled" =
-		event.available_slots > 0 ? "available" : "full";
+		event.max_participants > 0 ? "available" : "full";
+
+	// Coerce featured image to a string URL
+	const featuredImageUrl =
+		typeof (event as any).featured_image === 'string'
+			? ((event as any).featured_image as string)
+			: (event as any).featured_image?.url ?? "";
 
 	return {
 		id: event.id,
 		title: event.title,
 		description: event.description,
 		date: formattedDate,
-		time: event.time,
+		time: formatTime(event.time),
 		location: event.venue,
-		image: event.image_url || "", // Ensure we always have a string, even if empty
+		image: featuredImageUrl,
 		category: event.category,
-		status: event.status,
+		status: mapStatus(event.status),
 		availability,
-		tags: event.tags || [], // Ensure tags is always an array
+		tags: [], // API doesn't provide tags, so empty array
 	};
 }
 
@@ -107,7 +134,6 @@ const EventsPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
 
 	const [filters, setFilters] = useState({
@@ -118,7 +144,7 @@ const EventsPage = () => {
 	});
 
 	const router = useRouter();
-	const { user } = useAuth();
+	// const { user } = useAuth();
 
 	const handleFilterChange = (filterType: string, value: string) => {
 		setFilters((prev) => ({
@@ -143,7 +169,7 @@ const EventsPage = () => {
 				setIsLoadingMore(true);
 			}
 
-			const params: any = {
+			const params: { page: number; per_page: number; category_id?: string; status?: string } = {
 				page,
 				per_page: 20,
 			};
@@ -158,7 +184,7 @@ const EventsPage = () => {
 			}
 
 			if (filters.status !== "All Events") {
-				const statusMap: { [key: string]: string } = {
+				const statusMap: { [key: string]: "ongoing" | "coming-soon" | "ended" } = {
 					"Ongoing": "ongoing",
 					"Coming Soon": "coming-soon",
 					"Ended": "ended"
@@ -166,7 +192,8 @@ const EventsPage = () => {
 				params.status = statusMap[filters.status];
 			}
 
-			const response = await getEvents(params);
+			// Ensure status is one of the allowed union or undefined
+			const response = await getEvents(params as ListEventsRequest);
 
 			if (append) {
 				setEvents(prev => [...prev, ...response.events]);
@@ -174,7 +201,6 @@ const EventsPage = () => {
 				setEvents(response.events);
 			}
 
-			setTotalPages(response.total_pages);
 			setHasMore(page < response.total_pages);
 			setCurrentPage(page);
 
@@ -208,6 +234,7 @@ const EventsPage = () => {
 	// Load events when filters change
 	useEffect(() => {
 		loadEvents(1, false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [filters, categories]); // categories dependency ensures we wait for categories to load
 
 	const handleLoadMore = () => {
@@ -358,12 +385,12 @@ const EventsPage = () => {
 									<div className="text-center py-16">
 										<h3 className="text-xl font-semibold text-gray-900 mb-2">
 											No events found
-										</h3>
-										<p className="text-gray-600">
-											Try adjusting your filters or check back
-											later for new events.
-										</p>
-									</div>
+											</h3>
+											<p className="text-gray-600">
+												Try adjusting your filters or check back
+												later for new events.
+											</p>
+										</div>
 								)}
 
 								{/* Load More Button */}

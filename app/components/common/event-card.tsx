@@ -85,7 +85,7 @@ export default function EventCard({
 		>
 			{/* Image Section */}
 			<div className="relative h-48 w-full">
-				{image && image.trim() !== "" ? (
+				{typeof image === "string" && image.trim() !== "" ? (
 					<Image
 						src={image}
 						alt={title}
@@ -185,7 +185,7 @@ export default function EventCard({
 				{/* Action Button */}
 				<Button
 					shape="rounded"
-					className="w-full bg-green-600 hover:bg-green-700 text-white font-medium"
+					className="w-full font-medium"
 					onClick={() => onViewDetails?.(id)}
 				>
 					View Details

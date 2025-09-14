@@ -4,25 +4,31 @@
 
 import { ApiResponse } from "./auth";
 
-// Event data structure
+// Event organizer data structure
+export interface EventOrganizer {
+  id: string;
+  email: string;
+  full_name: string;
+  username: string;
+}
+
+// Event data structure (matches API response)
 export interface Event {
   id: string;
   title: string;
   description: string;
   category: string;
   category_id: string;
-  date: string; // ISO date string
-  time: string; // Time string like "2:00pm"
+  date: string; // ISO date string (YYYY-MM-DD)
+  time: string; // Time string like "09:00:00"
   venue: string;
   organizer_id: string;
-  organizer_name: string;
-  status: "ongoing" | "coming-soon" | "ended";
+  organizer: EventOrganizer;
+  status: "approved" | "pending" | "rejected";
   capacity: number;
-  available_slots: number;
-  booked_slots: number;
-  image_url: string;
-  gallery_images?: string[];
-  tags: string[];
+  max_participants: number;
+  featured_image: string | null;
+  gallery_images: string[];
   created_at: string;
   updated_at: string;
   is_registered?: boolean; // For authenticated users
@@ -56,7 +62,7 @@ export type ListEventsResponse = ApiResponse<{
   total_pages: number;
 }>;
 
-export type GetEventResponse = ApiResponse<Event>;
+export type GetEventResponse = ApiResponse<{ event: Event }>;
 
 export type ListCategoriesResponse = ApiResponse<{
   categories: EventCategory[];

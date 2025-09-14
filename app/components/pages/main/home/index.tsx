@@ -2,30 +2,37 @@
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from "@/app/components/ui/card";
-import { Button } from "@/app/components/ui/button";
-import { Plus, Calendar, Users, Star } from "lucide-react";
+import { Card } from "@/app/components/ui/card";
+import Counter from "@/app/components/common/counter";
+import EventCard from "@/app/components/common/event-card";
+import HeroSection from "@/app/components/common/hero";
+import { getEvents } from "@/lib/api/events";
+import { Event } from "@/types/events";
+import { useEffect, useState } from "react";
+import { ApiError } from "@/lib/utils/api";
+import { showToast } from "@/lib/utils/toast";
 
 const HomePage = () => {
 	const router = useRouter();
 	const { user, isLoading } = useAuth();
+	const [featured, setFeatured] = useState<Event[]>([]);
+	const [loadingFeatured, setLoadingFeatured] = useState(true);
 
-	const handleViewEvents = () => {
-		router.push("/events");
-	};
 
-	const handleLogin = () => {
-		router.push("/login");
-	};
-
-	const handleSignup = () => {
-		router.push("/signup");
-	};
+	useEffect(() => {
+		const load = async () => {
+			try {
+				setLoadingFeatured(true);
+				const res = await getEvents({ page: 1, per_page: 6 });
+				setFeatured(res.events.slice(0, 6));
+			} catch (error) {
+				if (error instanceof ApiError) showToast.error(error.message);
+			} finally {
+				setLoadingFeatured(false);
+			}
+		};
+		load();
+	}, []);
 
 	if (isLoading) {
 		return (
@@ -40,111 +47,97 @@ const HomePage = () => {
 	}
 
 	return (
-		<div className="w-site space-y-8">
-			{/* Welcome Section */}
-			<div className="text-center space-y-4">
-				<h1 className="text-3xl font-bold text-gray-900">
-					{user ? "Welcome back!" : "Welcome to Event Sphere"}
-				</h1>
-				<p className="text-gray-600 max-w-2xl mx-auto">
-					{user
-						? "Manage your events and discover new opportunities"
-						: "Discover and participate in amazing events happening around you"}
-				</p>
-			</div>
+		<>
+			{/* Hero Section using shared component */}
+			<HeroSection
+				title="Discover Amazing Campus events"
+				subtitle="Join thoudsand of stundents in creating unforgetable memomries"
+				ctas={[
+					{ link: "/events", label: "Browse Events" },
+					...(user
+						? []
+						: [
+								{
+									link: "/signup",
+									label: "Get Started",
+									colorType: "secondary" as const,
+								},
+						]),
+				]}
+				height="50svh"
+				alignment="center"
+			/>
 
-			{/* Quick Actions */}
-			<Card>
-				<CardHeader>
-					<CardTitle>Quick Actions</CardTitle>
-				</CardHeader>
-				<CardContent className="flex flex-wrap gap-4">
-					{user ? (
-						<>
-							<Button
-								onClick={() => {}}
-								className="flex items-center gap-2"
-							>
-								<Plus className="h-4 w-4" />
-								Create New Event
-							</Button>
-							<Button
-								onClick={handleViewEvents}
-								variant="outline"
-							>
-								View All Events
-							</Button>
-						</>
+			{/* Counters Section */}
+			<section className="py-12 pb-8 bg-white">
+				<div className="w-site">
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+							<Counter end={150} suffix="+" label="Active users" />
+							<Counter
+								end={25000}
+								suffix="+"
+								label="Students joined"
+							/>
+							<Counter
+								end={500}
+								suffix="+"
+								label="Events this year"
+							/>
+							<Counter end={50} suffix="+" label="Organizers" />
+					</div>
+				</div>
+			</section>
+
+			<div className="w-site space-y-16">
+				{/* Featured Events */}
+				<section className="space-y-12 py-16">
+					<div className="text-center space-y-2">
+						<h2 className="text-2xl md:text-3xl font-bold">
+							Featured event
+						</h2>
+						<p className="text-gray-600 text-base lg:text-lg">
+							Don’t Miss THis Amazing Upcoming Events
+						</p>
+					</div>
+
+					{loadingFeatured ? (
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{Array.from({ length: 6 }).map((_, i) => (
+								<Card key={i} className="h-64 animate-pulse" />
+							))}
+						</div>
 					) : (
-						<>
-							<Button
-								onClick={handleLogin}
-								className="flex items-center gap-2"
-							>
-								Login
-							</Button>
-							<Button onClick={handleSignup} variant="outline">
-								Sign Up
-							</Button>
-							<Button
-								onClick={handleViewEvents}
-								variant="outline"
-							>
-								Browse Events
-							</Button>
-						</>
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{featured.slice(0, 6).map((ev) => (
+								<EventCard
+									key={ev.id}
+									event={{
+										id: ev.id,
+										title: ev.title,
+										description: ev.description,
+										date: new Date(
+											ev.date
+										).toLocaleDateString(),
+										time: ev.time,
+										location: ev.venue,
+										image: ev.featured_image || "",
+										category: ev.category,
+										status: "coming-soon",
+										availability: "available",
+										tags: [],
+									}}
+									onViewDetails={(id) =>
+										router.push(`/events/${id}`)
+									}
+									className="h-full"
+									detailed={false}
+								/>
+							))}
+						</div>
 					)}
-				</CardContent>
-			</Card>
-
-			{/* Features Overview */}
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<Calendar className="h-5 w-5" />
-							Discover Events
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<p className="text-gray-600">
-							Browse through a variety of events happening in your
-							area
-						</p>
-					</CardContent>
-				</Card>
-
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<Users className="h-5 w-5" />
-							Connect
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<p className="text-gray-600">
-							Meet like-minded people and build your network
-						</p>
-					</CardContent>
-				</Card>
-
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<Star className="h-5 w-5" />
-							Create & Manage
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<p className="text-gray-600">
-							{user
-								? "Organize your own events and manage registrations"
-								: "Sign up to create and manage your own events"}
-						</p>
-					</CardContent>
-				</Card>
+				</section>
 			</div>
-		</div>
+		</>
 	);
 };
 

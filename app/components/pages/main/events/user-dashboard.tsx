@@ -11,18 +11,13 @@ import {
 	Trophy,
 	Download,
 	Settings,
-	Bell,
 	Image as ImageIcon,
 	AlertCircle,
 	Loader2,
-	CheckCircle,
-	XCircle,
 	ChevronRight
 } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
-// Using simple state-based tab switching
-import { Separator } from "@/app/components/ui/separator";
 import { Alert, AlertDescription } from "@/app/components/ui/alert";
 
 import { useAuth } from "@/app/contexts/AuthContext";
@@ -37,7 +32,7 @@ const UserDashboard = () => {
 	const [activeTab, setActiveTab] = useState("overview");
 
 	const router = useRouter();
-	const { user, logout } = useAuth();
+	const { user } = useAuth();
 
 	const loadRegistrations = async () => {
 		try {
@@ -60,20 +55,20 @@ const UserDashboard = () => {
 		loadRegistrations();
 	}, []);
 
+	// Map backend statuses to UI groupings
+	const isUpcoming = (status: string) => status === "approved" || status === "pending";
+	const isPast = (status: string) => status === "rejected";
+
 	const upcomingEvents = registrations.filter(reg =>
-		reg.event.status === "coming-soon" && reg.status === "confirmed"
+		isUpcoming(reg.event.status) && reg.status === "confirmed"
 	);
 
 	const pastEvents = registrations.filter(reg =>
-		reg.event.status === "ended" && reg.status === "confirmed"
+		isPast(reg.event.status) && reg.status === "confirmed"
 	);
 
 	const waitlistedEvents = registrations.filter(reg =>
 		reg.status === "waitlist"
-	);
-
-	const cancelledEvents = registrations.filter(reg =>
-		reg.status === "cancelled"
 	);
 
 	const handleViewEvent = (eventId: string) => {
@@ -395,7 +390,7 @@ const UserDashboard = () => {
 							<CardContent className="pt-6">
 								<div className="text-center py-8">
 									<Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600">You're not on any waitlists</p>
+									<p className="text-gray-600">{"You're not on any waitlists"}</p>
 								</div>
 							</CardContent>
 						</Card>

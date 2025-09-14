@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import Carousel3D from "./carousel-3d";
-import Counter from "./counter";
+import Counter from "@/app/components/common/counter";
 
 const AboutPage = () => {
 	return (
@@ -145,25 +145,19 @@ const AboutPage = () => {
 
 					<div className="w-[90%] grid grid-cols-2 md:grid-cols-4 gap-8 m-auto">
 						<div className="text-center">
-							<Counter end={50000} suffix="+" />
-							<p className="text-[#545454] text-center">Active students</p>
+							<Counter end={50000} suffix="+" label="Active students" />
 						</div>
 
 						<div className="text-center">
-							<Counter end={1200} suffix="+" />
-							<p className="text-[#545454] text-center">Events Hosted</p>
+							<Counter end={1200} suffix="+" label="Events Hosted" />
 						</div>
 
 						<div className="text-center">
-							<Counter end={95} suffix="%" />
-							<p className="text-[#545454] text-center">User Satisfaction</p>
+							<Counter end={95} suffix="%" label="User Satisfaction" />
 						</div>
 
 						<div className="text-center">
-							<Counter end={24} suffix="/7" />
-							<p className="text-[#545454] text-center">
-								Platform availability
-							</p>
+							<Counter end={24} suffix="/7" label="Platform availability" />
 						</div>
 					</div>
 				</div>

@@ -14,7 +14,7 @@ const cardVariants = cva("", {
 		},
 	},
 	defaultVariants: {
-		rounded: "none", // Changed to match base class
+		rounded: "xl", // Changed to match base class
 	},
 });
 

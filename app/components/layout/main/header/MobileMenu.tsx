@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Store, User, Shield, LogOut, X } from "lucide-react";
+import { User, LogOut, X, CalendarCheck } from "lucide-react";
 
 import { Button } from "@/app/components/ui/button";
 import NavLink from "./NavLink";
@@ -33,14 +33,9 @@ const MobileMenu = ({
 			icon: <User className="h-4 w-4" />,
 		},
 		{
-			href: "/security",
-			label: "Security",
-			icon: <Shield className="h-4 w-4" />,
-		},
-		{
-			href: "/billing",
-			label: "Billing & Plans",
-			icon: <User className="h-4 w-4" />,
+			href: "/events/registered",
+			label: "Registered Events",
+			icon: <CalendarCheck className="h-4 w-4" />,
 		},
 	];
 

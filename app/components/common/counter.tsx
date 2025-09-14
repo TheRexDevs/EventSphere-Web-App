@@ -1,17 +1,23 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 
 interface CounterProps {
+	/** Final value to count up to */
 	end: number;
-	duration?: number;
+	/** Optional label rendered under the number */
+	label?: string;
+	/** Optional suffix appended to the number (e.g. "+", "%") */
 	suffix?: string;
+	/** Animation duration in ms */
+	duration?: number;
 }
 
-export default function Counter({
-	end,
-	duration = 2000,
-	suffix = "",
-}: CounterProps) {
+/**
+ * Animated counter that starts when it becomes visible in the viewport.
+ * Renders an optional label beneath the animated value.
+ */
+export default function Counter({ end, label, suffix = "", duration = 2000 }: CounterProps) {
 	const [count, setCount] = useState(0);
 	const ref = useRef<HTMLDivElement | null>(null);
 
@@ -27,15 +33,9 @@ export default function Counter({
 
 			const step = (timestamp: number) => {
 				if (!startTimestamp) startTimestamp = timestamp;
-				const progress = Math.min(
-					(timestamp - startTimestamp) / duration,
-					1
-				);
+				const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 				setCount(Math.floor(progress * end));
-
-				if (progress < 1) {
-					requestAnimationFrame(step);
-				}
+				if (progress < 1) requestAnimationFrame(step);
 			};
 
 			requestAnimationFrame(step);
@@ -57,13 +57,19 @@ export default function Counter({
 		return () => observer && observer.disconnect();
 	}, [end, duration]);
 
-	// format with commas
 	const formatted = new Intl.NumberFormat().format(count);
 
 	return (
-		<div ref={ref} className="text-[32px] font-bold text-primary text-center">
-			{formatted}
-			{suffix}
+		<div className="flex flex-col items-center">
+			<div ref={ref} className="text-[32px] md:text-[40px] font-bold text-primary leading-none">
+				{formatted}
+				{suffix}
+			</div>
+			{label && (
+				<p className="text-[#545454] text-center mt-2 text-sm md:text-base">{label}</p>
+			)}
 		</div>
 	);
 }
+
+

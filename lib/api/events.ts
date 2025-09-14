@@ -15,7 +15,7 @@ import {
   GetUserRegistrationsResponse,
   GetRegistrationDetailsResponse,
 } from "@/types/events";
-import { apiGet, apiPost, apiDelete } from "@/lib/utils/api";
+import { apiGet, apiPost, apiDelete, tokenManager } from "@/lib/utils/api";
 
 /**
  * Get paginated list of public events
@@ -45,7 +45,7 @@ export async function getEvents(params: ListEventsRequest = {}): Promise<ListEve
  */
 export async function getEvent(eventId: string): Promise<Event> {
   const response = await apiGet<GetEventResponse>(`/api/v1/events/${eventId}`);
-  return response.data;
+  return response.data.event; // API returns { data: { event: {...} } }
 }
 
 /**
@@ -63,7 +63,11 @@ export async function getEventCategories(): Promise<EventCategory[]> {
  * @returns Registration confirmation
  */
 export async function registerForEvent(eventId: string): Promise<RegisterForEventResponse["data"]> {
-  const response = await apiPost<RegisterForEventResponse>(`/api/v1/events/${eventId}/register`);
+  const response = await apiPost<RegisterForEventResponse>(
+    `/api/v1/events/${eventId}/register`,
+    undefined, // No body needed as per API spec
+    tokenManager.getAuthHeader() // Use token manager for auth header
+  );
   return response.data;
 }
 
@@ -73,7 +77,10 @@ export async function registerForEvent(eventId: string): Promise<RegisterForEven
  * @returns Cancellation confirmation
  */
 export async function cancelEventRegistration(eventId: string): Promise<CancelRegistrationResponse["data"]> {
-  const response = await apiDelete<CancelRegistrationResponse>(`/api/v1/events/${eventId}/register`);
+  const response = await apiDelete<CancelRegistrationResponse>(
+    `/api/v1/events/${eventId}/register`,
+    tokenManager.getAuthHeader() // Use token manager for auth header
+  );
   return response.data;
 }
 
@@ -93,7 +100,8 @@ export async function getUserRegistrations(
   });
 
   const response = await apiGet<GetUserRegistrationsResponse>(
-    `/api/v1/user/registrations?${queryParams.toString()}`
+    `/api/v1/registrations?${queryParams.toString()}`,
+    tokenManager.getAuthHeader() // Use token manager for auth header
   );
   return response.data;
 }
@@ -105,7 +113,8 @@ export async function getUserRegistrations(
  */
 export async function getEventRegistrationDetails(eventId: string): Promise<EventRegistration> {
   const response = await apiGet<GetRegistrationDetailsResponse>(
-    `/api/v1/events/${eventId}/registration`
+    `/api/v1/events/${eventId}/registration`,
+    tokenManager.getAuthHeader() // Use token manager for auth header
   );
   return response.data.registration;
 }

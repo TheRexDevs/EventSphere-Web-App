@@ -53,7 +53,7 @@ const OTPSlotVariants = cva(
 		},
 		defaultVariants: {
 			size: "default",
-			shape: "square", // Changed to match base class
+			shape: "rounded", // Changed to match base class
 		},
 	}
 );

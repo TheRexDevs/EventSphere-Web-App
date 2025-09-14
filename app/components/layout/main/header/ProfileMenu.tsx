@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from '@/app/components/ui/button';
-import { User, Shield, LogOut } from "lucide-react";
+import { User, LogOut, CalendarCheck } from "lucide-react";
 
 interface ProfileMenuProps {
 	isOpen: boolean;
@@ -22,14 +22,9 @@ const ProfileMenu = ({
 			icon: <User className="h-4 w-4 mr-2" />,
 		},
 		{
-			href: "/security",
-			label: "Security",
-			icon: <Shield className="h-4 w-4 mr-2" />,
-		},
-		{
-			href: "/billing",
-			label: "Billing & Plans",
-			icon: <User className="h-4 w-4 mr-2" />,
+			href: "/events/registered",
+			label: "Registered Events",
+			icon: <CalendarCheck className="h-4 w-4 mr-2" />,
 		},
 	];
 

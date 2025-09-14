@@ -1,6 +1,15 @@
 import { toast } from "sonner";
 
 export const showToast = {
+	/**
+	 * Show an informational toast message.
+	 */
+	info: (message: string) => {
+		toast(message, {
+			duration: 4000,
+			className: "bg-background text-foreground",
+		});
+	},
 	success: (message: string) => {
 		toast.success(message, {
 			duration: 4000,
