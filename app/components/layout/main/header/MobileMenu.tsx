@@ -1,9 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { Store, User, Shield, LogOut, X } from "lucide-react";
-
 import { Button } from "@/app/components/ui/button";
 import NavLink from "./NavLink";
-import ProtectedLayout from "../../protected-layout";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 interface MobileMenuProps {
 	isOpen: boolean;
@@ -26,6 +27,8 @@ const MobileMenu = ({
 	onLogout,
 	isActive,
 }: MobileMenuProps) => {
+	const { user } = useAuth();
+
 	const profileLinks = [
 		{
 			href: "/account",
@@ -37,7 +40,6 @@ const MobileMenu = ({
 			label: "Registered event",
 			icon: <Shield className="h-4 w-4 mr-2" />,
 		},
-
 		{
 			href: "/certificate",
 			label: "Certificate",
@@ -99,8 +101,7 @@ const MobileMenu = ({
 						))}
 					</ul>
 
-					{/* Profile Section */}
-					<ProtectedLayout>
+					{user ? (
 						<ul className="flex flex-col mt-8 border-t pt-4 space-y-2">
 							{profileLinks.map((link) => (
 								<NavLink
@@ -125,7 +126,25 @@ const MobileMenu = ({
 								Logout
 							</Button>
 						</ul>
-					</ProtectedLayout>
+					) : (
+						<div className="flex flex-col mt-8 border-t pt-4 space-y-2">
+							<Button
+								asChild
+								variant="outline"
+								className="w-full text-base font-medium"
+								onClick={onClose}
+							>
+								<Link href="/login">Log In</Link>
+							</Button>
+							<Button
+								asChild
+								className="w-full text-base font-medium"
+								onClick={onClose}
+							>
+								<Link href="/signup">Sign Up</Link>
+							</Button>
+						</div>
+					)}
 				</nav>
 			</div>
 		</div>
