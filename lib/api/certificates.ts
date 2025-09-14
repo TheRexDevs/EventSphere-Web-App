@@ -3,7 +3,6 @@
  */
 
 import {
-  Certificate,
   GetUserCertificatesResponse,
   DownloadCertificateResponse,
 } from "@/types/certificates";

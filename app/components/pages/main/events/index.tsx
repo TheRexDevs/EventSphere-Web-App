@@ -28,6 +28,9 @@ import { Event, EventCategory } from "@/types/events";
 import { ApiError } from "@/lib/utils/api";
 import { showToast } from "@/lib/utils/toast";
 
+// Type definitions for image fields that can be strings or objects with url
+type ImageField = string | { url: string } | null;
+
 function EventCardSkeleton() {
 	return (
 		<Card className="hover:shadow-lg transition-shadow">
@@ -101,9 +104,9 @@ function convertEventToEventData(event: Event): EventData {
 
 	// Coerce featured image to a string URL
 	const featuredImageUrl =
-		typeof (event as any).featured_image === 'string'
-			? ((event as any).featured_image as string)
-			: (event as any).featured_image?.url ?? "";
+		typeof (event.featured_image as ImageField) === 'string'
+			? (event.featured_image as string)
+			: (event.featured_image as { url: string } | null)?.url ?? "";
 
 	return {
 		id: event.id,

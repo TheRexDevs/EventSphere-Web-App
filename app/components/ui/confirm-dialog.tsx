@@ -74,7 +74,7 @@ export default function ConfirmDialog({
 	}, [open, onOpenChange]);
 
 	const confirming = manageLoading ? internalLoading : !!isLoading;
-	const confirmVariant = destructive ? "destructive" : "default";
+	const confirmVariant: "destructive" | "default" = destructive ? "destructive" : "default";
 
 	const handleConfirm = async () => {
 		if (manageLoading) setInternalLoading(true);
@@ -119,7 +119,7 @@ export default function ConfirmDialog({
 						</Button>
 						<Button
 							type="button"
-							variant={confirmVariant as any}
+							variant={confirmVariant}
 							onClick={handleConfirm}
 							disabled={confirming}
 						>
