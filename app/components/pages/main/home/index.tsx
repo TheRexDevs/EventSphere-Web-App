@@ -65,6 +65,7 @@ const HomePage = () => {
 				]}
 				height="50svh"
 				alignment="center"
+				backgroundImageUrl="/hero-1.jpg"
 			/>
 
 			{/* Counters Section */}
