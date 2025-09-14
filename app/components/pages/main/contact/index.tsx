@@ -22,10 +22,8 @@ import { Textarea } from "@/app/components/ui/textarea";
 import { Button } from "@/app/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/app/components/ui/card";
 
-
-
 const ContactPage = () => {
-    const form = useForm<ContactFormValues>({
+	const form = useForm<ContactFormValues>({
 		resolver: zodResolver(contactSchema),
 		defaultValues: {
 			name: "",
@@ -35,14 +33,41 @@ const ContactPage = () => {
 		},
 	});
 
-	const onSubmit = (values: ContactFormValues) => {
-		console.log("Contact form submitted:", values);
+	const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovnboar";
+
+	const onSubmit = async (values: ContactFormValues) => {
+		try {
+			const response = await fetch(FORMSPREE_ENDPOINT, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify(values),
+			});
+
+			if (response.ok) {
+				alert("✅ Message sent successfully!");
+				form.reset({
+					name: "",
+					email: "",
+					subject: "",
+					message: "",
+				}); // 🔹 Clear all fields explicitly
+			} else {
+				alert("❌ Something went wrong. Please try again.");
+			}
+		} catch (error) {
+			console.error(error);
+			alert("⚠️ Network error, please try again later.");
+		}
 	};
 
-    const address = "/address.png"
-    const phone = "/call.png";
-    const whatsapp = "/whatsapp.png";
-    const email = "/email.png";
+	const address = "/address.png";
+	const phone = "/call.png";
+	const whatsapp = "/whatsapp.png";
+	const email = "/email.png";
+
 	return (
 		<>
 			{/* Hero Section */}
@@ -84,6 +109,12 @@ const ContactPage = () => {
 										onSubmit={form.handleSubmit(onSubmit)}
 										className="space-y-6"
 									>
+										<input
+											type="hidden"
+											name="_subject"
+											value="New Contact Form Submission"
+										/>
+
 										<FormField
 											control={form.control}
 											name="name"
@@ -96,6 +127,11 @@ const ContactPage = () => {
 														<Input
 															placeholder="Your full name"
 															{...field}
+															name="name"
+															value={field.value}
+															onChange={
+																field.onChange
+															}
 															shape={"rounded"}
 														/>
 													</FormControl>
@@ -117,6 +153,11 @@ const ContactPage = () => {
 															type="email"
 															placeholder="you@example.com"
 															{...field}
+															name="email"
+															value={field.value}
+															onChange={
+																field.onChange
+															}
 															shape={"rounded"}
 														/>
 													</FormControl>
@@ -137,6 +178,11 @@ const ContactPage = () => {
 														<Input
 															placeholder="Subject of your message"
 															{...field}
+															name="subject"
+															value={field.value}
+															onChange={
+																field.onChange
+															}
 															shape={"rounded"}
 														/>
 													</FormControl>
@@ -156,9 +202,14 @@ const ContactPage = () => {
 													<FormControl>
 														<Textarea
 															rows={5}
-															shape={"rounded"}
 															placeholder="Write your message here..."
 															{...field}
+															name="message"
+															value={field.value}
+															onChange={
+																field.onChange
+															}
+															shape={"rounded"}
 														/>
 													</FormControl>
 													<FormMessage />
@@ -179,94 +230,85 @@ const ContactPage = () => {
 						</Card>
 
 						{/* Contact Info Grid */}
-						<div className="grid grid-cols-2 gap-6 mt-[60px]">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-[10px]">
 							{/* Phone */}
-							<div className="w-full">
+							<div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
 								<Image
 									src={phone}
 									alt="Phone"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
+									height={60}
+									width={60}
+									className="mb-4"
 								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
-										Phone Number
-									</h1>
-									<Link href="tel:+2340000000000">
-										<p className="text-center">
-											+234 000 000 0000
-										</p>
-									</Link>
-								</div>
+								<h1 className="text-lg font-semibold mb-2">
+									Phone Number
+								</h1>
+								<Link href="tel:+2340000000000">
+									<p className="text-gray-600 hover:text-green-700 transition">
+										+234 000 000 0000
+									</p>
+								</Link>
 							</div>
 
 							{/* Email */}
-							<div className="w-full">
+							<div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
 								<Image
 									src={email}
 									alt="Email"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
+									height={60}
+									width={60}
+									className="mb-4"
 								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
-										Email Address
-									</h1>
-									<Link href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,">
-										<p className="text-center">
-											Support@eventsphere.edu <br />
-											info@eventsphere.edu
-										</p>
-									</Link>
-								</div>
+								<h1 className="text-lg font-semibold mb-2">
+									Email Address
+								</h1>
+								<Link href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,">
+									<p className="text-gray-600 hover:text-green-700 transition text-center">
+										Support@eventsphere.edu <br />{" "}
+										info@eventsphere.edu
+									</p>
+								</Link>
 							</div>
 
 							{/* WhatsApp */}
-							<div className="w-full relative top-11">
+							<div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
 								<Image
 									src={whatsapp}
 									alt="WhatsApp"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
+									height={60}
+									width={60}
+									className="mb-4"
 								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
-										WhatsApp
-									</h1>
-									<Link
-										href="https://wa.me/2340000000000"
-										target="_blank"
-									>
-										<p className="text-center">
-											+234 000 000 0000
-										</p>
-									</Link>
-								</div>
+								<h1 className="text-lg font-semibold mb-2">
+									WhatsApp
+								</h1>
+								<Link
+									href="https://wa.me/2340000000000"
+									target="_blank"
+								>
+									<p className="text-gray-600 hover:text-green-700 transition">
+										+234 000 000 0000
+									</p>
+								</Link>
 							</div>
 
 							{/* Address */}
-							<div className="w-full">
+							<div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
 								<Image
 									src={address}
 									alt="Address"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
+									height={60}
+									width={60}
+									className="mb-4"
 								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
-										Address
-									</h1>
-									<p className=" ml-5">
-										Eventsphere Office <br />
-										Students Service Building, Room 201{" "}
-										<br />
-										University Campus, Lagos, Nigeria
-									</p>
-								</div>
+								<h1 className="text-lg font-semibold mb-2">
+									Address
+								</h1>
+								<p className="text-gray-600 text-center">
+									Eventsphere Office <br />
+									Students Service Building, Room 201 <br />
+									University Campus, Lagos, Nigeria
+								</p>
 							</div>
 						</div>
 					</div>
@@ -277,16 +319,12 @@ const ContactPage = () => {
 						style={{
 							backgroundImage: `url('/cont.jpg')`,
 						}}
-						className="relative h-[450px]  
-				   w-site bg-cover bg-center bg-no-repeat   m-auto cursor-pointer
-				   {small-screen:}  max-md:h-[300px]  max-md:w-full 
-				 
-				   "
+						className="relative h-[450px] w-site bg-cover bg-center bg-no-repeat m-auto cursor-pointer max-md:h-[300px] max-md:w-full"
 					>
 						<div className="absolute inset-0 bg-black opacity-30 z-0 "></div>
 
 						<div className="absolute inset-0 z-10 text-white flex justify-center items-center">
-							<p className="w-[40%]  text-[45px] text-center">
+							<p className="w-[40%] max-lg:w-[90%] max-lg:text-[30px] text-[45px] text-center">
 								We Are Always Ready To give you the Perfect
 								Event
 							</p>
