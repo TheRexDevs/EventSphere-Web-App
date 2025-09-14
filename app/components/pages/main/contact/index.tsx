@@ -94,7 +94,7 @@ const ContactPage = () => {
 			<div className="w-site mx-auto space-y-6">
 				{/* Contact Section */}
 				<section className="py-14">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-9 w-full max-w-6xl mx-auto">
+					<div className="grid grid-cols-2  max-lg:grid-cols-1 gap-9 w-full max-w-6xl mx-auto">
 						{/* Contact Form */}
 						<Card className="w-full" rounded={"xxl"}>
 							<CardHeader>
@@ -230,7 +230,7 @@ const ContactPage = () => {
 						</Card>
 
 						{/* Contact Info Grid */}
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-[10px]">
+						<div className="grid grid-cols-2 max-md:grid-cols-1 max-lg:grid-cols-1 gap-6 mt-[10px]">
 							{/* Phone */}
 							<div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
 								<Image
