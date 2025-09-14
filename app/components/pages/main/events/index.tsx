@@ -1,6 +1,17 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { Button } from "@/app/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/app/components/ui/select";
+import HeroSection from "@/app/components/common/hero";
+import EventCard, { EventData } from "@/app/components/common/event-card";
+
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 
@@ -10,11 +21,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/app/components/ui/card";
-import { Button } from "@/app/components/ui/button";
 import ConfirmDialog from "@/app/components/ui/confirm-dialog";
 import { Plus } from "lucide-react";
 
 import { Skeleton } from "@/app/components/ui/skeleton";
+import { getEvents, getEventCategories } from "@/lib/api/events";
+import { Event, EventCategory } from "@/types/events";
+import { ApiError } from "@/lib/utils/api";
+import { showToast } from "@/lib/utils/toast";
 
 function EventCardSkeleton() {
 	return (
@@ -52,39 +66,391 @@ function EventCardSkeleton() {
 	);
 }
 
+// Helper function to convert Event to EventData format for EventCard
+function convertEventToEventData(event: Event): EventData {
+	const date = new Date(event.date);
+	const formattedDate = date.toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
+
+	const availability: "available" | "full" | "cancelled" =
+		event.available_slots > 0 ? "available" : "full";
+
+	return {
+		id: event.id,
+		title: event.title,
+		description: event.description,
+		date: formattedDate,
+		time: event.time,
+		location: event.venue,
+		image: event.image_url || "", // Ensure we always have a string, even if empty
+		category: event.category,
+		status: event.status,
+		availability,
+		tags: event.tags || [], // Ensure tags is always an array
+	};
+}
+
+// Dynamic filter options
+const getFilterOptions = (categories: EventCategory[]) => ({
+	categories: ["All categories", ...categories.map((cat) => cat.name)],
+	dates: ["All Dates", "Today", "This Week", "This Month", "Next Month"],
+	status: ["All Events", "Ongoing", "Coming Soon", "Ended"],
+});
+
 const EventsPage = () => {
+	const [events, setEvents] = useState<Event[]>([]);
+	const [categories, setCategories] = useState<EventCategory[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+
+	const [filters, setFilters] = useState({
+		category: "All categories",
+		date: "All Dates",
+		status: "All Events",
+	});
+
 	const router = useRouter();
-	useAuth();
+	const { user } = useAuth();
 
+	const handleFilterChange = (filterType: string, value: string) => {
+		setFilters((prev) => ({
+			...prev,
+			[filterType]: value,
+		}));
+		// Reset pagination when filters change
+		setCurrentPage(1);
+		setHasMore(true);
+	};
 
+	const handleViewDetails = (eventId: string) => {
+		router.push(`/events/${eventId}`);
+	};
+
+	const loadEvents = async (page: number = 1, append: boolean = false) => {
+		try {
+			if (page === 1) {
+				setIsLoading(true);
+			} else {
+				setIsLoadingMore(true);
+			}
+
+			const params: any = {
+				page,
+				per_page: 20,
+			};
+
+			// Category filter
+			if (filters.category !== "All categories") {
+				const category = categories.find(
+					(cat) => cat.name === filters.category
+				);
+				if (category) {
+					params.category_id = category.id;
+				}
+			}
+
+			// Status filter
+			if (filters.status !== "All Events") {
+				const statusMap: { [key: string]: string } = {
+					Ongoing: "ongoing",
+					"Coming Soon": "coming-soon",
+					Ended: "ended",
+				};
+				params.status = statusMap[filters.status];
+			}
+
+			// Date filter (Refactored to handle dates correctly)
+			if (filters.date !== "All Dates") {
+				const today = new Date();
+				let startDate: Date | null = null;
+				let endDate: Date | null = null;
+
+				if (filters.date === "Today") {
+					startDate = new Date(
+						today.getFullYear(),
+						today.getMonth(),
+						today.getDate()
+					);
+					endDate = new Date(
+						today.getFullYear(),
+						today.getMonth(),
+						today.getDate()
+					);
+					endDate.setHours(23, 59, 59, 999);
+				} else if (filters.date === "This Week") {
+					const first = today.getDate() - today.getDay();
+					startDate = new Date(today.setDate(first));
+					endDate = new Date(today.setDate(first + 6));
+					startDate.setHours(0, 0, 0, 0);
+					endDate.setHours(23, 59, 59, 999);
+				} else if (filters.date === "This Month") {
+					startDate = new Date(
+						today.getFullYear(),
+						today.getMonth(),
+						1
+					);
+					endDate = new Date(
+						today.getFullYear(),
+						today.getMonth() + 1,
+						0
+					);
+					endDate.setHours(23, 59, 59, 999);
+				} else if (filters.date === "Next Month") {
+					const nextMonth = new Date(
+						today.getFullYear(),
+						today.getMonth() + 1,
+						1
+					);
+					startDate = nextMonth;
+					endDate = new Date(
+						nextMonth.getFullYear(),
+						nextMonth.getMonth() + 1,
+						0
+					);
+					endDate.setHours(23, 59, 59, 999);
+				}
+
+				if (startDate && endDate) {
+					params.start_date = startDate.toISOString().split("T")[0];
+					params.end_date = endDate.toISOString().split("T")[0];
+				}
+			}
+
+			// Log the parameters being sent to the API for debugging
+			console.log("Fetching events with params:", params);
+
+			const response = await getEvents(params);
+
+			if (append) {
+				setEvents((prev) => [...prev, ...response.events]);
+			} else {
+				setEvents(response.events);
+			}
+
+			setTotalPages(response.total_pages);
+			setHasMore(page < response.total_pages);
+			setCurrentPage(page);
+		} catch (error) {
+			console.error("Failed to load events:", error);
+			if (error instanceof ApiError) {
+				showToast.error(error.message);
+			} else {
+				showToast.error("Failed to load events");
+			}
+		} finally {
+			setIsLoading(false);
+			setIsLoadingMore(false);
+		}
+	};
+
+	// Load categories on mount
+	useEffect(() => {
+		const loadCategories = async () => {
+			try {
+				const cats = await getEventCategories();
+				setCategories(cats);
+			} catch (error) {
+				console.error("Failed to load categories:", error);
+			}
+		};
+
+		loadCategories();
+	}, []);
+
+	// Load events when filters change
+	useEffect(() => {
+		loadEvents(1, false);
+	}, [filters, categories]); // categories dependency ensures we wait for categories to load
+
+	const handleLoadMore = () => {
+		if (hasMore && !isLoadingMore) {
+			loadEvents(currentPage + 1, true);
+		}
+	};
 
 	return (
 		<>
-			<div className="w-site mx-auto">
-				<div className="flex justify-between items-center mb-8">
-					<div>
-						<h1 className="text-3xl font-bold text-gray-900">
-							Our Events
-						</h1>
-						<p className="text-gray-600 mt-2">
-							Browse through available events
-						</p>
+			{/* Hero Section */}
+			<HeroSection
+				title="All Events"
+				subtitle="Discover and join events that match your interest"
+				backgroundImageUrl="/event-hero.jpg"
+				height="330px"
+			/>
+
+			{/* Filter Section */}
+			<section className="bg-white py-8">
+				<div className="w-site mx-auto space-y-4">
+					<div className="flex flex-wrap gap-6 items-center justify-between">
+						{/* Category Filter */}
+						<div className="flex gap-4 items-center">
+							<label className="text-sm font-medium text-gray-700">
+								Category
+							</label>
+							<Select
+								value={filters.category}
+								onValueChange={(value) =>
+									handleFilterChange("category", value)
+								}
+							>
+								<SelectTrigger className="w-[180px]">
+									<SelectValue placeholder="Select category" />
+								</SelectTrigger>
+								<SelectContent>
+									{getFilterOptions(
+										categories
+									).categories.map((option) => (
+										<SelectItem key={option} value={option}>
+											{option}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
+
+						{/* Date Filter */}
+						<div className="flex gap-4 items-center">
+							<label className="text-sm font-medium text-gray-700">
+								Date
+							</label>
+							<Select
+								value={filters.date}
+								onValueChange={(value) =>
+									handleFilterChange("date", value)
+								}
+							>
+								<SelectTrigger className="w-[150px]">
+									<SelectValue placeholder="Select date" />
+								</SelectTrigger>
+								<SelectContent>
+									{getFilterOptions(categories).dates.map(
+										(option) => (
+											<SelectItem
+												key={option}
+												value={option}
+											>
+												{option}
+											</SelectItem>
+										)
+									)}
+								</SelectContent>
+							</Select>
+						</div>
+
+						{/* Status Filter */}
+						<div className="flex gap-4 items-center">
+							<label className="text-sm font-medium text-gray-700">
+								Status
+							</label>
+							<Select
+								value={filters.status}
+								onValueChange={(value) =>
+									handleFilterChange("status", value)
+								}
+							>
+								<SelectTrigger className="w-[150px]">
+									<SelectValue placeholder="Select status" />
+								</SelectTrigger>
+								<SelectContent>
+									{getFilterOptions(categories).status.map(
+										(option) => (
+											<SelectItem
+												key={option}
+												value={option}
+											>
+												{option}
+											</SelectItem>
+										)
+									)}
+								</SelectContent>
+							</Select>
+						</div>
 					</div>
 				</div>
-				<div className="flex flex-col items-center text-center py-16">
-					<div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-						<Plus className="h-12 w-12 text-gray-400" />
+			</section>
+
+			<div className="w-site mx-auto space-y-4">
+				{/* Events Grid */}
+				<section className="py-12">
+					<div className="w-site mx-auto px-4">
+						{/* Loading State */}
+						{isLoading ? (
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+								{Array.from({ length: 6 }).map((_, index) => (
+									<EventCardSkeleton key={index} />
+								))}
+							</div>
+						) : (
+							<>
+								{/* Events Grid */}
+								{events.length > 0 ? (
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+										{events.map((event) => (
+											<EventCard
+												key={event.id}
+												event={convertEventToEventData(
+													event
+												)}
+												onViewDetails={
+													handleViewDetails
+												}
+											/>
+										))}
+									</div>
+								) : (
+									/* No Events State */
+									<div className="text-center py-16">
+										<h3 className="text-xl font-semibold text-gray-900 mb-2">
+											No events found
+										</h3>
+										<p className="text-gray-600">
+											Try adjusting your filters or check
+											back later for new events.
+										</p>
+									</div>
+								)}
+
+								{/* Load More Button */}
+								{hasMore && events.length > 0 && (
+									<div className="flex justify-center mt-8">
+										<Button
+											onClick={handleLoadMore}
+											disabled={isLoadingMore}
+											variant="outline"
+											size="lg"
+										>
+											{isLoadingMore
+												? "Loading..."
+												: "Load More Events"}
+										</Button>
+									</div>
+								)}
+
+								{/* Loading more skeleton */}
+								{isLoadingMore && (
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+										{Array.from({ length: 3 }).map(
+											(_, index) => (
+												<EventCardSkeleton
+													key={`loading-${index}`}
+												/>
+											)
+										)}
+									</div>
+								)}
+							</>
+						)}
 					</div>
-					<h2 className="text-2xl font-semibold text-gray-900 mb-4">
-						No Events yet
-					</h2>
-					<p className="text-gray-600 mb-8 max-w-md mx-auto">
-						Check Back later or contact an admin
-					</p>
-				</div>
+				</section>
 			</div>
 		</>
 	);
-}
+};
 
 export default EventsPage;
