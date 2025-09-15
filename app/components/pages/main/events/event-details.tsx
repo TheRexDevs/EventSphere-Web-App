@@ -278,8 +278,8 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 
 			{/* Registration Status & Actions */}
 			<Card>
-				<CardContent className="pt-6">
-					<div className="flex items-center justify-between">
+				<CardContent className="">
+					<div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
 						<div className="flex items-center gap-4">
 							{user ? (
 								isRegistered ? (
@@ -288,7 +288,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 											className={`w-3 h-3 rounded-full ${
 												registration?.status ===
 												"confirmed"
-													? "bg-green-500"
+													? "bg-primary-500"
 													: "bg-yellow-500"
 											}`}
 										/>
