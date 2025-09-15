@@ -100,11 +100,11 @@ export default function ImageModal({ event, isOpen, onClose }: ImageModalProps) 
 	});
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+		<div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-90">
 			{/* Close Button */}
 			<button
 				onClick={onClose}
-				className="absolute top-4 right-4 z-10 p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors"
+				className="absolute top-4 right-4 z-[110] p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors"
 				aria-label="Close gallery"
 			>
 				<X size={24} />
@@ -117,14 +117,14 @@ export default function ImageModal({ event, isOpen, onClose }: ImageModalProps) 
 					<>
 						<button
 							onClick={goToPrevious}
-							className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors z-10"
+							className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors z-[110]"
 							aria-label="Previous image"
 						>
 							<ChevronLeft size={24} />
 						</button>
 						<button
 							onClick={goToNext}
-							className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors z-10"
+							className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors z-[110]"
 							aria-label="Next image"
 						>
 							<ChevronRight size={24} />
@@ -148,8 +148,12 @@ export default function ImageModal({ event, isOpen, onClose }: ImageModalProps) 
 				<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6">
 					{/* Event Details */}
 					<div className="text-white mb-4">
-						<h2 className="text-xl font-semibold mb-1">{event.title}</h2>
-						<p className="text-sm opacity-90">{event.category} • {eventDate}</p>
+						<h2 className="text-xl font-semibold mb-1">
+							{event.title}
+						</h2>
+						<p className="text-sm opacity-90">
+							{event.category} • {eventDate}
+						</p>
 						<p className="text-sm opacity-75">{event.venue}</p>
 					</div>
 
@@ -159,8 +163,10 @@ export default function ImageModal({ event, isOpen, onClose }: ImageModalProps) 
 							{/* Image Counter */}
 							<div className="text-white text-sm">
 								{currentImageIndex + 1} of {totalImages}
-								{currentImage.type === 'featured' && (
-									<span className="ml-2 text-xs bg-blue-500 px-2 py-1 rounded">Featured</span>
+								{currentImage.type === "featured" && (
+									<span className="ml-2 text-xs bg-blue-500 px-2 py-1 rounded">
+										Featured
+									</span>
 								)}
 							</div>
 
@@ -172,8 +178,8 @@ export default function ImageModal({ event, isOpen, onClose }: ImageModalProps) 
 										onClick={() => goToImage(index)}
 										className={`flex-shrink-0 w-12 h-12 rounded border-2 overflow-hidden ${
 											index === currentImageIndex
-												? 'border-white'
-												: 'border-gray-500 hover:border-gray-300'
+												? "border-white"
+												: "border-gray-500 hover:border-gray-300"
 										}`}
 									>
 										<Image

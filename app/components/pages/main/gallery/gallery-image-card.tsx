@@ -45,10 +45,14 @@ export default function GalleryImageCard({ event, onImageClick }: GalleryImageCa
 				)}
 
 				{/* Overlay with event info */}
-				<div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-all duration-300 flex items-end">
-					<div className="p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-						<h3 className="text-lg font-semibold mb-1">{event.title}</h3>
-						<p className="text-sm opacity-90 mb-1">{event.category}</p>
+				<div className="absolute inset-0 bg-black/60 lg:bg-black/0 group-hover:lg:bg-black/50 transition-all duration-300 flex items-end">
+					<div className="p-4 text-white transform lg:translate-y-full group-hover:lg:translate-y-0 transition-transform duration-300">
+						<h3 className="text-lg font-semibold mb-1">
+							{event.title}
+						</h3>
+						<p className="text-sm opacity-90 mb-1">
+							{event.category}
+						</p>
 						<p className="text-xs opacity-75">{formattedDate}</p>
 						<p className="text-xs opacity-75 mt-1">
 							{event.gallery_images?.length || 0} photos
