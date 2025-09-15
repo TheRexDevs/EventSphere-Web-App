@@ -12,6 +12,18 @@ export interface EventOrganizer {
   username: string;
 }
 
+// Image data structure
+export interface EventImage {
+  id: string;
+  filename: string;
+  url: string;
+  height?: number;
+  width?: number;
+  thumbnail_url?: string | null;
+  created_at?: string;
+  file_type?: string;
+}
+
 // Event data structure (matches API response)
 export interface Event {
   id: string;
@@ -27,8 +39,8 @@ export interface Event {
   status: "approved" | "pending" | "rejected";
   capacity: number;
   max_participants: number;
-  featured_image: string | null;
-  gallery_images: string[];
+  featured_image: EventImage | null;
+  gallery_images: EventImage[];
   created_at: string;
   updated_at: string;
   is_registered?: boolean; // For authenticated users
@@ -100,10 +112,12 @@ export interface ListEventsRequest {
   date_to?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface RegisterForEventRequest {
   // Empty - registration uses current user
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface CancelRegistrationRequest {
   // Empty - cancellation uses current user
 }

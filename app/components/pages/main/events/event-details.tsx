@@ -26,9 +26,6 @@ import { Event, EventRegistration } from "@/types/events";
 import { ApiError } from "@/lib/utils/api";
 import { showToast } from "@/lib/utils/toast";
 
-// Type definitions for image fields that can be strings or objects with url
-type ImageField = string | { url: string } | null;
-type GalleryImage = string | { url: string };
 
 interface EventDetailsPageProps {
 	eventId: string;
@@ -191,16 +188,13 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 	const galleryImages = event.gallery_images || [];
 	const formattedTime = formatTime(event.time);
 
-	// Safely resolve featured image from string or object with url
-	const featuredImage =
-		typeof (event.featured_image as ImageField) === "string"
-			? (event.featured_image as string)
-			: (event.featured_image as { url: string } | null)?.url ?? "";
+	// Extract featured image URL from EventImage object
+	const featuredImage = event.featured_image?.url ?? "";
 
-	// Normalize gallery image URLs (strings or objects with url)
-	const galleryUrls: string[] = (galleryImages as GalleryImage[])
-		.map((img) => (typeof img === "string" ? img : (img as { url: string })?.url))
-		.filter((u): u is string => typeof u === "string" && u.trim().length > 0);
+	// Extract gallery image URLs from EventImage objects
+	const galleryUrls: string[] = galleryImages
+		.map((img) => img.url)
+		.filter((url): url is string => typeof url === "string" && url.trim().length > 0);
 
 	const isRegistered = registration?.status === "confirmed" || registration?.status === "waitlist";
 	const canRegister = maxParticipants > 0 && !isRegistered;

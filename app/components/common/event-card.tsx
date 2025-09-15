@@ -3,9 +3,12 @@
 import Image from "next/image";
 import { MapPin, Calendar, Clock } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
-import { Card, CardContent } from "@/app/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/app/components/ui/card";
+import { Skeleton } from "../ui/skeleton";
 
-export interface EventData {
+import { Event } from "@/types/events";
+
+export interface EventCardData {
 	id: string;
 	title: string;
 	description: string;
@@ -20,10 +23,101 @@ export interface EventData {
 }
 
 interface EventCardProps {
-	event: EventData;
+	event: EventCardData;
 	onViewDetails?: (eventId: string) => void;
 	className?: string;
-  detailed?: boolean;
+	detailed?: boolean;
+}
+
+
+// Helper function to convert Event to EventCardData format for EventCard
+export function convertEventToEventData(event: Event): EventCardData {
+	const date = new Date(event.date);
+	const formattedDate = date.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
+
+	// Convert time from "09:00:00" to "9:00 AM" format
+	const formatTime = (timeStr: string) => {
+		const [hours, minutes] = timeStr.split(':');
+		const hour = parseInt(hours);
+		const ampm = hour >= 12 ? 'PM' : 'AM';
+		const displayHour = hour % 12 || 12;
+		return `${displayHour}:${minutes} ${ampm}`;
+	};
+
+	// Map API status to EventCardData status
+	const mapStatus = (apiStatus: string): "ongoing" | "coming-soon" | "ended" => {
+		switch (apiStatus) {
+			case "approved":
+				return "coming-soon";
+			case "pending":
+				return "coming-soon";
+			case "rejected":
+				return "ended";
+			default:
+				return "coming-soon";
+		}
+	};
+
+	const availability: "available" | "full" | "cancelled" =
+		event.max_participants > 0 ? "available" : "full";
+
+	// Extract featured image URL from EventImage object or string
+	const featuredImageUrl = event.featured_image?.url ?? "";
+
+	return {
+		id: event.id,
+		title: event.title,
+		description: event.description,
+		date: formattedDate,
+		time: formatTime(event.time),
+		location: event.venue,
+		image: featuredImageUrl,
+		category: event.category,
+		status: mapStatus(event.status),
+		availability,
+		tags: [], // API doesn't provide tags, so empty array
+	};
+}
+
+
+export function EventCardSkeleton() {
+	return (
+		<Card className="hover:shadow-lg transition-shadow animate-pulse">
+			<CardHeader className="space-y-4">
+				<div className="flex items-start justify-between">
+					<div className="flex items-center gap-3">
+						<Skeleton className="w-12 h-12 rounded-lg" />
+						<div className="space-y-2">
+							<Skeleton className="h-5 w-32" />
+							<Skeleton className="h-4 w-48" />
+						</div>
+					</div>
+				</div>
+				<div className="flex items-center gap-2">
+					<Skeleton className="h-6 w-20 rounded-full" />
+					<Skeleton className="h-6 w-20 rounded-full" />
+				</div>
+			</CardHeader>
+			<CardContent className="space-y-4">
+				<div className="space-y-2">
+					{[1, 2, 3].map((i) => (
+						<div key={i} className="flex justify-between">
+							<Skeleton className="h-4 w-20" />
+							<Skeleton className="h-4 w-10" />
+						</div>
+					))}
+				</div>
+				<div className="pt-4 space-y-2">
+					<Skeleton className="h-10 w-full" />
+					<Skeleton className="h-10 w-full" />
+				</div>
+			</CardContent>
+		</Card>
+	);
 }
 
 /**

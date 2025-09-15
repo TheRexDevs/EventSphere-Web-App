@@ -1,21 +1,21 @@
 import { Metadata } from "next";
 
-import EventsPage from "@/app/components/pages/main/events";
+import GalleryPage from "@/app/components/pages/main/gallery";
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: "Events Gallery",
 		description: "",
 		alternates: {
-			canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/events/`,
+			canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/gallery/`,
 		},
 		openGraph: {
 			description: "",
-			title: "Browse through images and relive memories",
+			title: "Memories from our amazing events",
 		},
 	};
 }
 
 export default function Events() {
-	return <EventsPage />;
+	return <GalleryPage />;
 }

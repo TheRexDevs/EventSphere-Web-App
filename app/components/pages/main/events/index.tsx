@@ -10,118 +10,16 @@ import {
 	SelectValue,
 } from "@/app/components/ui/select";
 import HeroSection from "@/app/components/common/hero";
-import EventCard, { EventData } from "@/app/components/common/event-card";
+import EventCard, { EventCardSkeleton, convertEventToEventData } from "@/app/components/common/event-card";
 
 import { useRouter } from "next/navigation";
 
-import {
-    Card,
-    CardContent,
-    CardHeader
-} from "@/app/components/ui/card";
-// Removed unused imports: ConfirmDialog, CardTitle, Plus
-
-import { Skeleton } from "@/app/components/ui/skeleton";
+// Removed unused imports
 import type { ListEventsRequest } from "@/types/events";
 import { getEvents, getEventCategories } from "@/lib/api/events";
 import { Event, EventCategory } from "@/types/events";
 import { ApiError } from "@/lib/utils/api";
 import { showToast } from "@/lib/utils/toast";
-
-// Type definitions for image fields that can be strings or objects with url
-type ImageField = string | { url: string } | null;
-
-function EventCardSkeleton() {
-	return (
-		<Card className="hover:shadow-lg transition-shadow">
-			<CardHeader className="space-y-4">
-				<div className="flex items-start justify-between">
-					<div className="flex items-center gap-3">
-						<Skeleton className="w-12 h-12 rounded-lg" />
-						<div className="space-y-2">
-							<Skeleton className="h-5 w-32" />
-							<Skeleton className="h-4 w-48" />
-						</div>
-					</div>
-				</div>
-				<div className="flex items-center gap-2">
-					<Skeleton className="h-6 w-20 rounded-full" />
-					<Skeleton className="h-6 w-20 rounded-full" />
-				</div>
-			</CardHeader>
-			<CardContent className="space-y-4">
-				<div className="space-y-2">
-					{[1, 2, 3].map((i) => (
-						<div key={i} className="flex justify-between">
-							<Skeleton className="h-4 w-20" />
-							<Skeleton className="h-4 w-10" />
-						</div>
-					))}
-				</div>
-				<div className="pt-4 space-y-2">
-					<Skeleton className="h-10 w-full" />
-					<Skeleton className="h-10 w-full" />
-				</div>
-			</CardContent>
-		</Card>
-	);
-}
-
-// Helper function to convert Event to EventData format for EventCard
-function convertEventToEventData(event: Event): EventData {
-	const date = new Date(event.date);
-	const formattedDate = date.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
-	});
-
-	// Convert time from "09:00:00" to "9:00 AM" format
-	const formatTime = (timeStr: string) => {
-		const [hours, minutes] = timeStr.split(':');
-		const hour = parseInt(hours);
-		const ampm = hour >= 12 ? 'PM' : 'AM';
-		const displayHour = hour % 12 || 12;
-		return `${displayHour}:${minutes} ${ampm}`;
-	};
-
-	// Map API status to EventData status
-	const mapStatus = (apiStatus: string): "ongoing" | "coming-soon" | "ended" => {
-		switch (apiStatus) {
-			case "approved":
-				return "coming-soon";
-			case "pending":
-				return "coming-soon";
-			case "rejected":
-				return "ended";
-			default:
-				return "coming-soon";
-		}
-	};
-
-	const availability: "available" | "full" | "cancelled" =
-		event.max_participants > 0 ? "available" : "full";
-
-	// Coerce featured image to a string URL
-	const featuredImageUrl =
-		typeof (event.featured_image as ImageField) === 'string'
-			? (event.featured_image as string)
-			: (event.featured_image as { url: string } | null)?.url ?? "";
-
-	return {
-		id: event.id,
-		title: event.title,
-		description: event.description,
-		date: formattedDate,
-		time: formatTime(event.time),
-		location: event.venue,
-		image: featuredImageUrl,
-		category: event.category,
-		status: mapStatus(event.status),
-		availability,
-		tags: [], // API doesn't provide tags, so empty array
-	};
-}
 
 // Dynamic filter options
 const getFilterOptions = (categories: EventCategory[]) => ({
@@ -252,7 +150,7 @@ const EventsPage = () => {
 			<HeroSection
 				title="All Events"
 				subtitle="Discover and join events that match your interest"
-				backgroundImageUrl="/3dimg/landingpage.jpg"
+				backgroundImageUrl="/hero-2.jpg"
 				height="330px"
 			/>
 
