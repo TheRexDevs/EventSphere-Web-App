@@ -87,8 +87,8 @@ const HomePage = () => {
 						</h2>
 						<p className="text-gray-600 text-base lg:text-lg">
 							Don’t Miss THis Amazing Upcoming Events
-						</p>
-					</div>
+				</p>
+			</div>
 
 					{loadingFeatured ? (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
