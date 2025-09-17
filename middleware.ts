@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 // Public routes that don't require authentication
 const PUBLIC_PATTERNS: RegExp[] = [
 	/^\/(login|signup|verify-email)\/?$/,
-	/^\/(about|contact|events|gallery)\/?$/,
+	/^\/(about|contact|events|gallery|sitemap)\/?$/,
 	/^\/events\/(?!registered(?:\/|$))[^/]+\/?$/, // allow public event details, but not /events/registered
 	/^\/$/,
 ];

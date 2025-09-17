@@ -13,6 +13,7 @@ import EventCard, {
 	EventCardSkeleton,
 	convertEventToEventData,
 } from "@/app/components/common/event-card";
+import { Sitemap } from "./site-map";
 
 const HomePage = () => {
 	const router = useRouter();
@@ -112,6 +113,9 @@ const HomePage = () => {
 					)}
 				</section>
 			</div>
+
+			{/* Sitemap Section */}
+			<Sitemap />
 		</>
 	);
 };

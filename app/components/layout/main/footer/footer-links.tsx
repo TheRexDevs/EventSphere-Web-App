@@ -39,6 +39,14 @@ export const FooterLinks = () => {
 						About Us
 					</Link>
 				</li>
+				<li>
+					<Link
+						href="/sitemap"
+						className="hover:text-primary transition-colors"
+					>
+						Sitemap
+					</Link>
+				</li>
 			</ul>
 		</div>
 	);

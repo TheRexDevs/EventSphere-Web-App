@@ -18,6 +18,7 @@ export const mainNavLinks = [
 	{ href: "/gallery", label: "Gallery", icon: null },
 	{ href: "/about", label: "About", icon: null },
 	{ href: "/contact", label: "Contact", icon: null },
+	{ href: "/sitemap", label: "Sitemap", icon: null },
 ];
 
 const MobileMenu = ({
