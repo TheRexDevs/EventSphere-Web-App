@@ -29,7 +29,7 @@ const NavLink = ({
 				mobile ? "text-base" : "text-sm",
 				isActive
 					? "text-foreground font-bold"
-					: "text-gray-700 hover:text-primary"
+					: "hover:text-primary"
 			)}
 		>
 			{icon}

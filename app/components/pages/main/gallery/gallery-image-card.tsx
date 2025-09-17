@@ -22,7 +22,7 @@ export default function GalleryImageCard({ event, onImageClick }: GalleryImageCa
 
 	return (
 		<div
-			className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white"
+			className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card"
 			onClick={() => onImageClick(event)}
 		>
 			{/* Image Container */}

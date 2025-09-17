@@ -28,25 +28,25 @@ export const Sitemap = () => {
 	];
 
 	return (
-		<section id="sitemap" className="py-16 bg-gray-50">
+		<section id="sitemap" className="py-16 bg-secondary/5">
 			<div className="w-site mx-auto px-4">
 				<div className="text-center mb-12">
-					<h2 className="text-3xl font-bold text-gray-900 mb-4">
+					<h2 className="text-3xl font-bold text-foreground mb-4">
 						EventSphere Site Map
 					</h2>
-					<p className="text-lg text-gray-600 max-w-2xl mx-auto">
+					<p className="text-lg text-foreground/70 max-w-2xl mx-auto">
 						Navigate through our platform with ease. Here&apos;s a complete overview of all pages and sections available in EventSphere.
 					</p>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					{/* Public Pages */}
-					<div className="bg-white rounded-lg shadow-sm border p-6">
-						<h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+					<div className="bg-card rounded-lg shadow-sm border p-6">
+						<h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
 							<Globe className="h-5 w-5 text-green-600" />
 							Public Pages
 						</h3>
-						<p className="text-sm text-gray-600 mb-4">
+						<p className="text-sm text-foreground/70 mb-4">
 							Accessible to all visitors without requiring login
 						</p>
 						<div className="space-y-3">
@@ -54,14 +54,14 @@ export const Sitemap = () => {
 								<Link
 									key={page.href}
 									href={page.href}
-									className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+									className="flex items-center gap-3 p-3 rounded-lg hover:bg-foreground/10 transition-colors group"
 								>
 									<div className="text-blue-600 group-hover:text-blue-700">
 										{page.icon}
 									</div>
 									<div>
-										<div className="font-medium text-gray-900">{page.name}</div>
-										<div className="text-sm text-gray-600">{page.description}</div>
+										<div className="font-medium text-foreground">{page.name}</div>
+										<div className="text-sm text-foreground/70">{page.description}</div>
 									</div>
 								</Link>
 							))}
@@ -69,12 +69,12 @@ export const Sitemap = () => {
 					</div>
 
 					{/* Authentication Pages */}
-					<div className="bg-white rounded-lg shadow-sm border p-6">
-						<h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+					<div className="bg-card rounded-lg shadow-sm border p-6">
+						<h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
 							<Shield className="h-5 w-5 text-blue-600" />
 							Authentication
 						</h3>
-						<p className="text-sm text-gray-600 mb-4">
+						<p className="text-sm text-foreground/70 mb-4">
 							User account management and security
 						</p>
 						<div className="space-y-3">
@@ -82,14 +82,14 @@ export const Sitemap = () => {
 								<Link
 									key={page.href}
 									href={page.href}
-									className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+									className="flex items-center gap-3 p-3 rounded-lg hover:bg-foreground/10 transition-colors group"
 								>
 									<div className="text-purple-600 group-hover:text-purple-700">
 										{page.icon}
 									</div>
 									<div>
-										<div className="font-medium text-gray-900">{page.name}</div>
-										<div className="text-sm text-gray-600">{page.description}</div>
+										<div className="font-medium text-foreground">{page.name}</div>
+										<div className="text-sm text-foreground/70">{page.description}</div>
 									</div>
 								</Link>
 							))}
@@ -97,12 +97,12 @@ export const Sitemap = () => {
 					</div>
 
 					{/* User Dashboard */}
-					<div className="bg-white rounded-lg shadow-sm border p-6">
-						<h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+					<div className="bg-card rounded-lg shadow-sm border p-6">
+						<h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
 							<UserCheck className="h-5 w-5 text-orange-600" />
 							User Dashboard
 						</h3>
-						<p className="text-sm text-gray-600 mb-4">
+						<p className="text-sm text-foreground/70 mb-4">
 							Personalized features for registered participants
 						</p>
 						<div className="space-y-3">
@@ -115,8 +115,8 @@ export const Sitemap = () => {
 										{page.icon}
 									</div>
 									<div>
-										<div className="font-medium text-gray-900">{page.name}</div>
-										<div className="text-sm text-gray-600">{page.description}</div>
+										<div className="font-medium text-foreground">{page.name}</div>
+										<div className="text-sm text-foreground/70">{page.description}</div>
 									</div>
 								</div>
 							))}
@@ -124,17 +124,17 @@ export const Sitemap = () => {
 
 						{/* Dynamic Pages */}
 						<div className="mt-6 pt-4 border-t">
-							<h4 className="font-medium text-gray-900 mb-3">Dynamic Pages</h4>
+							<h4 className="font-medium text-foreground mb-3">Dynamic Pages</h4>
 							<div className="space-y-3">
 								{dynamicPages.map((page) => (
 									<div
 										key={page.pattern}
-										className="flex items-center gap-3 p-3 rounded-lg bg-gray-50"
+										className="flex items-center gap-3 p-3 rounded-lg bg-foreground/10"
 									>
 										<FileText className="h-4 w-4 text-gray-500" />
 										<div>
-											<div className="font-medium text-gray-900">{page.name}</div>
-											<div className="text-sm text-gray-600">{page.description}</div>
+											<div className="font-medium text-foreground">{page.name}</div>
+											<div className="text-sm text-foreground/70">{page.description}</div>
 											<div className="text-xs text-gray-500 mt-1">{page.pattern}</div>
 										</div>
 									</div>
@@ -145,8 +145,8 @@ export const Sitemap = () => {
 				</div>
 
 				{/* Navigation Flow */}
-				<div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
-					<h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+				<div className="mt-12 bg-card rounded-lg shadow-sm border p-6">
+					<h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
 						<ArrowRight className="h-5 w-5 text-indigo-600" />
 						Navigation Flow
 					</h3>
@@ -155,7 +155,7 @@ export const Sitemap = () => {
 							<div className="bg-green-100 text-green-800 px-4 py-2 rounded-lg font-medium mb-2">
 								Visitors
 							</div>
-							<p className="text-sm text-gray-600">
+							<p className="text-sm text-foreground/70">
 								Can access all public pages, browse events, and view the gallery
 							</p>
 						</div>
@@ -163,7 +163,7 @@ export const Sitemap = () => {
 							<div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-medium mb-2">
 								Participants
 							</div>
-							<p className="text-sm text-gray-600">
+							<p className="text-sm text-foreground/70">
 								All visitor access + registration, dashboard, certificates, and feedback
 							</p>
 						</div>
@@ -171,7 +171,7 @@ export const Sitemap = () => {
 							<div className="bg-purple-100 text-purple-800 px-4 py-2 rounded-lg font-medium mb-2">
 								Organizers/Admins
 							</div>
-							<p className="text-sm text-gray-600">
+							<p className="text-sm text-foreground/70">
 								Full system access for event management and administration
 							</p>
 						</div>

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { AuthProvider } from "@/app/contexts/AuthContext";
 import { languages as langs } from "@/constants";
 import { Toaster } from "@/app/components/ui/sonner";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 // const inter = Inter({ subsets: ["latin"] });
@@ -19,12 +20,19 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang={langs[0]}>
+		<html lang={langs[0]} suppressHydrationWarning>
 			<body className={"antialiased"}>
-				<AuthProvider>
-					{children}
-				</AuthProvider>
-				<Toaster position="top-center" />
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange={false}
+				>
+					<AuthProvider>
+						{children}
+					</AuthProvider>
+					<Toaster position="top-center" />
+				</ThemeProvider>
 			</body>
 		</html>
 	);

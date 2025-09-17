@@ -155,12 +155,12 @@ const EventsPage = () => {
 			/>
 
 			{/* Filter Section */}
-			<section className="bg-white py-8">
+			<section className="bg-card py-8">
 				<div className="w-site mx-auto space-y-4">
 					<div className="flex flex-wrap gap-6 items-center justify-between">
 						{/* Category Filter */}
 						<div className="flex gap-4 items-center">
-							<label className="text-sm font-medium text-gray-700">
+							<label className="text-sm font-medium text-foreground/80">
 								Category
 							</label>
 							<Select
@@ -184,7 +184,7 @@ const EventsPage = () => {
 
 						{/* Date Filter */}
 						<div className="flex gap-4 items-center">
-							<label className="text-sm font-medium text-gray-700">
+							<label className="text-sm font-medium text-foreground/80">
 								Date
 							</label>
 							<Select
@@ -208,7 +208,7 @@ const EventsPage = () => {
 
 						{/* Status Filter */}
 						<div className="flex gap-4 items-center">
-							<label className="text-sm font-medium text-gray-700">
+							<label className="text-sm font-medium text-foreground/80">
 								Status
 							</label>
 							<Select
@@ -232,7 +232,7 @@ const EventsPage = () => {
 
 						{/* Department Filter */}
 						<div className="flex gap-4 items-center">
-							<label className="text-sm font-medium text-gray-700">
+							<label className="text-sm font-medium text-foreground/80">
 								Department
 							</label>
 							<Select
@@ -284,10 +284,10 @@ const EventsPage = () => {
 								) : (
 									/* No Events State */
 							<div className="text-center py-16">
-								<h3 className="text-xl font-semibold text-gray-900 mb-2">
+								<h3 className="text-xl font-semibold text-foreground mb-2">
 									No events found
 								</h3>
-								<p className="text-gray-600">
+								<p className="text-foreground/70">
 									Try adjusting your filters or check back
 									later for new events.
 								</p>

@@ -66,7 +66,7 @@ export default function Counter({ end, label, suffix = "", duration = 2000 }: Co
 				{suffix}
 			</div>
 			{label && (
-				<p className="text-[#545454] text-center mt-2 text-sm md:text-base">{label}</p>
+				<p className="text-foreground/70 text-center mt-2 text-sm md:text-base">{label}</p>
 			)}
 		</div>
 	);

@@ -39,12 +39,12 @@ export default function GalleryFilters({
 	const yearOptions = generateYearOptions();
 
 	return (
-		<section className="bg-white py-8">
+		<section className="bg-card py-8">
 			<div className="w-site mx-auto space-y-4">
 				<div className="flex flex-wrap gap-6 items-center justify-center">
 					{/* Category Filter */}
 					<div className="flex gap-4 items-center">
-						<label className="text-sm font-medium text-gray-700">
+						<label className="text-sm font-medium text-foreground/80">
 							Category
 						</label>
 						<Select
@@ -67,7 +67,7 @@ export default function GalleryFilters({
 
 					{/* Year Filter */}
 					<div className="flex gap-4 items-center">
-						<label className="text-sm font-medium text-gray-700">
+						<label className="text-sm font-medium text-foreground/80">
 							Year
 						</label>
 						<Select
@@ -90,7 +90,7 @@ export default function GalleryFilters({
 
 				{/* Active Filters Display */}
 				{(selectedCategory !== "All Categories" || selectedYear !== "All Years") && (
-					<div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+					<div className="flex items-center justify-center gap-4 text-sm text-foreground/70">
 						<span>Active filters:</span>
 						{selectedCategory !== "All Categories" && (
 							<span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">

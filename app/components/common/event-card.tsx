@@ -231,13 +231,13 @@ export default function EventCard({
 				</div>
 
 				{/* Event Title */}
-				<h4 className="text-xl font-bold text-gray-900 line-clamp-2">
+				<h4 className="text-xl font-bold line-clamp-2">
 					{title}
 				</h4>
 
 				{/* Description */}
 				{detailed && (
-					<p className="text-gray-600 text-sm line-clamp-3">
+					<p className="text-foreground/70 text-sm line-clamp-3">
 						{description}
 					</p>
 				)}
@@ -254,7 +254,7 @@ export default function EventCard({
 							</span>
 						))}
 						{tags && tags.length > 3 && (
-							<span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+							<span className="px-2 py-1 bg-gray-100 text-foreground/70 text-xs font-medium rounded-full">
 								+{tags.length - 3} more
 							</span>
 						)}
@@ -263,7 +263,7 @@ export default function EventCard({
 
 				{/* Location and Availability */}
 				<div className="flex items-center justify-between">
-					<div className="flex items-center gap-1 text-gray-600">
+					<div className="flex items-center gap-1 text-foreground/70">
 						<MapPin className="h-4 w-4" />
 						<span className="text-sm">{location}</span>
 					</div>

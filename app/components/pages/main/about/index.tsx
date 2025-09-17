@@ -12,7 +12,7 @@ const AboutPage = () => {
 					<h1 className="text-center font-bold text-3xl lg:text-[40px]">
 						About EventSphere
 					</h1>
-					<p className="text-center text-[#545454] text-base lg:text-[18px]">
+					<p className="text-center text-foreground/70 text-base lg:text-[18px]">
 						Your gateway to campus life and memorable experiences
 					</p>
 				</div>
@@ -27,7 +27,7 @@ const AboutPage = () => {
 					<h1 className="text-primary font-semibold text-[40px]">
 						Our Mission
 					</h1>
-					<p className="text-[#545454]">
+					<p className="text-foreground/70">
 						EventSphere is designed to be the central hub for all
 						campus events connecting Students with opportunities to
 						learn, grow, and create lasting memories. We believe
@@ -125,7 +125,7 @@ const AboutPage = () => {
 					<h1 className="text-primary font-semibold text-[40px]">
 						Our Story
 					</h1>
-					<p className="text-[#545454] ">
+					<p className="text-foreground/70 ">
 						Founded by students, for students, EventSphere was born
 						from the frustration of missing out on campus events due
 						to poor and scattered information. We recognized that

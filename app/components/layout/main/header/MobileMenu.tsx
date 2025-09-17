@@ -2,7 +2,9 @@ import Link from "next/link";
 import { User, LogOut, X, CalendarCheck } from "lucide-react";
 
 import { Button } from "@/app/components/ui/button";
+import { ThemeToggle } from "@/app/components/common/theme-toggle";
 import NavLink from "./NavLink";
+import { useTheme } from "next-themes";
 
 interface MobileMenuProps {
 	isOpen: boolean;
@@ -28,6 +30,7 @@ const MobileMenu = ({
 	isActive,
 	isAuthenticated,
 }: MobileMenuProps) => {
+	const { resolvedTheme } = useTheme();
 
 	const profileLinks = [
 		{
@@ -65,10 +68,10 @@ const MobileMenu = ({
 				<div className="flex items-center justify-between px-4 py-4 border-b">
 					<Link
 						href="/"
-						className="text-2xl font-bold text-gray-900"
+						className="text-2xl font-bold text-foreground"
 						onClick={onClose}
 					>
-						FolioEngine
+						EventSphere
 					</Link>
 					<Button
 						variant="ghost"
@@ -82,6 +85,11 @@ const MobileMenu = ({
 				</div>
 
 				<nav className="flex-1 overflow-y-auto px-4 py-6">
+					{/* Theme Toggle */}
+					<div className="flex justify-center mb-6">
+						<ThemeToggle />
+					</div>
+
 					<ul className="flex flex-col space-y-2">
 						{mainNavLinks.map((link) => (
 							<NavLink

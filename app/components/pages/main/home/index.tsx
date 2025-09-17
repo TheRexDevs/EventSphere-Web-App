@@ -60,7 +60,7 @@ const HomePage = () => {
 			/>
 
 			{/* Counters Section */}
-			<section className="py-12 pb-8 bg-white">
+			<section className="py-12 pb-8 bg-card">
 				<div className="w-site">
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-8">
 						<Counter end={150} suffix="+" label="Active users" />
@@ -86,7 +86,7 @@ const HomePage = () => {
 						<h2 className="text-2xl md:text-3xl font-bold">
 							Featured event
 						</h2>
-						<p className="text-gray-600 text-base lg:text-lg">
+						<p className="text-foreground/70 text-base lg:text-lg">
 							Don’t Miss THis Amazing Upcoming Events
 				</p>
 			</div>

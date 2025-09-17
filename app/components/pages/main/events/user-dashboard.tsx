@@ -105,10 +105,10 @@ const UserDashboard = () => {
 			{/* Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h1 className="text-3xl font-bold text-gray-900">
+					<h1 className="text-3xl font-bold">
 						Welcome back, {user.firstname}!
 					</h1>
-					<p className="text-gray-600 mt-1">
+					<p className="text-foreground/70 mt-1">
 						Manage your events and track your participation
 					</p>
 				</div>
@@ -130,8 +130,8 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Registered Events</p>
-								<p className="text-2xl font-bold text-gray-900">
+								<p className="text-sm font-medium text-foreground/70">Registered Events</p>
+								<p className="text-2xl font-bold text-foreground">
 									{registrations.filter(r => r.status === "confirmed").length}
 								</p>
 							</div>
@@ -144,8 +144,8 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Upcoming Events</p>
-								<p className="text-2xl font-bold text-gray-900">{upcomingEvents.length}</p>
+								<p className="text-sm font-medium text-foreground/70">Upcoming Events</p>
+								<p className="text-2xl font-bold text-foreground">{upcomingEvents.length}</p>
 							</div>
 							<Clock className="h-8 w-8 text-green-600" />
 						</div>
@@ -156,8 +156,8 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Past Events</p>
-								<p className="text-2xl font-bold text-gray-900">{pastEvents.length}</p>
+								<p className="text-sm font-medium text-foreground/70">Past Events</p>
+								<p className="text-2xl font-bold text-foreground">{pastEvents.length}</p>
 							</div>
 							<Trophy className="h-8 w-8 text-yellow-600" />
 						</div>
@@ -168,8 +168,8 @@ const UserDashboard = () => {
 					<CardContent className="pt-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-sm font-medium text-gray-600">Waitlisted</p>
-								<p className="text-2xl font-bold text-gray-900">{waitlistedEvents.length}</p>
+								<p className="text-sm font-medium text-foreground/70">Waitlisted</p>
+								<p className="text-2xl font-bold text-foreground">{waitlistedEvents.length}</p>
 							</div>
 							<Users className="h-8 w-8 text-orange-600" />
 						</div>
@@ -193,7 +193,7 @@ const UserDashboard = () => {
 							className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
 								activeTab === tab.id
 									? "border-blue-600 text-blue-600"
-									: "border-transparent text-gray-600 hover:text-gray-900"
+									: "border-transparent text-foreground/70 hover:text-foreground"
 							}`}
 						>
 							{tab.label}
@@ -219,7 +219,7 @@ const UserDashboard = () => {
 									<Calendar className="h-5 w-5" />
 									<div className="text-left">
 										<p className="font-medium">Browse Events</p>
-										<p className="text-sm text-gray-600">Find new events to attend</p>
+										<p className="text-sm text-foreground/70">Find new events to attend</p>
 									</div>
 								</Button>
 
@@ -231,7 +231,7 @@ const UserDashboard = () => {
 									<User className="h-5 w-5" />
 									<div className="text-left">
 										<p className="font-medium">Update Profile</p>
-										<p className="text-sm text-gray-600">Manage your information</p>
+										<p className="text-sm text-foreground/70">Manage your information</p>
 									</div>
 								</Button>
 
@@ -243,7 +243,7 @@ const UserDashboard = () => {
 									<ImageIcon className="h-5 w-5" />
 									<div className="text-left">
 										<p className="font-medium">View Gallery</p>
-										<p className="text-sm text-gray-600">Browse event memories</p>
+										<p className="text-sm text-foreground/70">Browse event memories</p>
 									</div>
 								</Button>
 							</div>
@@ -258,11 +258,11 @@ const UserDashboard = () => {
 						<CardContent>
 							{isLoading ? (
 								<div className="flex items-center justify-center py-8">
-									<Loader2 className="h-6 w-6 animate-spin text-gray-600" />
+									<Loader2 className="h-6 w-6 animate-spin text-foreground/70" />
 								</div>
 							) : registrations.length === 0 ? (
 								<div className="text-center py-8">
-									<p className="text-gray-600">No activity yet. Start by registering for events!</p>
+									<p className="text-foreground/70">No activity yet. Start by registering for events!</p>
 									<Button onClick={handleGoToEvents} className="mt-4">
 										Browse Events
 									</Button>
@@ -284,7 +284,7 @@ const UserDashboard = () => {
 												}`} />
 												<div>
 													<p className="font-medium">{registration.event.title}</p>
-													<p className="text-sm text-gray-600">
+													<p className="text-sm text-foreground/70">
 														{new Date(registration.event.date).toLocaleDateString()} • {registration.event.venue}
 													</p>
 												</div>
@@ -321,14 +321,14 @@ const UserDashboard = () => {
 					<div className="space-y-6">
 					{isLoading ? (
 						<div className="flex items-center justify-center py-12">
-							<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+							<Loader2 className="h-8 w-8 animate-spin text-foreground/70" />
 						</div>
 					) : upcomingEvents.length === 0 ? (
 						<Card>
 							<CardContent className="pt-6">
 								<div className="text-center py-8">
 									<Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600 mb-4">No upcoming events registered</p>
+									<p className="text-foreground/70 mb-4">No upcoming events registered</p>
 									<Button onClick={handleGoToEvents}>Browse Available Events</Button>
 								</div>
 							</CardContent>
@@ -352,14 +352,14 @@ const UserDashboard = () => {
 					<div className="space-y-6">
 					{isLoading ? (
 						<div className="flex items-center justify-center py-12">
-							<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+							<Loader2 className="h-8 w-8 animate-spin text-foreground/70" />
 						</div>
 					) : pastEvents.length === 0 ? (
 						<Card>
 							<CardContent className="pt-6">
 								<div className="text-center py-8">
 									<Trophy className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600">No past events yet</p>
+									<p className="text-foreground/70">No past events yet</p>
 								</div>
 							</CardContent>
 						</Card>
@@ -383,14 +383,14 @@ const UserDashboard = () => {
 					<div className="space-y-6">
 					{isLoading ? (
 						<div className="flex items-center justify-center py-12">
-							<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+							<Loader2 className="h-8 w-8 animate-spin text-foreground/70" />
 						</div>
 					) : waitlistedEvents.length === 0 ? (
 						<Card>
 							<CardContent className="pt-6">
 								<div className="text-center py-8">
 									<Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-									<p className="text-gray-600">{"You're not on any waitlists"}</p>
+									<p className="text-foreground/70">{"You're not on any waitlists"}</p>
 								</div>
 							</CardContent>
 						</Card>
@@ -434,10 +434,10 @@ const EventCard = ({ registration, onViewEvent, showCertificate = false }: Event
 			<CardContent className="p-6">
 				<div className="flex items-start justify-between mb-4">
 					<div className="flex-1">
-						<h3 className="font-semibold text-lg text-gray-900 mb-1">
+						<h3 className="font-semibold text-lg text-foreground mb-1">
 							{event.title}
 						</h3>
-						<p className="text-sm text-gray-600 mb-2">{event.category}</p>
+						<p className="text-sm text-foreground/70 mb-2">{event.category}</p>
 					</div>
 					<span className={`px-2 py-1 rounded-full text-xs font-medium ${
 						registration.status === "confirmed"
@@ -451,15 +451,15 @@ const EventCard = ({ registration, onViewEvent, showCertificate = false }: Event
 				</div>
 
 				<div className="space-y-2 mb-4">
-					<div className="flex items-center gap-2 text-sm text-gray-600">
+					<div className="flex items-center gap-2 text-sm text-foreground/70">
 						<Calendar className="h-4 w-4" />
 						<span>{formattedDate}</span>
 					</div>
-					<div className="flex items-center gap-2 text-sm text-gray-600">
+					<div className="flex items-center gap-2 text-sm text-foreground/70">
 						<Clock className="h-4 w-4" />
 						<span>{event.time}</span>
 					</div>
-					<div className="flex items-center gap-2 text-sm text-gray-600">
+					<div className="flex items-center gap-2 text-sm text-foreground/70">
 						<MapPin className="h-4 w-4" />
 						<span>{event.venue}</span>
 					</div>

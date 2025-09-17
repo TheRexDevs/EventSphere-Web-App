@@ -130,7 +130,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 		return (
 			<div className="w-site mx-auto py-8">
 				<div className="flex items-center justify-center min-h-[400px]">
-					<Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+					<Loader2 className="h-8 w-8 animate-spin text-foreground/70" />
 				</div>
 			</div>
 		);
@@ -300,12 +300,12 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 										</span>
 									</div>
 								) : (
-									<span className="text-gray-600">
+									<span className="text-foreground/70">
 										{"You're not registered for this event"}
 									</span>
 								)
 							) : (
-								<span className="text-gray-600">
+								<span className="text-foreground/70">
 									Sign in to register for this event
 								</span>
 							)}
@@ -375,7 +375,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<CardTitle>About This Event</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<p className="text-gray-700 leading-relaxed whitespace-pre-line">
+							<p className="text-foreground/80 leading-relaxed whitespace-pre-line">
 								{event.description}
 							</p>
 						</CardContent>
@@ -434,7 +434,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									<p className="font-medium">
 										{formattedDate}
 									</p>
-									<p className="text-sm text-gray-600">
+									<p className="text-sm text-foreground/70">
 										Date
 									</p>
 								</div>
@@ -448,7 +448,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									<p className="font-medium">
 										{formattedTime}
 									</p>
-									<p className="text-sm text-gray-600">
+									<p className="text-sm text-foreground/70">
 										Time
 									</p>
 								</div>
@@ -460,7 +460,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 								<MapPin className="h-5 w-5 text-gray-500 flex-shrink-0" />
 								<div>
 									<p className="font-medium">{event.venue}</p>
-									<p className="text-sm text-gray-600">
+									<p className="text-sm text-foreground/70">
 										Venue
 									</p>
 								</div>
@@ -471,7 +471,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 							<div className="flex items-center gap-3">
 								<div>
 									<p className="font-medium">capacity</p>
-									<p className="text-sm text-gray-600">
+									<p className="text-sm text-foreground/70">
 										{capacity}
 									</p>
 								</div>
@@ -485,7 +485,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									<p className="font-medium">
 										Max {maxParticipants} participants
 									</p>
-									<p className="text-sm text-gray-600">
+									<p className="text-sm text-foreground/70">
 										{maxParticipants > 0
 											? `${maxParticipants} spots available`
 											: "Event is full"}
@@ -501,7 +501,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									<p className="font-medium">
 										{organizerName}
 									</p>
-									<p className="text-sm text-gray-600">
+									<p className="text-sm text-foreground/70">
 										Organizer
 									</p>
 								</div>
@@ -517,7 +517,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 						<CardContent>
 							<div className="space-y-3">
 								<div className="flex items-center justify-between">
-									<span className="text-sm text-gray-600">
+									<span className="text-sm text-foreground/70">
 										Status
 									</span>
 									<span
@@ -535,7 +535,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									</span>
 								</div>
 								<div className="flex items-center justify-between">
-									<span className="text-sm text-gray-600">
+									<span className="text-sm text-foreground/70">
 										Created
 									</span>
 									<span className="text-sm font-medium">
@@ -545,7 +545,7 @@ const EventDetailsPage = ({ eventId }: EventDetailsPageProps) => {
 									</span>
 								</div>
 								<div className="flex items-center justify-between">
-									<span className="text-sm text-gray-600">
+									<span className="text-sm text-foreground/70">
 										Last Updated
 									</span>
 									<span className="text-sm font-medium">

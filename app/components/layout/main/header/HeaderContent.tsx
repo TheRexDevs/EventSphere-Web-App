@@ -13,8 +13,10 @@ import { User, Menu } from "lucide-react";
 import NavLink from "./NavLink";
 import ProfileMenu from "./ProfileMenu";
 import MobileMenu, { mainNavLinks } from "./MobileMenu";
+import { ThemeToggle } from "@/app/components/common/theme-toggle";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { showToast } from "@/lib/utils/toast";
+import { useTheme } from "next-themes";
 
 const HeaderContent = () => {
     const router = useRouter();
@@ -23,6 +25,7 @@ const HeaderContent = () => {
     const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
     const { logout, user } = useAuth();
+    const { resolvedTheme } = useTheme();
 
     const handleLogout = useCallback(() => {
         logout().finally(() => {
@@ -44,14 +47,14 @@ const HeaderContent = () => {
 					<Link href="/" className="flex-shrink-0">
 						<div className="fit-img h-12 w-auto">
 							<Image
-								src="/logo.png"
+								src={resolvedTheme === "dark" ? "/logo-white.png" : "/logo.png"}
 								alt="Event Sphere"
 								objectFit="cover"
 								priority
 								width={0}
 								height={0}
 								sizes="100vw"
-								className="w-full h-full object-cover"
+								className="w-full h-full object-cover transition-all duration-300"
 							/>
 						</div>
 					</Link>
@@ -75,6 +78,9 @@ const HeaderContent = () => {
 
 					{/* Right Side - Conditional */}
 					<div className="flex items-center space-x-3">
+						{/* Theme Toggle - Available to all users */}
+						<ThemeToggle />
+
 						{user ? (
 							/* Profile Icon (Desktop) - When logged in */
 							<div className="hidden md:flex items-center relative">

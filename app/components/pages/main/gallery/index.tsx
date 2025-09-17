@@ -160,7 +160,7 @@ const GalleryPage = () => {
 						{isLoading ? (
 							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 								{Array.from({ length: 12 }).map((_, index) => (
-									<div key={index} className="aspect-[4/3] bg-gray-200 rounded-lg animate-pulse" />
+									<div key={index} className="aspect-[4/3] bg-card rounded-lg animate-pulse" />
 								))}
 							</div>
 						) : (
@@ -179,10 +179,10 @@ const GalleryPage = () => {
 								) : (
 									/* No Events State */
 									<div className="text-center py-16">
-										<h3 className="text-xl font-semibold text-gray-900 mb-2">
+										<h3 className="text-xl font-semibold text-foreground mb-2">
 											No events found
 										</h3>
-										<p className="text-gray-600">
+										<p className="text-foreground/70">
 											Try adjusting your filters to see more events.
 										</p>
 									</div>

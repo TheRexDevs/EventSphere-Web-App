@@ -30,14 +30,14 @@ const ProfileMenu = ({
 
 	return (
 		<div
-			className="absolute left-[-70px] top-11 mt-2 w-56 bg-white border border-gray-200 shadow-lg z-50 overflow-hidden"
+			className="absolute left-[-70px] top-11 mt-2 w-56 bg-card border border-border shadow-lg z-50 overflow-hidden"
 			onMouseLeave={onClose}
 		>
 			{profileLinks.map((link) => (
 				<Link
 					key={link.href}
 					href={link.href}
-					className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+					className="flex items-center px-4 py-2 text-sm hover:bg-background/80"
 					onClick={onClose}
 				>
 					{link.icon}
@@ -46,7 +46,7 @@ const ProfileMenu = ({
 			))}
 			<Button
 				variant="ghost"
-				className="flex justify-start items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+				className="flex justify-start items-center w-full px-4 py-2 text-sm text-foreground hover:bg-gray-100"
 				onClick={() => {
 					onClose();
 					onLogout();

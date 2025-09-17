@@ -61,12 +61,12 @@ const AccountPage = () => {
 	};
 
 	return (
-		<div className="w-site mx-auto space-y-6">
+		<div className="w-site mx-auto space-y-6 py-6">
 			<header className="space-y-2">
-				<h1 className="text-3xl font-bold text-gray-900">
+				<h1 className="text-3xl font-bold text-foreground">
 					Profile Settings
 				</h1>
-				<p className="text-gray-600">
+				<p className="text-foreground/70">
 					Manage your account information and preferences
 				</p>
 			</header>
