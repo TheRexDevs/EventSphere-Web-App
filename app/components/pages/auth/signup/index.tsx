@@ -246,7 +246,7 @@ const SignupPage = () => {
 						</form>
 					</Form>
 					<div className="mt-6 text-center">
-						<p className="text-sm text-gray-600">
+						<p className="text-sm text-foreground/70">
 							Already have an account?{" "}
 							<Link
 								href="/login"

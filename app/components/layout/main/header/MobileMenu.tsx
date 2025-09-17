@@ -61,7 +61,7 @@ const MobileMenu = ({
 
 			{/* Slide-in Panel */}
 			<div
-				className={`absolute top-0 right-0 h-full w-72 bg-white shadow-lg transition-transform duration-300 flex flex-col ${
+				className={`absolute top-0 right-0 h-full w-72 bg-card shadow-lg transition-transform duration-300 flex flex-col ${
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}
 			>

@@ -31,10 +31,12 @@ export const ThemeToggle = () => {
 			variant="ghost"
 			size="icon"
 			onClick={toggleTheme}
-			className="theme-toggle relative overflow-hidden"
-			aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+			className="theme-toggle stay-middle relative overflow-hidden"
+			aria-label={`Switch to ${
+				resolvedTheme === "dark" ? "light" : "dark"
+			} mode`}
 		>
-			<div className="relative h-5 w-5">
+			<div className="relative h-5 w-5 stay-middle">
 				{/* Sun icon */}
 				<Sun
 					className={`absolute inset-0 h-5 w-5 transition-all duration-300 ${
