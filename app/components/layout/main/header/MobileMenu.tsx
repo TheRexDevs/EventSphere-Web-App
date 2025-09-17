@@ -9,6 +9,7 @@ interface MobileMenuProps {
 	onClose: () => void;
 	onLogout: () => void;
 	isActive: (path: string) => boolean;
+	isAuthenticated: boolean;
 }
 
 export const mainNavLinks = [
@@ -24,6 +25,7 @@ const MobileMenu = ({
 	onClose,
 	onLogout,
 	isActive,
+	isAuthenticated,
 }: MobileMenuProps) => {
 
 	const profileLinks = [
@@ -93,31 +95,33 @@ const MobileMenu = ({
 						))}
 					</ul>
 
-					{/* Profile Section */}
-					<ul className="flex flex-col mt-8 border-t pt-4 space-y-2">
-						{profileLinks.map((link) => (
-							<NavLink
-								key={link.href}
-								href={link.href}
-								label={link.label}
-								icon={link.icon}
-								isActive={isActive(link.href)}
-								onClick={onClose}
-								mobile
-							/>
-						))}
-						<Button
-							variant="ghost"
-							className="flex !justify-start items-center gap-2 w-full !px-3 !py-2 text-base font-medium text-gray-700 hover:text-primary transition-colors mt-2"
-							onClick={() => {
-								onClose();
-								onLogout();
-							}}
-						>
-							<LogOut className="!h-4 !w-4" />
-							Logout
-						</Button>
-					</ul>
+					{/* Profile Section - Only show when authenticated */}
+					{isAuthenticated && (
+						<ul className="flex flex-col mt-8 border-t pt-4 space-y-2">
+							{profileLinks.map((link) => (
+								<NavLink
+									key={link.href}
+									href={link.href}
+									label={link.label}
+									icon={link.icon}
+									isActive={isActive(link.href)}
+									onClick={onClose}
+									mobile
+								/>
+							))}
+							<Button
+								variant="ghost"
+								className="flex !justify-start items-center gap-2 w-full !px-3 !py-2 text-base font-medium text-gray-700 hover:text-primary transition-colors mt-2"
+								onClick={() => {
+									onClose();
+									onLogout();
+								}}
+							>
+								<LogOut className="!h-4 !w-4" />
+								Logout
+							</Button>
+						</ul>
+					)}
 				</nav>
 			</div>
 		</div>

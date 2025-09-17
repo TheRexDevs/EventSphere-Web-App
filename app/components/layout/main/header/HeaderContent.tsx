@@ -132,6 +132,7 @@ const HeaderContent = () => {
 				onClose={() => setMobileOpen(false)}
 				onLogout={handleLogout}
 				isActive={isActive}
+				isAuthenticated={!!user}
 			/>
 		</header>
 	);
