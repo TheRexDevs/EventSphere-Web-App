@@ -36,8 +36,8 @@ const MobileMenu = ({
 			icon: <User className="h-4 w-4" />,
 		},
 		{
-			href: "/events/registered",
-			label: "Registered Events",
+			href: "/dashboard",
+			label: "My Dashboard",
 			icon: <CalendarCheck className="h-4 w-4" />,
 		},
 	];

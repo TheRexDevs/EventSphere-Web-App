@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 const PUBLIC_PATTERNS: RegExp[] = [
 	/^\/(login|signup|verify-email)\/?$/,
 	/^\/(about|contact|events|gallery|sitemap)\/?$/,
-	/^\/events\/(?!registered(?:\/|$))[^/]+\/?$/, // allow public event details, but not /events/registered
+	/^\/events\/[^/]+\/?$/, // allow public event details
 	/^\/$/,
 ];
 
@@ -24,10 +24,10 @@ export function middleware(request: NextRequest) {
 		return NextResponse.redirect(loginUrl);
 	}
 
-	// If authenticated and visiting auth pages → redirect home
+	// If authenticated and visiting auth pages → redirect to dashboard
 	if (token && /^(\/login|\/signup|\/verify-email)\/?$/.test(pathname)) {
-		const homeUrl = new URL("/", request.url);
-		return NextResponse.redirect(homeUrl);
+		const dashboardUrl = new URL("/dashboard", request.url);
+		return NextResponse.redirect(dashboardUrl);
 	}
 
 	return NextResponse.next();

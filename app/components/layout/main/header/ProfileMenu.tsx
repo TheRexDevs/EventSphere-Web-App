@@ -22,8 +22,8 @@ const ProfileMenu = ({
 			icon: <User className="h-4 w-4 mr-2" />,
 		},
 		{
-			href: "/events/registered",
-			label: "Registered Events",
+			href: "/dashboard",
+			label: "My Dashboard",
 			icon: <CalendarCheck className="h-4 w-4 mr-2" />,
 		},
 	];

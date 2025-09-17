@@ -20,7 +20,7 @@ export const Sitemap = () => {
 
 	const userPages = [
 		{ name: "Account", href: "/account", icon: <User className="h-4 w-4" />, description: "Profile settings" },
-		{ name: "Registered Events", href: "/events/registered", icon: <Calendar className="h-4 w-4" />, description: "Your registered events" },
+		{ name: "My Dashboard", href: "/dashboard", icon: <Calendar className="h-4 w-4" />, description: "Manage your events and registrations" },
 	];
 
 	const dynamicPages = [
