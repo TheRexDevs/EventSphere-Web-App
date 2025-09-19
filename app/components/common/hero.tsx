@@ -29,7 +29,7 @@ export default function HeroSection({
 	ctas = [],
 	backgroundImageUrl,
 	overlay = true,
-	height = "100svh",
+	height = "90svh",
 	alignment = "center",
     children
 }: HeroProps) {
@@ -42,26 +42,26 @@ export default function HeroSection({
 			: "items-start text-left md:!gap-8 max-md:pt-[170px] max-md:!justify-start ";
 
 	const titleStyles =
-		height === "100svh"
+		height === "90svh"
 			? "text-[3.375em] md:text-6xl lg:text-[5rem] max-w-[1060px]"
 			: "text-5xl md:text-3xl lg:text-5xl";
 	const subtitleStyles =
-		height === "100svh"
+		height === "90svh"
 			? "text-base md:text-lg max-w-[955px]"
 			: "text-sm md:text-[1.125em] max-w-[1028px]";
 	const subtitleCtaStyles =
-		height === "100svh"
+		height === "90svh"
 			? "flex-col gap-4 sm:gap-6 md:gap-18"
-			: "flex-col lg:flex-row gap-4 sm:gap-6 md:gap-10 items-start lg:items-center justify-start lg:justify-center";
+			: "flex-col lg:flex-col gap-4 sm:gap-6 md:gap-10 items-start lg:items-center justify-start lg:justify-center";
 	const ctaStyles =
-		height === "100svh"
+		height === "90svh"
 			? "justify-center"
 			: "max-md:absolute max-md:w-full left-[0px] bottom-[60px]";
 
 	return (
 		<section
 			id="heroSection"
-			className={`heroSection fit-img relative text-white max-md:!h-[100svh]`}
+			className={`heroSection fit-img relative text-white max-md:!h-[90svh]`}
 			style={{
 				backgroundImage: backgroundImageUrl
 					? `url(${backgroundImageUrl || "/mecca-bg.png"})`
@@ -113,7 +113,7 @@ export default function HeroSection({
 			</div>
 			{/* Overlay */}
 			{overlay && (
-				<div className="absolute inset-0 bg-black/40 bg-gradient-to-b from-orange-500/30 to-green-500/30" />
+				<div className="absolute inset-0 bg-black/40 bg-gradient-to-b from-black-500/30 to-primary/20" />
 			)}
 		</section>
 	);

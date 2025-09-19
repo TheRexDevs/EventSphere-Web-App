@@ -57,6 +57,13 @@ const HomePage = () => {
 				height="50svh"
 				alignment="center"
 				backgroundImageUrl="/hero-1.jpg"
+				ctas={[
+					{
+						"link": "/events",
+						"label": "Get started",
+						"colorType": "primary"
+					}
+				]}
 			/>
 
 			{/* Counters Section */}
