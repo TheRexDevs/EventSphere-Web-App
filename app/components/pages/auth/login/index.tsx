@@ -40,7 +40,7 @@ export default function LoginPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const from = searchParams.get("from") || "/";
+    const from = searchParams.get("from") || "/dashboard";
     const hasShownToast = useRef(false);
 
     useEffect(() => {
