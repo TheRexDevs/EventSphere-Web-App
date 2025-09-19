@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { Phone, Mail, MessageCircle, MapPin } from "lucide-react";
 
 import { contactSchema, ContactFormValues } from "@/lib/schemas/contact";
 
@@ -38,11 +39,6 @@ const ContactPage = () => {
 	const onSubmit = (values: ContactFormValues) => {
 		console.log("Contact form submitted:", values);
 	};
-
-    const address = "/address.png"
-    const phone = "/call.png";
-    const whatsapp = "/whatsapp.png";
-    const email = "/email.png";
 	return (
 		<>
 			{/* Hero Section */}
@@ -66,12 +62,12 @@ const ContactPage = () => {
 				</div>
 			</section>
 
-			<div className="w-site mx-auto space-y-6">
+			<div className="w-site space-y-6">
 				{/* Contact Section */}
 				<section className="py-14">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-9 w-full max-w-6xl mx-auto">
+					<div className="flex flex-col lg:flex-row gap-9 w-full">
 						{/* Contact Form */}
-						<Card className="w-full" rounded={"xxl"}>
+						<Card className="w-full lg:w-1/2" rounded={"xxl"}>
 							<CardHeader>
 								<CardTitle className="text-center text-2xl">
 									Contact Us
@@ -179,95 +175,77 @@ const ContactPage = () => {
 						</Card>
 
 						{/* Contact Info Grid */}
-						<div className="grid grid-cols-2 gap-6 mt-[60px]">
+						<div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 py-6">
 							{/* Phone */}
-							<div className="w-full">
-								<Image
-									src={phone}
-									alt="Phone"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
-								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
+							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+								<div className="flex flex-col items-center space-y-3">
+									<div className="p-3 bg-primary/10 rounded-full">
+										<Phone className="w-8 h-8 text-primary" />
+									</div>
+									<h3 className="text-xl font-bold">
 										Phone Number
-									</h1>
-									<Link href="tel:+2340000000000">
-										<p className="text-center">
-											+234 000 000 0000
-										</p>
+									</h3>
+									<Link href="tel:+2340000000000" className="text-muted-foreground hover:text-primary transition-colors">
+										+234 000 000 0000
 									</Link>
 								</div>
-							</div>
+							</Card>
 
 							{/* Email */}
-							<div className="w-full">
-								<Image
-									src={email}
-									alt="Email"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
-								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
+							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+								<div className="flex flex-col items-center space-y-3">
+									<div className="p-3 bg-primary/10 rounded-full">
+										<Mail className="w-8 h-8 text-primary" />
+									</div>
+									<h3 className="text-xl font-bold">
 										Email Address
-									</h1>
-									<Link href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,">
-										<p className="text-center">
-											Support@eventsphere.edu <br />
+									</h3>
+									<div className="space-y-1">
+										<Link href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team," className="block text-muted-foreground hover:text-primary transition-colors">
+											Support@eventsphere.edu
+										</Link>
+										<Link href="mailto:info@eventsphere.edu" className="block text-muted-foreground hover:text-primary transition-colors">
 											info@eventsphere.edu
-										</p>
-									</Link>
+										</Link>
+									</div>
 								</div>
-							</div>
+							</Card>
 
 							{/* WhatsApp */}
-							<div className="w-full relative top-11">
-								<Image
-									src={whatsapp}
-									alt="WhatsApp"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
-								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
+							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+								<div className="flex flex-col items-center space-y-3">
+									<div className="p-3 bg-primary/10 rounded-full">
+										<MessageCircle className="w-8 h-8 text-primary" />
+									</div>
+									<h3 className="text-xl font-bold">
 										WhatsApp
-									</h1>
+									</h3>
 									<Link
 										href="https://wa.me/2340000000000"
 										target="_blank"
+										className="text-muted-foreground hover:text-primary transition-colors"
 									>
-										<p className="text-center">
-											+234 000 000 0000
-										</p>
+										+234 000 000 0000
 									</Link>
 								</div>
-							</div>
+							</Card>
 
 							{/* Address */}
-							<div className="w-full">
-								<Image
-									src={address}
-									alt="Address"
-									height={0}
-									width={0}
-									className="w-[31%] m-auto"
-								/>
-								<div className="mt-5 items-center">
-									<h1 className="text-center text-[22px] font-bold">
+							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+								<div className="flex flex-col items-center space-y-3">
+									<div className="p-3 bg-primary/10 rounded-full">
+										<MapPin className="w-8 h-8 text-primary" />
+									</div>
+									<h3 className="text-xl font-bold">
 										Address
-									</h1>
-									<p className=" ml-5">
-										Eventsphere Office <br />
-										Students Service Building, Room 201{" "}
-										<br />
-										University Campus, Lagos, Nigeria
-									</p>
+									</h3>
+									<div className="text-muted-foreground text-sm space-y-1">
+										<p>Eventsphere Office</p>
+										<p>Students Service Building, Room 201</p>
+										<p>University Campus, Lagos, Nigeria</p>
+									</div>
 								</div>
-							</div>
+							</Card>
 						</div>
 					</div>
 				</section>
@@ -277,16 +255,12 @@ const ContactPage = () => {
 						style={{
 							backgroundImage: `url('/cont.jpg')`,
 						}}
-						className="relative h-[450px]  
-				   w-site bg-cover bg-center bg-no-repeat   m-auto cursor-pointer
-				   {small-screen:}  max-md:h-[300px]  max-md:w-full 
-				 
-				   "
+						className="relative h-[450px] fit-img m-auto cursor-pointer {small-screen:}  max-md:h-[300px]  max-md:w-full flex items-center justify-center rounded-lg"
 					>
-						<div className="absolute inset-0 bg-black opacity-30 z-0 "></div>
+						<div className="absolute inset-0 bg-black opacity-50 z-0 "></div>
 
-						<div className="absolute inset-0 z-10 text-white flex justify-center items-center">
-							<p className="w-[40%]  text-[45px] text-center">
+						<div className="relative z-10 text-white flex justify-center items-center">
+							<p className="max-w-[60%]  text-xl lg:text-5xl text-center">
 								We Are Always Ready To give you the Perfect
 								Event
 							</p>
