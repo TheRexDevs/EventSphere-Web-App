@@ -1,23 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useScroll } from "@/app/hooks/useScroll";
 import styles from "./styles.module.css";
 
-const StickyHeader = ({ children }: { children: React.ReactNode }) => {
-	const [isScrolled, setIsScrolled] = useState(false);
+export interface HeaderProps {
+	children: React.ReactNode;
+	noHero?: boolean;
+}
 
-	useEffect(() => {
-		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 10);
-		};
-
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, []);
+const StickyHeader = ({ noHero=false, children }: HeaderProps) => {
+	const isScrolled = useScroll(10);
 
 	return (
 		<div
-			className={`${styles.stickyNav} ${
+			className={`${styles.stickyNav} 
+			${
+				noHero ? styles.noHero : ""
+			} ${
 				isScrolled ? styles.scrolled : ""
 			}`}
 		>

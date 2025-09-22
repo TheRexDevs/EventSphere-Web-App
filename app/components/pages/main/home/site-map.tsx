@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Calendar, Image, Info, Phone, User, LogIn, FileText, CheckCircle, Globe, Shield, UserCheck, ArrowRight } from "lucide-react";
+import { Home, Calendar, Images, Info, Phone, User, LogIn, FileText, CheckCircle, Globe, Shield, UserCheck, ArrowRight } from "lucide-react";
 
 export const Sitemap = () => {
 	const publicPages = [
 		{ name: "Home", href: "/", icon: <Home className="h-4 w-4" />, description: "Main landing page" },
 		{ name: "Events", href: "/events", icon: <Calendar className="h-4 w-4" />, description: "Browse and discover events" },
-		{ name: "Gallery", href: "/gallery", icon: <Image className="h-4 w-4" aria-hidden="true" />, description: "Event photos and memories" },
+		{ name: "Gallery", href: "/gallery", icon: <Images className="h-4 w-4" />, description: "Event photos and memories" },
 		{ name: "About", href: "/about", icon: <Info className="h-4 w-4" />, description: "About EventSphere" },
 		{ name: "Contact", href: "/contact", icon: <Phone className="h-4 w-4" />, description: "Contact information" },
 	];

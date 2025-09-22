@@ -1,13 +1,23 @@
 .stickyNav {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 90; /* High enough to be on top */
     transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     background-color: transparent; /* Transparent by default */
+    color: #fff;
+}
+
+.stickyNav.noHero {
+    position: sticky;
+    background-color: var(--card);
+    color: var(--card-foreground) !important;
 }
 
 .stickyNav.scrolled {
+    background-color: var(--card);
+    color: var(--card-foreground) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    /* border-bottom: 1px solid var(--border); */
 }

@@ -17,37 +17,51 @@ import { ThemeToggle } from "@/app/components/common/theme-toggle";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { showToast } from "@/lib/utils/toast";
 import { useTheme } from "next-themes";
+import { useScroll } from "@/app/hooks/useScroll";
 
-const HeaderContent = () => {
-    const router = useRouter();
+const HeaderContent = ({ noHero = false }: {noHero?: boolean}) => {
+	const router = useRouter();
 	const pathname = usePathname();
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+	const [mobileOpen, setMobileOpen] = useState(false);
+	const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
-    const { logout, user } = useAuth();
-    const { resolvedTheme } = useTheme();
+	const { logout, user } = useAuth();
+	const { resolvedTheme } = useTheme();
+	const isScrolled = useScroll(10);
 
-    const handleLogout = useCallback(() => {
-        logout().finally(() => {
-            showToast.success("Logged out");
-            router.replace("/login");
-        });
-    }, [logout, router]);
+	const handleLogout = useCallback(() => {
+		logout().finally(() => {
+			showToast.success("Logged out");
+			router.replace("/login");
+		});
+	}, [logout, router]);
 
-    const isActive = useCallback(
+	const isActive = useCallback(
 		(path: string) => pathname === path,
 		[pathname]
 	);
 
+	const getLogoSrc = () => {
+		const isDark = resolvedTheme === "dark";
+		const scrolled = isScrolled;
+
+		// Priority: scrolled state first, then theme
+		if (scrolled && isDark) return "/logo-white.png";
+		if (scrolled && !isDark) return "/logo.png";
+		if (!scrolled && isDark && noHero) return "/logo-white.png";
+		if (!scrolled && !isDark && noHero) return "/logo.png";
+		return "/logo-white.png";
+	};
+
 	return (
-		<header className="w-full bg-card border-b border-gray-200">
+		<header className="w-full transparent">
 			<div className="w-site mx-auto">
 				<div className="flex items-center justify-between py-4">
 					{/* Logo */}
 					<Link href="/" className="flex-shrink-0">
 						<div className="fit-img h-12 w-auto">
 							<Image
-								src={resolvedTheme === "dark" ? "/logo-white.png" : "/logo.png"}
+								src={getLogoSrc()}
 								alt="Event Sphere"
 								objectFit="cover"
 								priority
@@ -142,6 +156,6 @@ const HeaderContent = () => {
 			/>
 		</header>
 	);
-}
+};
 
 export default HeaderContent

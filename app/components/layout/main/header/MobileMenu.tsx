@@ -4,7 +4,6 @@ import { User, LogOut, X, CalendarCheck } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { ThemeToggle } from "@/app/components/common/theme-toggle";
 import NavLink from "./NavLink";
-import { useTheme } from "next-themes";
 
 interface MobileMenuProps {
 	isOpen: boolean;
@@ -30,7 +29,6 @@ const MobileMenu = ({
 	isActive,
 	isAuthenticated,
 }: MobileMenuProps) => {
-	const { resolvedTheme } = useTheme();
 
 	const profileLinks = [
 		{

@@ -30,7 +30,7 @@ const ProfileMenu = ({
 
 	return (
 		<div
-			className="absolute left-[-70px] top-11 mt-2 w-56 bg-card border border-border shadow-lg z-50 overflow-hidden"
+			className="absolute left-[-70px] top-11 mt-2 w-56 bg-card text-card-foreground border border-border shadow-lg z-50 overflow-hidden"
 			onMouseLeave={onClose}
 		>
 			{profileLinks.map((link) => (

@@ -28,7 +28,7 @@ const NavLink = ({
 				"flex items-center gap-2 px-3 py-2 font-medium transition-colors",
 				mobile ? "text-base" : "text-sm",
 				isActive
-					? "text-foreground font-bold"
+					? "text-primary font-bold"
 					: "hover:text-primary"
 			)}
 		>

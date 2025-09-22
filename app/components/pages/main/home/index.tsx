@@ -54,7 +54,7 @@ const HomePage = () => {
 			<HeroSection
 				title="Discover Amazing Campus events"
 				subtitle="Join thousand of students in creating unforgettable memories"
-				height="50svh"
+				height="60svh"
 				alignment="center"
 				backgroundImageUrl="/hero-1.jpg"
 				ctas={[

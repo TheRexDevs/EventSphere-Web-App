@@ -3,7 +3,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MessageCircle, MapPin } from "lucide-react";
 
@@ -177,7 +176,10 @@ const ContactPage = () => {
 						{/* Contact Info Grid */}
 						<div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 py-6">
 							{/* Phone */}
-							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+							<Card
+								className="w-full text-center p-6 justify-center"
+								rounded="lg"
+							>
 								<div className="flex flex-col items-center space-y-3">
 									<div className="p-3 bg-primary/10 rounded-full">
 										<Phone className="w-8 h-8 text-primary" />
@@ -185,14 +187,20 @@ const ContactPage = () => {
 									<h3 className="text-xl font-bold">
 										Phone Number
 									</h3>
-									<Link href="tel:+2340000000000" className="text-muted-foreground hover:text-primary transition-colors">
+									<Link
+										href="tel:+2340000000000"
+										className="text-muted-foreground hover:text-primary transition-colors"
+									>
 										+234 000 000 0000
 									</Link>
 								</div>
 							</Card>
 
 							{/* Email */}
-							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+							<Card
+								className="w-full text-center p-6 justify-center"
+								rounded="lg"
+							>
 								<div className="flex flex-col items-center space-y-3">
 									<div className="p-3 bg-primary/10 rounded-full">
 										<Mail className="w-8 h-8 text-primary" />
@@ -201,10 +209,16 @@ const ContactPage = () => {
 										Email Address
 									</h3>
 									<div className="space-y-1">
-										<Link href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team," className="block text-muted-foreground hover:text-primary transition-colors">
+										<Link
+											href="mailto:Support@eventsphere.edu?subject=Support%20Request&body=Hello%20EventSphere%20Team,"
+											className="block text-muted-foreground hover:text-primary transition-colors"
+										>
 											Support@eventsphere.edu
 										</Link>
-										<Link href="mailto:info@eventsphere.edu" className="block text-muted-foreground hover:text-primary transition-colors">
+										<Link
+											href="mailto:info@eventsphere.edu"
+											className="block text-muted-foreground hover:text-primary transition-colors"
+										>
 											info@eventsphere.edu
 										</Link>
 									</div>
@@ -212,7 +226,10 @@ const ContactPage = () => {
 							</Card>
 
 							{/* WhatsApp */}
-							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+							<Card
+								className="w-full text-center p-6 justify-center"
+								rounded="lg"
+							>
 								<div className="flex flex-col items-center space-y-3">
 									<div className="p-3 bg-primary/10 rounded-full">
 										<MessageCircle className="w-8 h-8 text-primary" />
@@ -231,7 +248,10 @@ const ContactPage = () => {
 							</Card>
 
 							{/* Address */}
-							<Card className="w-full text-center p-6 justify-center" rounded="lg">
+							<Card
+								className="w-full text-center p-6 justify-center"
+								rounded="lg"
+							>
 								<div className="flex flex-col items-center space-y-3">
 									<div className="p-3 bg-primary/10 rounded-full">
 										<MapPin className="w-8 h-8 text-primary" />
@@ -241,7 +261,9 @@ const ContactPage = () => {
 									</h3>
 									<div className="text-muted-foreground text-sm space-y-1">
 										<p>Eventsphere Office</p>
-										<p>Students Service Building, Room 201</p>
+										<p>
+											Students Service Building, Room 201
+										</p>
 										<p>University Campus, Lagos, Nigeria</p>
 									</div>
 								</div>
@@ -255,7 +277,7 @@ const ContactPage = () => {
 						style={{
 							backgroundImage: `url('/cont.jpg')`,
 						}}
-						className="relative h-[450px] fit-img m-auto cursor-pointer {small-screen:}  max-md:h-[300px]  max-md:w-full flex items-center justify-center rounded-lg"
+						className="relative w-full h-[300px] lg:h-[450px] fit-img m-auto {small-screen:} flex items-center justify-center rounded-lg"
 					>
 						<div className="absolute inset-0 bg-black opacity-50 z-0 "></div>
 
