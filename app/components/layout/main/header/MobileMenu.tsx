@@ -59,14 +59,14 @@ const MobileMenu = ({
 
 			{/* Slide-in Panel */}
 			<div
-				className={`absolute top-0 right-0 h-full w-72 bg-card shadow-lg transition-transform duration-300 flex flex-col ${
+				className={`absolute top-0 right-0 h-full w-72 bg-card !text-card-foreground shadow-lg transition-transform duration-300 flex flex-col ${
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}
 			>
 				<div className="flex items-center justify-between px-4 py-4 border-b">
 					<Link
 						href="/"
-						className="text-2xl font-bold text-foreground"
+						className="text-2xl font-bold"
 						onClick={onClose}
 					>
 						EventSphere
@@ -118,7 +118,7 @@ const MobileMenu = ({
 							))}
 							<Button
 								variant="ghost"
-								className="flex !justify-start items-center gap-2 w-full !px-3 !py-2 text-base font-medium text-gray-700 hover:text-primary transition-colors mt-2"
+								className="flex !justify-start items-center gap-2 w-full !px-3 !py-2 text-base font-medium text-card-foreground hover:text-primary transition-colors mt-2"
 								onClick={() => {
 									onClose();
 									onLogout();

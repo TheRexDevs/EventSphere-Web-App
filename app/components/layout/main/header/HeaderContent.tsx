@@ -136,7 +136,7 @@ const HeaderContent = ({ noHero = false }: {noHero?: boolean}) => {
 						{/* Hamburger (Mobile) */}
 						<Button
 							variant={"ghost"}
-							className="lg:hidden !p-2 rounded hover:bg-gray-100 text-base"
+							className="lg:hidden !p-2 rounded hover:!bg-primary/60 hover:!text-primary-foreground text-base"
 							onClick={() => setMobileOpen(true)}
 							aria-label="Open menu"
 						>
