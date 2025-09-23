@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 // Public routes that don't require authentication
 const PUBLIC_PATTERNS: RegExp[] = [
-	/^\/(login|signup|verify-email)\/?$/,
+	/^\/(login|signup|verify-email|forgot-password|reset-password)\/?$/,
 	/^\/(about|contact|events|gallery|sitemap)\/?$/,
 	/^\/events\/[^/]+\/?$/, // allow public event details
 	/^\/$/,
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 	}
 
 	// If authenticated and visiting auth pages → redirect to dashboard
-	if (token && /^(\/login|\/signup|\/verify-email)\/?$/.test(pathname)) {
+	if (token && /^(\/login|\/signup|\/verify-email|\/forgot-password|\/reset-password)\/?$/.test(pathname)) {
 		const dashboardUrl = new URL("/dashboard", request.url);
 		return NextResponse.redirect(dashboardUrl);
 	}
