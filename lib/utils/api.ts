@@ -46,7 +46,7 @@ export async function fetchApi<T>(
 
   // Add timeout to prevent hanging requests
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+  const timeoutId = setTimeout(() => controller.abort(), 35000); // 15 second timeout
 
   const config: RequestInit = {
     ...options,
